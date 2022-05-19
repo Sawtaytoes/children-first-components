@@ -13,6 +13,9 @@ import {
   VisibilityProvider,
 } from './VisibilityProvider'
 import {
+  VisibilityTarget,
+} from './VisibilityTarget'
+import {
   VisibilityTrigger,
 } from './VisibilityTrigger'
 
@@ -35,14 +38,30 @@ export const Standard = (
         click me!
       </button>
     </VisibilityTrigger>
+
+    <VisibilityTarget
+      translateProps={
+        args
+        .translateTargetProps
+      }
+    >
+      <div>
+        Revealed Content
+      </div>
+    </VisibilityTarget>
   </VisibilityProvider>
 )
 
 Standard
 .args = {
+  translateTargetProps: ({
+    isVisible,
+  }) => ({
+    hidden: !isVisible,
+  }),
   translateTriggerProps: ({
     onClick,
   }) => ({
     onClick,
-  })
+  }),
 }
