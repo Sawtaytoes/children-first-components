@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import {
   action,
 } from '@storybook/addon-actions'
@@ -20,18 +19,25 @@ import {
 } from './VisibilityTrigger'
 
 export default {
+  args: {
+    onVisibilityChange: action(),
+  },
+  component: VisibilityProvider,
   decorators: htmlStyleDecorators,
   title: 'Visibility',
 }
 
-export const Standard = (
-  args,
-) => (
-  <VisibilityProvider>
+export const Standard = ({
+  translateTriggerProps,
+  translateTargetProps,
+  ...visibilityProviderProps
+}) => (
+  <VisibilityProvider
+    {...visibilityProviderProps}
+  >
     <VisibilityTrigger
       translateProps={
-        args
-        .translateTriggerProps
+        translateTriggerProps
       }
     >
       <button>
@@ -41,8 +47,7 @@ export const Standard = (
 
     <VisibilityTarget
       translateProps={
-        args
-        .translateTargetProps
+        translateTargetProps
       }
     >
       <div>

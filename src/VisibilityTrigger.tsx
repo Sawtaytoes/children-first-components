@@ -44,11 +44,6 @@ export type VisibilityTriggerProps = {
       >
     >
   );
-  onToggleVisibility: (
-    visibility?: Visibilities,
-  ) => (
-    void
-  );
   translateProps: (
     childProps: ChildProps
   ) => (
@@ -57,7 +52,6 @@ export type VisibilityTriggerProps = {
 }
 
 const defaultProps = {
-  onToggleVisibility: () => {},
   translateProps: (
     props: ChildProps,
   ) => (
@@ -71,10 +65,6 @@ const VisibilityTrigger: (
   >
 ) = ({
   children,
-  onToggleVisibility: onToggleVisibilityCallback = (
-    defaultProps
-    .onToggleVisibility
-  ),
   translateProps = (
     defaultProps
     .translateProps
@@ -100,23 +90,6 @@ const VisibilityTrigger: (
   } = useContext(
     VisibilityContext
   );
-
-  const onToggleVisibility = (
-    useCallback(
-      () => {
-        onToggleVisibilityCallback(
-          visibility
-        );
-
-        toggleVisibility();
-      },
-      [
-        onToggleVisibilityCallback,
-        toggleVisibility,
-        visibility,
-      ]
-    )
-  )
 
   const childProps = (
     useMemo(

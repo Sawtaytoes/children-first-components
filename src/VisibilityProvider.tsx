@@ -21,11 +21,17 @@ import {
 export type VisibilityProviderProps = {
   children: ReactNode;
   name?: string;
+  onVisibilityChange: (
+    visibility?: Visibilities,
+  ) => (
+    void
+  );
   visibility?: Visibilities;
 }
 
 const defaultProps = {
   name: '',
+  onVisibilityChange: () => {},
   visibility: (
     Visibilities
     .none
@@ -42,6 +48,10 @@ const VisibilityProvider: (
     defaultProps
     .name
   ),
+  onVisibilityChange = (
+    defaultProps
+    .onVisibilityChange
+  ),
   visibility = (
     defaultProps
     .visibility
@@ -49,10 +59,10 @@ const VisibilityProvider: (
 }) => {
   const uniqueId = (
     useMemo(
-        () => (
-          name
-          || createRandomString()
-        ),
+      () => (
+        name
+        || createRandomString()
+      ),
       [
         name,
       ],
@@ -84,23 +94,33 @@ const VisibilityProvider: (
       () => {
         setLocalVisibility((
           visibility
-        ) => (
-          (
-            visibility
-            === (
+        ) => {
+          const nextVisibility = (
+            (
+              visibility
+              === (
+                Visibilities
+                .opened
+              )
+            )
+            ? (
+              Visibilities
+              .closed
+            )
+            : (
               Visibilities
               .opened
             )
           )
-          ? (
-            Visibilities
-            .closed
+
+          onVisibilityChange(
+            nextVisibility
           )
-          : (
-            Visibilities
-            .opened
+
+          return (
+            nextVisibility
           )
-        ))
+        })
       },
       [],
     )
