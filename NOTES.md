@@ -1,0 +1,3 @@
+- Add `show` and `hide` to `VisibilityProvider`.
+- `onToggleVisibility` or `onChange` needs to go in `VisibilityProvider`.
+- 
