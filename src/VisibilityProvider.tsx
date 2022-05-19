@@ -113,6 +113,46 @@ const VisibilityProvider: (
     ],
   )
 
+  const hideVisibility = (
+    useCallback(
+      () => {
+        const nextVisibility = (
+          Visibilities
+          .invisible
+        )
+
+        onVisibilityChange(
+          nextVisibility
+        )
+
+        setLocalVisibility(
+          nextVisibility
+        )
+      },
+      [],
+    )
+  )
+
+  const showVisibility = (
+    useCallback(
+      () => {
+        const nextVisibility = (
+          Visibilities
+          .visible
+        )
+
+        onVisibilityChange(
+          nextVisibility
+        )
+
+        setLocalVisibility(
+          nextVisibility
+        )
+      },
+      [],
+    )
+  )
+
   const toggleVisibility = (
     useCallback(
       () => {
@@ -123,8 +163,6 @@ const VisibilityProvider: (
             toggledVisibility
             [currentVisibility]
           )
-
-          console.log(currentVisibility, nextVisibility)
 
           onVisibilityChange(
             nextVisibility
@@ -149,6 +187,8 @@ const VisibilityProvider: (
             'content',
           )
         ),
+        hideVisibility,
+        showVisibility,
         toggleVisibility,
         triggerId: (
           uniqueId
@@ -160,7 +200,9 @@ const VisibilityProvider: (
         visibility: localVisibility,
       }),
       [
+        hideVisibility,
         localVisibility,
+        showVisibility,
         toggleVisibility,
         uniqueId,
       ],

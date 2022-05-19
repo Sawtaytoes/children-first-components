@@ -25,6 +25,16 @@ export default {
         'onVisibilityChange'
       )
     ),
+    translateTargetProps: ({
+      isVisible,
+    }) => ({
+      hidden: !isVisible,
+    }),
+    translateTriggerProps: ({
+      onClick,
+    }) => ({
+      onClick,
+    }),
     visibility: (
       Visibilities
       .invisible
@@ -72,7 +82,7 @@ export const Standard = ({
       }
     >
       <button>
-        click me!
+        Click me to reveal content
       </button>
     </VisibilityTrigger>
 
@@ -88,16 +98,54 @@ export const Standard = ({
   </VisibilityProvider>
 )
 
-Standard
-.args = {
-  translateTargetProps: ({
-    isVisible,
-  }) => ({
-    hidden: !isVisible,
-  }),
-  translateTriggerProps: ({
-    onClick,
-  }) => ({
-    onClick,
-  }),
-}
+export const Inception = ({
+  translateTriggerProps,
+  translateTargetProps,
+  ...visibilityProviderProps
+}) => (
+  <VisibilityProvider
+    {...visibilityProviderProps}
+  >
+    <VisibilityTrigger
+      translateProps={
+        translateTriggerProps
+      }
+    >
+      <button>
+        Click me to reveal another visibility
+      </button>
+    </VisibilityTrigger>
+
+    <VisibilityTarget
+      translateProps={
+        translateTargetProps
+      }
+    >
+      <div>
+        <VisibilityProvider
+          {...visibilityProviderProps}
+        >
+          <VisibilityTrigger
+            translateProps={
+              translateTriggerProps
+            }
+          >
+            <button>
+              Click me to reveal content
+            </button>
+          </VisibilityTrigger>
+
+          <VisibilityTarget
+            translateProps={
+              translateTargetProps
+            }
+          >
+            <div>
+              Revealed Content
+            </div>
+          </VisibilityTarget>
+        </VisibilityProvider>
+      </div>
+    </VisibilityTarget>
+  </VisibilityProvider>
+)
