@@ -20,11 +20,38 @@ import {
 
 export default {
   args: {
-    onVisibilityChange: action(),
+    onVisibilityChange: (
+      action(
+        'onVisibilityChange'
+      )
+    ),
     visibility: (
       Visibilities
       .invisible
     ),
+  },
+  argTypes: {
+    translateTargetProps: {
+      table: {
+        disable: true,
+      },
+    },
+    translateTriggerProps: {
+      table: {
+        disable: true,
+      },
+    },
+    visibility: {
+      control: {
+        type: 'radio',
+      },
+      options: (
+        Object
+        .values(
+          Visibilities
+        )
+      ),
+    },
   },
   component: VisibilityProvider,
   decorators: htmlStyleDecorators,
