@@ -12,6 +12,7 @@ import {
 } from 'react'
 
 import {
+  Visibilities,
   VisibilityContext,
   VisibilityContextProps,
 } from './VisibilityContext'
@@ -24,7 +25,7 @@ export type VisibilityTriggerProps = {
       >
     >
   ),
-  translateProps: (
+  translateProps?: (
     childProps: VisibilityContextProps
   ) => (
     object
@@ -103,9 +104,18 @@ const VisibilityTrigger: (
           visibility,
         })
         || {
-          contentId,
+          'aria-controls': contentId,
+          'aria-expanded': (
+            visibility
+            === (
+              Visibilities
+              .visible
+            )
+          ),
+          id: triggerId,
           onClick,
-          triggerId,
+          role: 'button',
+          type: 'button',
         }
       ),
       [

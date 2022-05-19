@@ -31,22 +31,6 @@ export default {
         'onVisibilityChange'
       )
     ),
-    translateTargetProps: ({
-      visibility,
-    }) => ({
-      hidden: (
-        visibility
-        === (
-          Visibilities
-          .invisible
-        )
-      ),
-    }),
-    translateTriggerProps: ({
-      toggleVisibility,
-    }) => ({
-      onClick: toggleVisibility,
-    }),
     visibility: (
       Visibilities
       .invisible
@@ -80,29 +64,19 @@ export default {
   title: 'Visibility',
 }
 
-export const Standard = ({
-  translateTriggerProps,
-  translateTargetProps,
-  ...visibilityProviderProps
-}) => (
+export const Standard = (
+  visibilityProviderProps,
+) => (
   <VisibilityProvider
     {...visibilityProviderProps}
   >
-    <VisibilityTrigger
-      translateProps={
-        translateTriggerProps
-      }
-    >
+    <VisibilityTrigger>
       <button>
         Click me to reveal content
       </button>
     </VisibilityTrigger>
 
-    <VisibilityTarget
-      translateProps={
-        translateTargetProps
-      }
-    >
+    <VisibilityTarget>
       <div>
         Revealed Content
       </div>
@@ -110,9 +84,27 @@ export const Standard = ({
   </VisibilityProvider>
 )
 
-export const Inception = ({
-  translateTriggerProps,
+const Button = ({
+  children,
+  onSelect = () => {},
+}) => (
+  <button onClick={onSelect}>
+    {children}
+  </button>
+)
+
+const Content = ({
+  children,
+  isVisible = false,
+}) => (
+  <div hidden={!isVisible}>
+    {children}
+  </div>
+)
+
+export const APIIncompliantComponents = ({
   translateTargetProps,
+  translateTriggerProps,
   ...visibilityProviderProps
 }) => (
   <VisibilityProvider
@@ -123,9 +115,9 @@ export const Inception = ({
         translateTriggerProps
       }
     >
-      <button>
-        Click me to reveal another visibility
-      </button>
+      <Button>
+        Click me to reveal content
+      </Button>
     </VisibilityTrigger>
 
     <VisibilityTarget
@@ -133,25 +125,57 @@ export const Inception = ({
         translateTargetProps
       }
     >
+      <Content>
+        Revealed Content
+      </Content>
+    </VisibilityTarget>
+  </VisibilityProvider>
+)
+
+APIIncompliantComponents
+.args = {
+  translateTargetProps: ({
+    visibility,
+  }) => ({
+    isVisible: (
+      visibility
+      === (
+        Visibilities
+        .visible
+      )
+    ),
+  }),
+  translateTriggerProps: ({
+    toggleVisibility,
+  }) => ({
+    onSelect: toggleVisibility,
+  }),
+}
+
+export const Inception = (
+  visibilityProviderProps,
+) => (
+  <VisibilityProvider
+    {...visibilityProviderProps}
+  >
+    <VisibilityTrigger>
+      <button>
+        Click me to reveal another visibility
+      </button>
+    </VisibilityTrigger>
+
+    <VisibilityTarget>
       <div>
         <VisibilityProvider
           {...visibilityProviderProps}
         >
-          <VisibilityTrigger
-            translateProps={
-              translateTriggerProps
-            }
-          >
+          <VisibilityTrigger>
             <button>
               Click me to reveal content
             </button>
           </VisibilityTrigger>
 
-          <VisibilityTarget
-            translateProps={
-              translateTargetProps
-            }
-          >
+          <VisibilityTarget>
             <div>
               Revealed Content
             </div>
@@ -162,19 +186,13 @@ export const Inception = ({
   </VisibilityProvider>
 )
 
-export const HideOnClick = ({
-  translateTriggerProps,
-  translateTargetProps,
-  ...visibilityProviderProps
-}) => (
+export const HideOnClick = (
+  visibilityProviderProps,
+) => (
   <VisibilityProvider
     {...visibilityProviderProps}
   >
-    <VisibilityTrigger
-      translateProps={
-        translateTriggerProps
-      }
-    >
+    <VisibilityTrigger>
       <button>
         Click me to reveal content
       </button>

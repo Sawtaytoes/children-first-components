@@ -12,12 +12,12 @@ import {
 export type VisibilityContentProps = {
   children: ReactNode,
   fallback: ReactNode,
-  isVisible?: boolean,
+  hidden?: boolean,
 }
 
 const defaultProps = {
   fallback: null,
-  isVisible: false,
+  hidden: false,
 }
 
 const VisibilityContent: (
@@ -30,14 +30,14 @@ const VisibilityContent: (
     defaultProps
     .fallback
   ),
-  isVisible = (
+  hidden = (
     defaultProps
-    .isVisible
+    .hidden
   ),
 }) => (
-  isVisible
-  ? children
-  : fallback
+  hidden
+  ? fallback
+  : children
 )
 
 const MemoizedVisibilityContent = (

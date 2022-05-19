@@ -24,7 +24,7 @@ export type VisibilityTargetProps = {
       >
     >
   ),
-  translateProps: (
+  translateProps?: (
     childProps: VisibilityContextProps
   ) => (
     object
@@ -86,15 +86,23 @@ const VisibilityTarget: (
           visibility,
         })
         || {
-          contentId,
-          isVisible: (
+          'aria-hidden': (
             visibility
             === (
               Visibilities
-              .visible
+              .invisible
             )
           ),
-          triggerId,
+          'aria-labelledby': triggerId,
+          id: contentId,
+          hidden: (
+            visibility
+            === (
+              Visibilities
+              .invisible
+            )
+          ),
+          role: 'region',
         }
       ),
       [
