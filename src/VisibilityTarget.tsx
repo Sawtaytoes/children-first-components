@@ -116,7 +116,8 @@ const VisibilityTarget: (
             role: 'region',
           }
           : {
-            contentId,
+            'aria-labelledby': triggerId,
+            id: contentId,
             isVisible: (
               visibility
               === (
@@ -124,7 +125,6 @@ const VisibilityTarget: (
                 .visible
               )
             ),
-            triggerId,
           }
         )
       ),
