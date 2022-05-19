@@ -12,8 +12,8 @@ import {
   VisibilityContent,
 } from './VisibilityContent'
 import {
-  VisibilityInteractionHiding,
-} from './VisibilityInteractionHiding'
+  HideOnEscapeKey,
+} from './HideOnEscapeKey'
 import {
   VisibilityProvider,
 } from './VisibilityProvider'
@@ -78,7 +78,7 @@ export const Standard = (
 
     <VisibilityTarget>
       <div>
-        Revealed Content
+        Revealed content
       </div>
     </VisibilityTarget>
   </VisibilityProvider>
@@ -126,7 +126,7 @@ export const APIIncompliantComponents = ({
       }
     >
       <Content>
-        Revealed Content
+        Revealed content
       </Content>
     </VisibilityTarget>
   </VisibilityProvider>
@@ -151,6 +151,48 @@ APIIncompliantComponents
     onSelect: toggleVisibility,
   }),
 }
+
+export const MutuallyExclusive = (
+  visibilityProviderProps,
+) => (
+  <div>
+    <div>
+      <VisibilityProvider
+        {...visibilityProviderProps}
+      >
+        <VisibilityTrigger>
+          <button>
+            Click me to reveal content 1
+          </button>
+        </VisibilityTrigger>
+
+        <VisibilityTarget>
+          <div>
+            Revealed content 1
+          </div>
+        </VisibilityTarget>
+      </VisibilityProvider>
+    </div>
+
+    <div>
+      <VisibilityProvider
+        {...visibilityProviderProps}
+      >
+        <VisibilityTrigger>
+          <button>
+            Click me to reveal content 2
+          </button>
+        </VisibilityTrigger>
+
+        <VisibilityTarget>
+          <div>
+            Revealed content 2
+          </div>
+        </VisibilityTarget>
+      </VisibilityProvider>
+    </div>
+  </div>
+)
 
 export const Inception = (
   visibilityProviderProps,
@@ -177,7 +219,7 @@ export const Inception = (
 
           <VisibilityTarget>
             <div>
-              Revealed Content
+              Revealed content
             </div>
           </VisibilityTarget>
         </VisibilityProvider>
@@ -186,7 +228,7 @@ export const Inception = (
   </VisibilityProvider>
 )
 
-export const HideOnClick = (
+export const HideContentWithTrigger = (
   visibilityProviderProps,
 ) => (
   <VisibilityProvider
@@ -198,15 +240,80 @@ export const HideOnClick = (
       </button>
     </VisibilityTrigger>
 
-    <VisibilityTarget>
-      <VisibilityContent>
-        <VisibilityInteractionHiding>
+    <VisibilityTrigger>
+      <VisibilityTarget>
+        <div>
           <div className="overlay">
             <div className="content">
-              Revealed Content
+              Revealed content
             </div>
           </div>
-        </VisibilityInteractionHiding>
+        </div>
+      </VisibilityTarget>
+    </VisibilityTrigger>
+  </VisibilityProvider>
+)
+
+const ModalContent = ({
+  children,
+  isVisible,
+  onClick,
+}) => (
+  <div
+    hidden={!isVisible}
+    onClick={onClick}
+  >
+    <div className="overlay">
+      <div className="content">
+        {children}
+      </div>
+    </div>
+  </div>
+)
+
+export const HideModalComponentWithTrigger = (
+  visibilityProviderProps,
+) => (
+  <VisibilityProvider
+    {...visibilityProviderProps}
+  >
+    <VisibilityTrigger>
+      <button>
+        Click me to reveal content
+      </button>
+    </VisibilityTrigger>
+
+    <VisibilityTrigger>
+      <VisibilityTarget>
+        <ModalContent>
+          Revealed content
+        </ModalContent>
+      </VisibilityTarget>
+    </VisibilityTrigger>
+  </VisibilityProvider>
+)
+
+export const HideOnEscapeKeyImplementation = (
+  visibilityProviderProps,
+) => (
+  <VisibilityProvider
+    {...visibilityProviderProps}
+  >
+    <VisibilityTrigger>
+      <button>
+        Click me to reveal content
+      </button>
+    </VisibilityTrigger>
+
+    <HideOnEscapeKey />
+
+    <VisibilityTarget>
+      <VisibilityContent>
+        <div className="overlay">
+          <div className="content">
+            Revealed content
+          </div>
+        </div>
       </VisibilityContent>
     </VisibilityTarget>
   </VisibilityProvider>

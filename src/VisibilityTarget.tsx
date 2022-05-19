@@ -51,6 +51,7 @@ const VisibilityTarget: (
     defaultProps
     .translateProps
   ),
+  ...otherProps
 }) => {
   useEffect(
     () => {
@@ -89,6 +90,7 @@ const VisibilityTarget: (
         translateProps({
           contentId,
           hideVisibility,
+          otherProps,
           showVisibility,
           toggleVisibility,
           triggerId,
@@ -97,6 +99,7 @@ const VisibilityTarget: (
         || (
           isHtmlElement
           ? {
+            ...otherProps,
             'aria-hidden': (
               visibility
               === (
@@ -116,6 +119,7 @@ const VisibilityTarget: (
             role: 'region',
           }
           : {
+            ...otherProps,
             'aria-labelledby': triggerId,
             id: contentId,
             isVisible: (
@@ -133,6 +137,7 @@ const VisibilityTarget: (
         contentId,
         hideVisibility,
         isHtmlElement,
+        otherProps,
         showVisibility,
         toggleVisibility,
         translateProps,

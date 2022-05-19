@@ -49,6 +49,7 @@ const VisibilityTrigger: (
     defaultProps
     .translateProps
   ),
+  ...otherProps
 }) => {
   useEffect(
     () => {
@@ -98,12 +99,14 @@ const VisibilityTrigger: (
         translateProps({
           contentId,
           hideVisibility,
+          otherProps,
           showVisibility,
           toggleVisibility,
           triggerId,
           visibility,
         })
         || {
+          ...otherProps,
           'aria-controls': contentId,
           'aria-expanded': (
             visibility
@@ -123,6 +126,7 @@ const VisibilityTrigger: (
         contentId,
         hideVisibility,
         onClick,
+        otherProps,
         showVisibility,
         toggleVisibility,
         translateProps,
