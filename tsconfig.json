@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "out": "build/out.js",
+    "sourceMap": true,
+    "target": "es6"
+  },
+  "files": [
+    "src"
+  ]
+}
