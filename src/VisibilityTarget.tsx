@@ -11,6 +11,9 @@ import {
 } from 'react'
 
 import {
+  useIsHtmlElement,
+} from './useIsHtmlElement'
+import {
   Visibilities,
   VisibilityContext,
   VisibilityContextProps,
@@ -61,6 +64,12 @@ const VisibilityTarget: (
     ],
   )
 
+  const isHtmlElement = (
+    useIsHtmlElement(
+      children
+    )
+  )
+
   const {
     contentId,
     hideVisibility,
@@ -85,30 +94,45 @@ const VisibilityTarget: (
           triggerId,
           visibility,
         })
-        || {
-          'aria-hidden': (
-            visibility
-            === (
-              Visibilities
-              .invisible
-            )
-          ),
-          'aria-labelledby': triggerId,
-          id: contentId,
-          hidden: (
-            visibility
-            === (
-              Visibilities
-              .invisible
-            )
-          ),
-          role: 'region',
-        }
+        || (
+          isHtmlElement
+          ? {
+            'aria-hidden': (
+              visibility
+              === (
+                Visibilities
+                .invisible
+              )
+            ),
+            'aria-labelledby': triggerId,
+            id: contentId,
+            hidden: (
+              visibility
+              === (
+                Visibilities
+                .invisible
+              )
+            ),
+            role: 'region',
+          }
+          : {
+            contentId,
+            isVisible: (
+              visibility
+              === (
+                Visibilities
+                .visible
+              )
+            ),
+            triggerId,
+          }
+        )
       ),
       [
         children,
         contentId,
         hideVisibility,
+        isHtmlElement,
         showVisibility,
         toggleVisibility,
         translateProps,

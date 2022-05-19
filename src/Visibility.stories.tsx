@@ -95,9 +95,9 @@ const Button = ({
 
 const Content = ({
   children,
-  isVisible = false,
+  isInvisible = true,
 }) => (
-  <div hidden={!isVisible}>
+  <div hidden={isInvisible}>
     {children}
   </div>
 )
@@ -137,11 +137,11 @@ APIIncompliantComponents
   translateTargetProps: ({
     visibility,
   }) => ({
-    isVisible: (
+    isInvisible: (
       visibility
       === (
         Visibilities
-        .visible
+        .invisible
       )
     ),
   }),
