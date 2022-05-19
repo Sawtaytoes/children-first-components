@@ -1,13 +1,8 @@
 import {
-  Children,
-  cloneElement,
   FunctionComponent,
-  JSXElementConstructor,
   memo,
-  ReactElement,
+  ReactNode,
   useContext,
-  useEffect,
-  useMemo,
 } from 'react'
 
 import {
@@ -15,7 +10,8 @@ import {
 } from './VisibilityContext'
 
 export type VisibilityContentProps = {
-  isVisible: boolean,
+  children: ReactNode,
+  isVisible?: boolean,
 }
 
 const defaultProps = {
@@ -27,6 +23,7 @@ const VisibilityContent: (
     VisibilityContentProps
   >
 ) = ({
+  children,
   isVisible,
 }) => (
   isVisible
