@@ -8,6 +8,16 @@ module.exports = {
     builder: 'webpack5',
   },
   framework: "@storybook/react",
+  managerWebpack: (
+    config,
+  ) => {
+    config
+    .target = (
+      'web'
+    )
+
+    return config
+  },
   stories: [
     "../src/**/*.stories.mdx",
     "../src/**/*.stories.@(js|jsx|ts|tsx)"
