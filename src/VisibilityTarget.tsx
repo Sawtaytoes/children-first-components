@@ -103,14 +103,20 @@ const VisibilityTarget: (
       () => (
         translateProps({
           contentId,
-          isVisible,
+          isVisible: (
+            visibility
+            === (
+              Visibilities
+              .visible
+            )
+          ),
           triggerId,
-          visibility,
         })
       ),
       [
         children,
         translateProps,
+        visibility,
       ],
     )
   )

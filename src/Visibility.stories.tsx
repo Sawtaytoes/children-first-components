@@ -21,6 +21,10 @@ import {
 export default {
   args: {
     onVisibilityChange: action(),
+    visibility: (
+      Visibilities
+      .invisible
+    ),
   },
   component: VisibilityProvider,
   decorators: htmlStyleDecorators,

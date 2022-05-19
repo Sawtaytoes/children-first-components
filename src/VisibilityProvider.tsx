@@ -18,6 +18,30 @@ import {
   VisibilityContext,
 } from './VisibilityContext'
 
+const toggledVisibility = {
+  [
+    Visibilities
+    .invisible
+  ]: (
+    Visibilities
+    .visible
+  ),
+  [
+    Visibilities
+    .none
+  ]: (
+    Visibilities
+    .none
+  ),
+  [
+    Visibilities
+    .visible
+  ]: (
+    Visibilities
+    .invisible
+  ),
+}
+
 export type VisibilityProviderProps = {
   children: ReactNode;
   name?: string;
@@ -93,25 +117,14 @@ const VisibilityProvider: (
     useCallback(
       () => {
         setLocalVisibility((
-          visibility
+          currentVisibility,
         ) => {
           const nextVisibility = (
-            (
-              visibility
-              === (
-                Visibilities
-                .opened
-              )
-            )
-            ? (
-              Visibilities
-              .closed
-            )
-            : (
-              Visibilities
-              .opened
-            )
+            toggledVisibility
+            [currentVisibility]
           )
+
+          console.log(currentVisibility, nextVisibility)
 
           onVisibilityChange(
             nextVisibility
