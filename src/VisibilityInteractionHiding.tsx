@@ -1,34 +1,46 @@
 import {
-  Children,
-  cloneElement,
   FunctionComponent,
-  JSXElementConstructor,
   memo,
-  ReactElement,
+  ReactNode,
   useContext,
   useEffect,
-  useMemo,
+  useRef,
 } from 'react'
 
 import {
+  Visibilities,
   VisibilityContext,
 } from './VisibilityContext'
 
 export type VisibilityInteractionHidingProps = {
-  isVisible: boolean,
+  children: ReactNode,
+  eventType: string,
 }
 
 const defaultProps = {
-  isVisible: false,
+  eventType: 'click',
 }
 
 const VisibilityInteractionHiding: (
   FunctionComponent<
     VisibilityInteractionHidingProps
   >
-) = () => {
+) = ({
+  children,
+  eventType = (
+    defaultProps
+    .eventType
+  ),
+}) => {
+  const domElementRef = (
+    useRef<
+      HTMLDivElement
+    >()
+  )
+
   const {
     hideVisibility,
+    visibility,
   } = (
     useContext(
       VisibilityContext
@@ -37,31 +49,91 @@ const VisibilityInteractionHiding: (
 
   useEffect(
     () => {
+      if (
+        visibility
+        === (
+          Visibilities
+          .invisible
+        )
+      ) {
+        return
+      }
+
+      const domElement = (
+        domElementRef
+        .current
+      )
+
+      domElement
+      .addEventListener(
+        eventType,
+        hideVisibility,
+        {
+          once: true,
+        },
+      )
+
+      return () => {
+        domElement
+        .removeEventListener(
+          eventType,
+          hideVisibility,
+        )
+      }
+    },
+    [
+      eventType,
+      hideVisibility,
+      visibility,
+    ],
+  )
+
+  useEffect(
+    () => {
+      if (
+        visibility
+        === (
+          Visibilities
+          .invisible
+        )
+      ) {
+        return
+      }
+
+      const onKeyDown = ({
+        code,
+      }) => {
+        if (code === 'Escape') {
+          hideVisibility()
+        }
+      }
+
       document
       .body
       .addEventListener(
-        'pointerdown',
-        hideVisibility,
-        true,
+        'keydown',
+        onKeyDown,
       )
 
       return () => {
         document
         .body
         .removeEventListener(
-          'pointerdown',
-          hideVisibility,
-          true,
+          'keydown',
+          onKeyDown,
         )
       }
     },
     [
       hideVisibility,
+      visibility,
     ],
   )
 
   return (
-    null
+    <div ref={domElementRef}>
+      {children}
+    </div>
   )
 }
 

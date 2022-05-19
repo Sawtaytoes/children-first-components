@@ -24,7 +24,10 @@ const VisibilityContent: (
   >
 ) = ({
   children,
-  isVisible,
+  isVisible = (
+    defaultProps
+    .isVisible
+  ),
 }) => (
   isVisible
   ? children

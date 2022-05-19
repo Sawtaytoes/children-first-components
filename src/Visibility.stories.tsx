@@ -180,19 +180,15 @@ export const HideOnClick = ({
       </button>
     </VisibilityTrigger>
 
-    <VisibilityTarget
-      translateProps={
-        translateTargetProps
-      }
-    >
-      <div>
-        Revealed Content
-      </div>
-    </VisibilityTarget>
-
     <VisibilityTarget>
       <VisibilityContent>
-        <VisibilityInteractionHiding />
+        <VisibilityInteractionHiding>
+          <div className="overlay">
+            <div className="content">
+              Revealed Content
+            </div>
+          </div>
+        </VisibilityInteractionHiding>
       </VisibilityContent>
     </VisibilityTarget>
   </VisibilityProvider>

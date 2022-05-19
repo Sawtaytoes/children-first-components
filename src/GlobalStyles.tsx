@@ -23,7 +23,8 @@ const GlobalStyles = () => (
         button,
         input,
         option,
-        select {
+        select,
+        .content {
           background-color: #fcfcfc;
           border-radius: 10px;
           border: 2px solid transparent;
@@ -155,6 +156,22 @@ const GlobalStyles = () => (
           padding-top: 0.15rem;
           padding-bottom: 0.15rem;
           border-radius: 0.25rem;
+        }
+
+        .content {
+          box-shadow: gray 0 4px 4px 0;
+        }
+
+        .overlay {
+          align-items: center;
+          background-color: rgba(128, 128, 128, 0.5);
+          display: flex;
+          height: 100vh;
+          justify-content: center;
+          left: 0;
+          position: fixed;
+          top: 0;
+          width: 100vw;
         }
       `
     }
