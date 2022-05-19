@@ -41,14 +41,14 @@ const toggledVisibility = {
 }
 
 export type VisibilityProviderProps = {
-  children: ReactNode;
-  name?: string;
+  children: ReactNode,
+  name?: string,
   onVisibilityChange?: (
     visibility?: Visibilities,
   ) => (
     void
-  );
-  visibility?: Visibilities;
+  ),
+  visibility?: Visibilities,
 }
 
 const defaultProps = {

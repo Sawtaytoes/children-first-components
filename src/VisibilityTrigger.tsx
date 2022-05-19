@@ -5,13 +5,13 @@ import {
   JSXElementConstructor,
   memo,
   ReactElement,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
 } from 'react'
 
 import {
-  defaultVisibilityContextValue,
   VisibilityContext,
   VisibilityContextProps,
 } from './VisibilityContext'
@@ -23,7 +23,7 @@ export type VisibilityTriggerProps = {
         any
       >
     >
-  );
+  ),
   translateProps: (
     childProps: VisibilityContextProps
   ) => (
@@ -74,6 +74,23 @@ const VisibilityTrigger: (
     )
   )
 
+  const onClick = (
+    useCallback(
+      (
+        ...args
+      ) => {
+        children
+        .onClick
+        ?.(
+          ...args
+        )
+
+        toggleVisibility()
+      },
+      [],
+    )
+  )
+
   const childProps = (
     useMemo(
       () => (
@@ -87,7 +104,7 @@ const VisibilityTrigger: (
         })
         || {
           contentId,
-          onClick: toggleVisibility,
+          onClick,
           triggerId,
         }
       ),
@@ -95,6 +112,7 @@ const VisibilityTrigger: (
         children,
         contentId,
         hideVisibility,
+        onClick,
         showVisibility,
         toggleVisibility,
         translateProps,
@@ -120,11 +138,7 @@ const VisibilityTrigger: (
   )
 
   return (
-    <VisibilityContext.Provider
-      value={defaultVisibilityContextValue}
-    >
-      {clonedChild}
-    </VisibilityContext.Provider>
+    clonedChild
   )
 }
 

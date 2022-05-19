@@ -11,7 +11,6 @@ import {
 } from 'react'
 
 import {
-  defaultVisibilityContextValue,
   Visibilities,
   VisibilityContext,
   VisibilityContextProps,
@@ -24,7 +23,7 @@ export type VisibilityTargetProps = {
         any
       >
     >
-  );
+  ),
   translateProps: (
     childProps: VisibilityContextProps
   ) => (
@@ -127,11 +126,7 @@ const VisibilityTarget: (
   )
 
   return (
-    <VisibilityContext.Provider
-      value={defaultVisibilityContextValue}
-    >
-      {clonedChild}
-    </VisibilityContext.Provider>
+    clonedChild
   )
 }
 

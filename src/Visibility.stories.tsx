@@ -9,6 +9,12 @@ import {
   Visibilities,
 } from './VisibilityContext'
 import {
+  VisibilityContent,
+} from './VisibilityContent'
+import {
+  VisibilityInteractionHiding,
+} from './VisibilityInteractionHiding'
+import {
   VisibilityProvider,
 } from './VisibilityProvider'
 import {
@@ -26,9 +32,15 @@ export default {
       )
     ),
     translateTargetProps: ({
-      isVisible,
+      visibility,
     }) => ({
-      hidden: !isVisible,
+      hidden: (
+        visibility
+        === (
+          Visibilities
+          .invisible
+        )
+      ),
     }),
     translateTriggerProps: ({
       toggleVisibility,
@@ -146,6 +158,42 @@ export const Inception = ({
           </VisibilityTarget>
         </VisibilityProvider>
       </div>
+    </VisibilityTarget>
+  </VisibilityProvider>
+)
+
+export const HideOnClick = ({
+  translateTriggerProps,
+  translateTargetProps,
+  ...visibilityProviderProps
+}) => (
+  <VisibilityProvider
+    {...visibilityProviderProps}
+  >
+    <VisibilityTrigger
+      translateProps={
+        translateTriggerProps
+      }
+    >
+      <button>
+        Click me to reveal content
+      </button>
+    </VisibilityTrigger>
+
+    <VisibilityTarget
+      translateProps={
+        translateTargetProps
+      }
+    >
+      <div>
+        Revealed Content
+      </div>
+    </VisibilityTarget>
+
+    <VisibilityTarget>
+      <VisibilityContent>
+        <VisibilityInteractionHiding />
+      </VisibilityContent>
     </VisibilityTarget>
   </VisibilityProvider>
 )
