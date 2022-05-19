@@ -1,40 +1,20 @@
 import {
   Children,
   cloneElement,
-  ComponentType,
   FunctionComponent,
   JSXElementConstructor,
   memo,
   ReactElement,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
-  useRef,
-  useState,
 } from 'react'
 
 import {
   defaultVisibilityContextValue,
-  Visibilities,
   VisibilityContext,
   VisibilityContextProps,
 } from './VisibilityContext'
-
-export type ChildProps = {
-  contentId: (
-    VisibilityContextProps['contentId']
-  );
-  onClick: (
-    VisibilityContextProps['toggleVisibility']
-  );
-  triggerId: (
-    VisibilityContextProps['triggerId']
-  );
-  visibility: (
-    VisibilityContextProps['visibility']
-  );
-}
 
 export type VisibilityTriggerProps = {
   children: (
@@ -45,17 +25,16 @@ export type VisibilityTriggerProps = {
     >
   );
   translateProps: (
-    childProps: ChildProps
+    childProps: VisibilityContextProps
   ) => (
     object
+    | null
   ),
 }
 
 const defaultProps = {
-  translateProps: (
-    props: ChildProps,
-  ) => (
-    props
+  translateProps: () => (
+    null
   ),
 }
 
@@ -84,26 +63,43 @@ const VisibilityTrigger: (
 
   const {
     contentId,
+    hideVisibility,
+    showVisibility,
     toggleVisibility,
     triggerId,
     visibility,
-  } = useContext(
-    VisibilityContext
-  );
+  } = (
+    useContext(
+      VisibilityContext
+    )
+  )
 
   const childProps = (
     useMemo(
       () => (
         translateProps({
           contentId,
-          onClick: toggleVisibility,
+          hideVisibility,
+          showVisibility,
+          toggleVisibility,
           triggerId,
           visibility,
         })
+        || {
+          contentId,
+          onClick: toggleVisibility,
+          triggerId,
+        }
       ),
       [
         children,
+        contentId,
+        hideVisibility,
+        showVisibility,
+        toggleVisibility,
         translateProps,
+        triggerId,
+        visibility,
       ],
     )
   )

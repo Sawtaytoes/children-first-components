@@ -1,10 +1,8 @@
 import {
-  createContext,
   FunctionComponent,
   memo,
   ReactNode,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useState,
@@ -45,7 +43,7 @@ const toggledVisibility = {
 export type VisibilityProviderProps = {
   children: ReactNode;
   name?: string;
-  onVisibilityChange: (
+  onVisibilityChange?: (
     visibility?: Visibilities,
   ) => (
     void

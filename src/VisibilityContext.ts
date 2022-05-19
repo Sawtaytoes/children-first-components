@@ -11,6 +11,8 @@ export enum Visibilities {
 
 export type VisibilityContextProps = {
   contentId: string;
+  hideVisibility: () => void;
+  showVisibility: () => void;
   toggleVisibility: () => void;
   triggerId: string;
   visibility: Visibilities;
@@ -20,6 +22,8 @@ export const defaultVisibilityContextValue: (
   VisibilityContextProps
 ) = {
   contentId: '',
+  hideVisibility: () => {},
+  showVisibility: () => {},
   toggleVisibility: () => {},
   triggerId: '',
   visibility: (

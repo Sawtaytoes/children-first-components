@@ -31,9 +31,9 @@ export default {
       hidden: !isVisible,
     }),
     translateTriggerProps: ({
-      onClick,
+      toggleVisibility,
     }) => ({
-      onClick,
+      onClick: toggleVisibility,
     }),
     visibility: (
       Visibilities
