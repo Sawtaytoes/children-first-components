@@ -1,0 +1,2 @@
+- Add `VisibilityControlProvider`.
+- Add method to link multiple contexts.
