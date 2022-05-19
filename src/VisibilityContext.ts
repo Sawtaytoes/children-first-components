@@ -22,7 +22,10 @@ export const defaultVisibilityContextValue: (
   contentId: '',
   toggleVisibility: () => {},
   triggerId: '',
-  visibility: Visibilities.none,
+  visibility: (
+    Visibilities
+    .none
+  ),
 }
 
 export const VisibilityContext = (
