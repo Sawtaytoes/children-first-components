@@ -40,7 +40,7 @@ const VisibilityInteractionHiding: (
       document
       .body
       .addEventListener(
-        'click',
+        'pointerdown',
         hideVisibility,
         true,
       )
@@ -49,7 +49,7 @@ const VisibilityInteractionHiding: (
         document
         .body
         .removeEventListener(
-          'click',
+          'pointerdown',
           hideVisibility,
           true,
         )
