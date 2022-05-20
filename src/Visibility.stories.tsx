@@ -15,6 +15,9 @@ import {
   HideOnEscapeKey,
 } from './HideOnEscapeKey'
 import {
+  HtmlContent,
+} from './HtmlContent'
+import {
   VisibilityProvider,
 } from './VisibilityProvider'
 import {
@@ -77,9 +80,61 @@ export const Standard = (
     </VisibilityTrigger>
 
     <VisibilityTarget>
-      <div>
-        Revealed content
-      </div>
+      <HtmlContent>
+        <div>
+          Revealed content
+        </div>
+      </HtmlContent>
+    </VisibilityTarget>
+  </VisibilityProvider>
+)
+
+export const MultipleTriggers = () => (
+  <VisibilityProvider>
+    <VisibilityTrigger>
+      <button>
+        Click me to reveal content
+      </button>
+    </VisibilityTrigger>
+
+    <VisibilityTrigger>
+      <button>
+        Click me to reveal the same content
+      </button>
+    </VisibilityTrigger>
+
+    <VisibilityTarget>
+      <HtmlContent>
+        <div>
+          Revealed content
+        </div>
+      </HtmlContent>
+    </VisibilityTarget>
+  </VisibilityProvider>
+)
+
+export const MultipleTargets = () => (
+  <VisibilityProvider>
+    <VisibilityTarget>
+      <HtmlContent>
+        <div>
+          Revealed content 1
+        </div>
+      </HtmlContent>
+    </VisibilityTarget>
+
+    <VisibilityTrigger>
+      <button>
+        Click me to reveal content
+      </button>
+    </VisibilityTrigger>
+
+    <VisibilityTarget>
+      <HtmlContent>
+        <div>
+          Revealed content 2
+        </div>
+      </HtmlContent>
     </VisibilityTarget>
   </VisibilityProvider>
 )
@@ -152,6 +207,32 @@ APIIncompliantComponents
   }),
 }
 
+export const ShowOnHover = () => (
+  <VisibilityProvider>
+    <VisibilityTrigger
+      translateProps={({
+        showVisibility,
+        hideVisibility,
+      }) => ({
+        onMouseEnter: showVisibility,
+        onMouseLeave: hideVisibility,
+      })}
+    >
+      <button>
+        Click me to reveal content
+      </button>
+    </VisibilityTrigger>
+
+    <VisibilityTarget>
+      <HtmlContent>
+        <div>
+          Revealed content
+        </div>
+      </HtmlContent>
+    </VisibilityTarget>
+  </VisibilityProvider>
+)
+
 export const MutuallyExclusive = () => (
   <div>
     <div>
@@ -163,9 +244,11 @@ export const MutuallyExclusive = () => (
         </VisibilityTrigger>
 
         <VisibilityTarget>
-          <div>
-            Revealed content 1
-          </div>
+          <HtmlContent>
+            <div>
+              Revealed content 1
+            </div>
+          </HtmlContent>
         </VisibilityTarget>
       </VisibilityProvider>
     </div>
@@ -179,9 +262,47 @@ export const MutuallyExclusive = () => (
         </VisibilityTrigger>
 
         <VisibilityTarget>
-          <div>
-            Revealed content 2
-          </div>
+          <HtmlContent>
+            <div>
+              Revealed content 2
+            </div>
+          </HtmlContent>
+        </VisibilityTarget>
+      </VisibilityProvider>
+    </div>
+  </div>
+)
+
+export const UnifiedProviders = () => (
+  <div>
+    <div>
+      <VisibilityProvider name="same-provider">
+        <VisibilityTrigger>
+          <button>
+            Click me to reveal content
+          </button>
+        </VisibilityTrigger>
+      </VisibilityProvider>
+    </div>
+
+    <div>
+      <VisibilityProvider name="same-provider">
+        <VisibilityTrigger>
+          <button>
+            Click me to reveal the same content
+          </button>
+        </VisibilityTrigger>
+      </VisibilityProvider>
+    </div>
+
+    <div>
+      <VisibilityProvider name="same-provider">
+        <VisibilityTarget>
+          <HtmlContent>
+            <div>
+              Revealed content
+            </div>
+          </HtmlContent>
         </VisibilityTarget>
       </VisibilityProvider>
     </div>
@@ -198,21 +319,23 @@ export const SwitchVisibility = () => (
       </VisibilityTrigger>
 
       <VisibilityTarget>
-        <div>
+        <HtmlContent>
           <div>
-            Revealed content 1
-          </div>
+            <div>
+              Revealed content 1
+            </div>
 
-          <div>
-            <VisibilityTrigger
-              targetVisibilityName="visibility-2"
-            >
-              <button>
-                Click me to reveal content 2
-              </button>
-            </VisibilityTrigger>
+            <div>
+              <VisibilityTrigger
+                targetVisibilityName="visibility-2"
+              >
+                <button>
+                  Click me to reveal content 2
+                </button>
+              </VisibilityTrigger>
+            </div>
           </div>
-        </div>
+        </HtmlContent>
       </VisibilityTarget>
     </VisibilityProvider>
 
@@ -220,9 +343,11 @@ export const SwitchVisibility = () => (
       name="visibility-2"
     >
       <VisibilityTarget>
-        <div>
-          Revealed content 2
-        </div>
+        <HtmlContent>
+          <div>
+            Revealed content 2
+          </div>
+        </HtmlContent>
       </VisibilityTarget>
     </VisibilityProvider>
   </div>
@@ -237,21 +362,25 @@ export const Inception = () => (
     </VisibilityTrigger>
 
     <VisibilityTarget>
-      <div>
-        <VisibilityProvider>
-          <VisibilityTrigger>
-            <button>
-              Click me to reveal content
-            </button>
-          </VisibilityTrigger>
+      <HtmlContent>
+        <div>
+          <VisibilityProvider>
+            <VisibilityTrigger>
+              <button>
+                Click me to reveal content
+              </button>
+            </VisibilityTrigger>
 
-          <VisibilityTarget>
-            <div>
-              Revealed content
-            </div>
-          </VisibilityTarget>
-        </VisibilityProvider>
-      </div>
+            <VisibilityTarget>
+              <HtmlContent>
+                <div>
+                  Revealed content
+                </div>
+              </HtmlContent>
+            </VisibilityTarget>
+          </VisibilityProvider>
+        </div>
+      </HtmlContent>
     </VisibilityTarget>
   </VisibilityProvider>
 )
@@ -266,13 +395,15 @@ export const HideContentWithTrigger = () => (
 
     <VisibilityTrigger>
       <VisibilityTarget>
-        <div>
-          <div className="overlay">
-            <div className="content">
-              Revealed content
+        <HtmlContent>
+          <div>
+            <div className="overlay">
+              <div className="content">
+                Revealed content
+              </div>
             </div>
           </div>
-        </div>
+        </HtmlContent>
       </VisibilityTarget>
     </VisibilityTrigger>
   </VisibilityProvider>

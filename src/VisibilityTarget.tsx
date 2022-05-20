@@ -10,9 +10,6 @@ import {
 } from 'react'
 
 import {
-  useIsHtmlElement,
-} from './useIsHtmlElement'
-import {
   Visibilities,
   VisibilityContext,
   VisibilityContextProps,
@@ -52,12 +49,6 @@ const VisibilityTarget: (
   ),
   ...otherProps
 }) => {
-  const isHtmlElement = (
-    useIsHtmlElement(
-      children
-    )
-  )
-
   const {
     contentId,
     hideVisibility,
@@ -92,48 +83,24 @@ const VisibilityTarget: (
           }
         }
         else {
-          return (
-            isHtmlElement
-            ? {
-              ...otherProps,
-              'aria-hidden': (
-                visibility
-                === (
-                  Visibilities
-                  .invisible
-                )
-              ),
-              'aria-labelledby': triggerId,
-              id: contentId,
-              hidden: (
-                visibility
-                === (
-                  Visibilities
-                  .invisible
-                )
-              ),
-              role: 'region',
-            }
-            : {
-              ...otherProps,
-              'aria-labelledby': triggerId,
-              id: contentId,
-              isVisible: (
-                visibility
-                === (
-                  Visibilities
-                  .visible
-                )
-              ),
-            }
-          )
+          return {
+            ...otherProps,
+            'aria-labelledby': triggerId,
+            id: contentId,
+            isVisible: (
+              visibility
+              === (
+                Visibilities
+                .visible
+              )
+            ),
+          }
         }
       },
       [
         children,
         contentId,
         hideVisibility,
-        isHtmlElement,
         otherProps,
         showVisibility,
         toggleVisibility,

@@ -30,7 +30,7 @@ const defaultProps = {
   onVisibilityChange: () => {},
   visibility: (
     Visibilities
-    .none
+    .invisible
   ),
 }
 
