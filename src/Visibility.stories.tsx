@@ -152,14 +152,10 @@ APIIncompliantComponents
   }),
 }
 
-export const MutuallyExclusive = (
-  visibilityProviderProps,
-) => (
+export const MutuallyExclusive = () => (
   <div>
     <div>
-      <VisibilityProvider
-        {...visibilityProviderProps}
-      >
+      <VisibilityProvider>
         <VisibilityTrigger>
           <button>
             Click me to reveal content 1
@@ -175,9 +171,7 @@ export const MutuallyExclusive = (
     </div>
 
     <div>
-      <VisibilityProvider
-        {...visibilityProviderProps}
-      >
+      <VisibilityProvider>
         <VisibilityTrigger>
           <button>
             Click me to reveal content 2
@@ -194,13 +188,9 @@ export const MutuallyExclusive = (
   </div>
 )
 
-export const SwitchVisibility = (
-  visibilityProviderProps,
-) => (
+export const SwitchVisibility = () => (
   <div>
-    <VisibilityProvider
-      {...visibilityProviderProps}
-    >
+    <VisibilityProvider>
       <VisibilityTrigger>
         <button>
           Click me to reveal content 1
@@ -209,22 +199,25 @@ export const SwitchVisibility = (
 
       <VisibilityTarget>
         <div>
-          Revealed content 1
+          <div>
+            Revealed content 1
+          </div>
 
-          <VisibilityTrigger
-            targetVisibilityProvider="visibility-2"
-          >
-            <button>
-              Click me to reveal content 2
-            </button>
-          </VisibilityTrigger>
+          <div>
+            <VisibilityTrigger
+              targetVisibilityName="visibility-2"
+            >
+              <button>
+                Click me to reveal content 2
+              </button>
+            </VisibilityTrigger>
+          </div>
         </div>
       </VisibilityTarget>
     </VisibilityProvider>
 
     <VisibilityProvider
       name="visibility-2"
-      {...visibilityProviderProps}
     >
       <VisibilityTarget>
         <div>
@@ -235,12 +228,8 @@ export const SwitchVisibility = (
   </div>
 )
 
-export const Inception = (
-  visibilityProviderProps,
-) => (
-  <VisibilityProvider
-    {...visibilityProviderProps}
-  >
+export const Inception = () => (
+  <VisibilityProvider>
     <VisibilityTrigger>
       <button>
         Click me to reveal another visibility
@@ -249,9 +238,7 @@ export const Inception = (
 
     <VisibilityTarget>
       <div>
-        <VisibilityProvider
-          {...visibilityProviderProps}
-        >
+        <VisibilityProvider>
           <VisibilityTrigger>
             <button>
               Click me to reveal content
@@ -269,12 +256,8 @@ export const Inception = (
   </VisibilityProvider>
 )
 
-export const HideContentWithTrigger = (
-  visibilityProviderProps,
-) => (
-  <VisibilityProvider
-    {...visibilityProviderProps}
-  >
+export const HideContentWithTrigger = () => (
+  <VisibilityProvider>
     <VisibilityTrigger>
       <button>
         Click me to reveal content
@@ -312,12 +295,8 @@ const ModalContent = ({
   </div>
 )
 
-export const HideModalComponentWithTrigger = (
-  visibilityProviderProps,
-) => (
-  <VisibilityProvider
-    {...visibilityProviderProps}
-  >
+export const HideModalComponentWithTrigger = () => (
+  <VisibilityProvider>
     <VisibilityTrigger>
       <button>
         Click me to reveal content
@@ -334,12 +313,8 @@ export const HideModalComponentWithTrigger = (
   </VisibilityProvider>
 )
 
-export const HideOnEscapeKeyImplementation = (
-  visibilityProviderProps,
-) => (
-  <VisibilityProvider
-    {...visibilityProviderProps}
-  >
+export const HideOnEscapeKeyImplementation = () => (
+  <VisibilityProvider>
     <VisibilityTrigger>
       <button>
         Click me to reveal content
