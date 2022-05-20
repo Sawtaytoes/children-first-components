@@ -1,12 +1,7 @@
 - Add `VisibilityControlProvider`.
 - Add method to link multiple contexts.
-
-
-Move visibility hiding around the target. Might not work for modal content though.
-
-Need to figure out how to stretch it out to the container.
-
-
-Fix Children.only. Not in useEffect, but wrapping children before cloning.
-
-Try again to type with ComponentType, but specify other props are unknown.
+- Change `visibility` to `isVisible`. No reason for this to be separate anymore. It simplifies a lot of code too. Figure out what to do about `onVisibilityChange`.
+- Potentially rename `onVisibilityChange` to `onChange`.
+- Try again to type with `ComponentType` in `cloneElement`, but specify other props are unknown.
+- Move `translateProps` to `VisiblityChild` and remove it from `VisibilityTrigger` and `VisibilityTarget`.
+- Remove tight-coupling between types in `useVisibility` and `VisibilityProvider`.
