@@ -6,7 +6,6 @@ import {
   memo,
   ReactElement,
   useContext,
-  useEffect,
   useMemo,
 } from 'react'
 
@@ -53,18 +52,6 @@ const VisibilityTarget: (
   ),
   ...otherProps
 }) => {
-  useEffect(
-    () => {
-      Children
-      .only(
-        children
-      )
-    },
-    [
-      children,
-    ],
-  )
-
   const isHtmlElement = (
     useIsHtmlElement(
       children
@@ -86,52 +73,62 @@ const VisibilityTarget: (
 
   const childProps = (
     useMemo(
-      () => (
-        translateProps({
-          contentId,
-          hideVisibility,
-          otherProps,
-          showVisibility,
-          toggleVisibility,
-          triggerId,
-          visibility,
-        })
-        || (
-          isHtmlElement
-          ? {
-            ...otherProps,
-            'aria-hidden': (
-              visibility
-              === (
-                Visibilities
-                .invisible
-              )
-            ),
-            'aria-labelledby': triggerId,
-            id: contentId,
-            hidden: (
-              visibility
-              === (
-                Visibilities
-                .invisible
-              )
-            ),
-            role: 'region',
-          }
-          : {
-            ...otherProps,
-            'aria-labelledby': triggerId,
-            id: contentId,
-            isVisible: (
-              visibility
-              === (
-                Visibilities
-                .visible
-              )
-            ),
-          }
+      () => {
+        const translatedProps = (
+          translateProps({
+            contentId,
+            hideVisibility,
+            showVisibility,
+            toggleVisibility,
+            triggerId,
+            visibility,
+          })
         )
-      ),
+
+        if (translatedProps) {
+          return {
+            ...otherProps,
+            ...translatedProps,
+          }
+        }
+        else {
+          return (
+            isHtmlElement
+            ? {
+              ...otherProps,
+              'aria-hidden': (
+                visibility
+                === (
+                  Visibilities
+                  .invisible
+                )
+              ),
+              'aria-labelledby': triggerId,
+              id: contentId,
+              hidden: (
+                visibility
+                === (
+                  Visibilities
+                  .invisible
+                )
+              ),
+              role: 'region',
+            }
+            : {
+              ...otherProps,
+              'aria-labelledby': triggerId,
+              id: contentId,
+              isVisible: (
+                visibility
+                === (
+                  Visibilities
+                  .visible
+                )
+              ),
+            }
+          )
+        }
+      },
       [
         children,
         contentId,
@@ -151,7 +148,12 @@ const VisibilityTarget: (
     useMemo(
       () => (
         cloneElement(
-          children,
+          (
+            Children
+            .only(
+              children
+            )
+          ),
           childProps,
         )
       ),

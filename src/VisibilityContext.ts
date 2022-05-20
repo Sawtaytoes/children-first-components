@@ -3,6 +3,8 @@ import {
   useContext,
 } from 'react'
 
+export type VisibilityContextName = string
+
 export enum Visibilities {
   invisible = 'invisible',
   none = 'none',

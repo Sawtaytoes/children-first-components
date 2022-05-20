@@ -7,15 +7,18 @@ import {
   ReactElement,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
 } from 'react'
 
 import {
   Visibilities,
   VisibilityContext,
+  VisibilityContextName,
   VisibilityContextProps,
 } from './VisibilityContext'
+// import {
+//   useVisibilityAtom,
+// } from './useVisibilityAtom'
 
 export type VisibilityTriggerProps = {
   children: (
@@ -24,6 +27,9 @@ export type VisibilityTriggerProps = {
         any
       >
     >
+  ),
+  targetVisibilityName?: (
+    VisibilityContextName
   ),
   translateProps?: (
     childProps: VisibilityContextProps
@@ -34,6 +40,7 @@ export type VisibilityTriggerProps = {
 }
 
 const defaultProps = {
+  targetVisibilityName: '',
   translateProps: () => (
     null
   ),
@@ -45,24 +52,16 @@ const VisibilityTrigger: (
   >
 ) = ({
   children,
+  targetVisibilityName = (
+    defaultProps
+    .targetVisibilityName
+  ),
   translateProps = (
     defaultProps
     .translateProps
   ),
   ...otherProps
 }) => {
-  useEffect(
-    () => {
-      Children
-      .only(
-        children
-      )
-    },
-    [
-      children,
-    ],
-  )
-
   const {
     contentId,
     hideVisibility,
@@ -76,6 +75,14 @@ const VisibilityTrigger: (
     )
   )
 
+  // const [
+  //   targetVisibilityContext,
+  // ] = (
+  //   useVisibilityAtom(
+  //     targetVisibilityName
+  //   )
+  // )
+
   const onClick = (
     useCallback(
       (
@@ -88,39 +95,65 @@ const VisibilityTrigger: (
         )
 
         toggleVisibility()
+
+        if (targetVisibilityName) {
+          // targetVisibilityContext
+          // .toggleVisibility()
+        }
       },
-      [],
+      [
+        (
+          children
+          .onClick
+        ),
+        // (
+        //   targetVisibilityContext
+        //   .toggleVisibility
+        // ),
+        targetVisibilityName,
+        toggleVisibility,
+      ],
     )
   )
 
   const childProps = (
     useMemo(
-      () => (
-        translateProps({
-          contentId,
-          hideVisibility,
-          otherProps,
-          showVisibility,
-          toggleVisibility,
-          triggerId,
-          visibility,
-        })
-        || {
-          ...otherProps,
-          'aria-controls': contentId,
-          'aria-expanded': (
-            visibility
-            === (
-              Visibilities
-              .visible
-            )
-          ),
-          id: triggerId,
-          onClick,
-          role: 'button',
-          type: 'button',
+      () => {
+        const translatedProps = (
+          translateProps({
+            contentId,
+            hideVisibility,
+            showVisibility,
+            toggleVisibility,
+            triggerId,
+            visibility,
+          })
+        )
+
+        if (translatedProps) {
+          return {
+            ...otherProps,
+            ...translatedProps,
+          }
         }
-      ),
+        else {
+          return {
+            ...otherProps,
+            'aria-controls': contentId,
+            'aria-expanded': (
+              visibility
+              === (
+                Visibilities
+                .visible
+              )
+            ),
+            id: triggerId,
+            onClick,
+            role: 'button',
+            type: 'button',
+          }
+        }
+      },
       [
         children,
         contentId,
@@ -140,7 +173,12 @@ const VisibilityTrigger: (
     useMemo(
       () => (
         cloneElement(
-          children,
+          (
+            Children
+            .only(
+              children
+            )
+          ),
           childProps,
         )
       ),

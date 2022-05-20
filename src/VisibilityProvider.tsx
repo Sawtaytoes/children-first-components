@@ -2,47 +2,21 @@ import {
   FunctionComponent,
   memo,
   ReactNode,
-  useCallback,
-  useEffect,
   useMemo,
-  useState,
 } from 'react'
 
 import {
-  createRandomString,
-} from './createRandomString'
-import {
   Visibilities,
   VisibilityContext,
+  VisibilityContextName,
 } from './VisibilityContext'
-
-const toggledVisibility = {
-  [
-    Visibilities
-    .invisible
-  ]: (
-    Visibilities
-    .visible
-  ),
-  [
-    Visibilities
-    .none
-  ]: (
-    Visibilities
-    .none
-  ),
-  [
-    Visibilities
-    .visible
-  ]: (
-    Visibilities
-    .invisible
-  ),
-}
+import {
+  useVisibility,
+} from './useVisibility'
 
 export type VisibilityProviderProps = {
   children: ReactNode,
-  name?: string,
+  name?: VisibilityContextName,
   onVisibilityChange?: (
     visibility?: Visibilities,
   ) => (
@@ -79,100 +53,18 @@ const VisibilityProvider: (
     .visibility
   ),
 }) => {
-  const uniqueId = (
-    useMemo(
-      () => (
-        name
-        || createRandomString()
-      ),
-      [
-        name,
-      ],
-    )
-  )
-
-  const [
-    localVisibility,
-    setLocalVisibility,
-  ] = (
-    useState(
-      visibility
-    )
-  )
-
-  useEffect(
-    () => {
-      setLocalVisibility(
-        visibility
-      )
-    },
-    [
+  const {
+    hideVisibility,
+    showVisibility,
+    toggleVisibility,
+    uniqueId,
+    visibility: localVisibility,
+  } = (
+    useVisibility({
+      name,
+      onVisibilityChange,
       visibility,
-    ],
-  )
-
-  const hideVisibility = (
-    useCallback(
-      () => {
-        const nextVisibility = (
-          Visibilities
-          .invisible
-        )
-
-        onVisibilityChange(
-          nextVisibility
-        )
-
-        setLocalVisibility(
-          nextVisibility
-        )
-      },
-      [],
-    )
-  )
-
-  const showVisibility = (
-    useCallback(
-      () => {
-        const nextVisibility = (
-          Visibilities
-          .visible
-        )
-
-        onVisibilityChange(
-          nextVisibility
-        )
-
-        setLocalVisibility(
-          nextVisibility
-        )
-      },
-      [],
-    )
-  )
-
-  const toggleVisibility = (
-    useCallback(
-      () => {
-        setLocalVisibility((
-          currentVisibility,
-        ) => {
-          const nextVisibility = (
-            toggledVisibility
-            [currentVisibility]
-          )
-
-          onVisibilityChange(
-            nextVisibility
-          )
-
-          return (
-            nextVisibility
-          )
-        })
-      },
-      [],
-    )
+    })
   )
 
   const providerValue = (
