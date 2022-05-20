@@ -3,21 +3,25 @@ import {
   useMemo,
 } from 'react'
 
-export const useIsHtmlElement = ({
-  type: reactElementType,
-}: (
-  ReactElement
-)) => {
+export const useIsHtmlElement = (
+  reactElement: (
+    ReactElement
+  )
+) => {
   const isHtmlElement = (
     useMemo(
       () => (
         typeof (
-          reactElementType
+          reactElement
+          .type
         )
         === 'string'
       ),
       [
-        reactElementType,
+        (
+          reactElement
+          .type
+        ),
       ],
     )
   )
