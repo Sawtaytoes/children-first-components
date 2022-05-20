@@ -57,10 +57,9 @@ export const useVisibility = ({
 }: (
   UseVisibilityProps
 )) => {
-  const visibilityContext = undefined
   // const [
-  //   visibilityContext,
-  //   setVisibilityContext,
+  //   globalVisibility,
+  //   setGlobalVisibility,
   // ] = (
   //   useVisibilityAtom(
   //     name
@@ -165,32 +164,31 @@ export const useVisibility = ({
 
   // useEffect(
   //   () => {
-  //     setVisibilityContext({
-  //       hideVisibility,
-  //       showVisibility,
-  //       toggleVisibility,
-  //       uniqueId,
-  //       visibility: localVisibility,
-  //     })
+  //     setLocalVisibility(
+  //       globalVisibility,
+  //     )
   //   },
   //   [
-  //     hideVisibility,
-  //     localVisibility,
-  //     setVisibilityContext,
-  //     showVisibility,
-  //     toggleVisibility,
-  //     uniqueId,
+  //     globalVisibility,
   //   ],
   // )
 
-  return (
-    visibilityContext
-    || {
-      hideVisibility,
-      showVisibility,
-      toggleVisibility,
-      uniqueId,
-      visibility: localVisibility,
-    }
-  )
+  // useEffect(
+  //   () => {
+  //     setGlobalVisibility(
+  //       localVisibility,
+  //     )
+  //   },
+  //   [
+  //     localVisibility,
+  //   ],
+  // )
+
+  return {
+    hideVisibility,
+    showVisibility,
+    toggleVisibility,
+    uniqueId,
+    visibility: localVisibility,
+  }
 }
