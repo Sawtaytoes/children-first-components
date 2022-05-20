@@ -356,13 +356,15 @@ export const SwitchVisibility = ({
     <VisibilityProvider
       id={id}
     >
-      <VisibilityTarget>
-        <HtmlContent>
-          <div>
-            Revealed content 2
-          </div>
-        </HtmlContent>
-      </VisibilityTarget>
+      <VisibilityTrigger>
+        <VisibilityTarget>
+          <HtmlContent>
+            <div>
+              Revealed content 2
+            </div>
+          </HtmlContent>
+        </VisibilityTarget>
+      </VisibilityTrigger>
     </VisibilityProvider>
   </div>
 )

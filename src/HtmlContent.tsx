@@ -7,10 +7,12 @@ import {
 export type HtmlContentProps = {
   children: ReactNode,
   isVisible: boolean,
+  onClick: () => void,
 }
 
 const defaultProps = {
   isVisible: false,
+  onClick: () => {},
 }
 
 const HtmlContent: (
@@ -20,8 +22,12 @@ const HtmlContent: (
 ) = ({
   children,
   isVisible,
+  onClick,
 }) => (
-  <div hidden={!isVisible}>
+  <div
+    hidden={!isVisible}
+    onClick={onClick}
+  >
     {children}
   </div>
 )
