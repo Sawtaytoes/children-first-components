@@ -13,12 +13,12 @@ import {
 import {
   Visibilities,
   VisibilityContext,
-  VisibilityContextName,
+  VisibilityContextId,
   VisibilityContextProps,
 } from './VisibilityContext'
-// import {
-//   useVisibilityAtom,
-// } from './useVisibilityAtom'
+import {
+  useVisibility,
+} from './useVisibility'
 
 export type VisibilityTriggerProps = {
   children: (
@@ -28,8 +28,8 @@ export type VisibilityTriggerProps = {
       >
     >
   ),
-  targetVisibilityName?: (
-    VisibilityContextName
+  targetVisibilityId?: (
+    VisibilityContextId
   ),
   translateProps?: (
     childProps: VisibilityContextProps
@@ -40,7 +40,6 @@ export type VisibilityTriggerProps = {
 }
 
 const defaultProps = {
-  targetVisibilityName: '',
   translateProps: () => (
     null
   ),
@@ -52,9 +51,9 @@ const VisibilityTrigger: (
   >
 ) = ({
   children,
-  targetVisibilityName = (
+  targetVisibilityId = (
     defaultProps
-    .targetVisibilityName
+    .targetVisibilityId
   ),
   translateProps = (
     defaultProps
@@ -75,13 +74,13 @@ const VisibilityTrigger: (
     )
   )
 
-  // const [
-  //   targetVisibilityContext,
-  // ] = (
-  //   useVisibilityAtom(
-  //     targetVisibilityName
-  //   )
-  // )
+  const {
+    toggleVisibility: toggleTargetVisibility,
+  } = (
+    useVisibility({
+      id: targetVisibilityId
+    })
+  )
 
   const onClick = (
     useCallback(
@@ -96,9 +95,8 @@ const VisibilityTrigger: (
 
         toggleVisibility()
 
-        if (targetVisibilityName) {
-          // targetVisibilityContext
-          // .toggleVisibility()
+        if (targetVisibilityId) {
+          toggleTargetVisibility()
         }
       },
       [
@@ -106,11 +104,8 @@ const VisibilityTrigger: (
           children
           .onClick
         ),
-        // (
-        //   targetVisibilityContext
-        //   .toggleVisibility
-        // ),
-        targetVisibilityName,
+        toggleTargetVisibility,
+        targetVisibilityId,
         toggleVisibility,
       ],
     )

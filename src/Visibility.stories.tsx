@@ -321,7 +321,9 @@ UnifiedProviders
   ),
 }
 
-export const SwitchVisibility = () => (
+export const SwitchVisibility = ({
+  id,
+}) => (
   <div>
     <VisibilityProvider>
       <VisibilityTrigger>
@@ -339,7 +341,7 @@ export const SwitchVisibility = () => (
 
             <div>
               <VisibilityTrigger
-                targetVisibilityName="visibility-2"
+                targetVisibilityId={id}
               >
                 <button>
                   Click me to reveal content 2
@@ -352,7 +354,7 @@ export const SwitchVisibility = () => (
     </VisibilityProvider>
 
     <VisibilityProvider
-      name="visibility-2"
+      id={id}
     >
       <VisibilityTarget>
         <HtmlContent>
@@ -364,6 +366,13 @@ export const SwitchVisibility = () => (
     </VisibilityProvider>
   </div>
 )
+
+SwitchVisibility
+.args = {
+  id: (
+    createVisibilityId()
+  ),
+}
 
 export const Inception = () => (
   <VisibilityProvider>

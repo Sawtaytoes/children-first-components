@@ -63,10 +63,24 @@ export type UseVisibilityProps = {
   visibility?: Visibilities,
 }
 
+const defaultProps = {
+  onVisibilityChange: () => {},
+  visibility: (
+    Visibilities
+    .invisible
+  ),
+}
+
 export const useVisibility = ({
   id: createdAtom,
-  onVisibilityChange,
-  visibility,
+  onVisibilityChange = (
+    defaultProps
+    .onVisibilityChange
+  ),
+  visibility = (
+    defaultProps
+    .visibility
+  ),
 }: (
   UseVisibilityProps
 )) => {

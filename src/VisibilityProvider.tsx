@@ -25,33 +25,15 @@ export type VisibilityProviderProps = {
   visibility?: Visibilities,
 }
 
-const defaultProps = {
-  id: '',
-  onVisibilityChange: () => {},
-  visibility: (
-    Visibilities
-    .invisible
-  ),
-}
-
 const VisibilityProvider: (
   FunctionComponent<
     VisibilityProviderProps
   >
 ) = ({
   children,
-  id = (
-    defaultProps
-    .id
-  ),
-  onVisibilityChange = (
-    defaultProps
-    .onVisibilityChange
-  ),
-  visibility = (
-    defaultProps
-    .visibility
-  ),
+  id,
+  onVisibilityChange,
+  visibility,
 }) => {
   const {
     hideVisibility,
