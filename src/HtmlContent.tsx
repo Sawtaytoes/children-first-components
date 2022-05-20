@@ -27,6 +27,7 @@ const HtmlContent: (
   <div
     hidden={!isVisible}
     onClick={onClick}
+    role="region"
   >
     {children}
   </div>
