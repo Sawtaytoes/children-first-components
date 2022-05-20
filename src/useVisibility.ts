@@ -1,4 +1,8 @@
 import {
+  atom,
+  useAtom,
+} from 'jotai'
+import {
   useCallback,
   useEffect,
   useMemo,
@@ -10,11 +14,20 @@ import {
 } from './createRandomString'
 import {
   Visibilities,
-  VisibilityContextName,
+  VisibilityContextId,
 } from './VisibilityContext'
 // import {
 //   useVisibilityAtom,
 // } from './useVisibilityAtom'
+
+export const JotaiVisibilityScope = Symbol()
+
+export const createVisibilityId = () => (
+  atom(
+    Visibilities
+    .invisible
+  )
+)
 
 const toggledVisibility = {
   [
@@ -41,7 +54,7 @@ const toggledVisibility = {
 }
 
 export type UseVisibilityProps = {
-  name?: VisibilityContextName,
+  id?: VisibilityContextId,
   onVisibilityChange?: (
     visibility?: Visibilities,
   ) => (
@@ -51,51 +64,62 @@ export type UseVisibilityProps = {
 }
 
 export const useVisibility = ({
-  name,
+  id: createdAtom,
   onVisibilityChange,
   visibility,
 }: (
   UseVisibilityProps
 )) => {
-  // const [
-  //   globalVisibility,
-  //   setGlobalVisibility,
-  // ] = (
-  //   useVisibilityAtom(
-  //     name
-  //   )
-  // )
-
-  const uniqueId = (
+  const uniqueAtom = (
     useMemo(
       () => (
-        name
-        || createRandomString()
+        createVisibilityId()
+      ),
+      [],
+    )
+  )
+
+  const sharedAtom = (
+    useMemo(
+      () => (
+        createdAtom
+        || uniqueAtom
       ),
       [
-        name,
+        createdAtom,
+        uniqueAtom,
       ],
     )
   )
 
   const [
-    localVisibility,
-    setLocalVisibility,
+    globalVisibility,
+    setGlobalVisibility,
   ] = (
-    useState(
-      visibility
+    useAtom(
+      sharedAtom,
+      JotaiVisibilityScope,
     )
   )
 
   useEffect(
     () => {
-      setLocalVisibility(
-        visibility
+      setGlobalVisibility(
+        visibility,
       )
     },
     [
       visibility,
     ],
+  )
+
+  const uniqueId = (
+    useMemo(
+      () => (
+        createRandomString()
+      ),
+      [],
+    )
   )
 
   const hideVisibility = (
@@ -110,7 +134,7 @@ export const useVisibility = ({
           nextVisibility
         )
 
-        setLocalVisibility(
+        setGlobalVisibility(
           nextVisibility
         )
       },
@@ -130,7 +154,7 @@ export const useVisibility = ({
           nextVisibility
         )
 
-        setLocalVisibility(
+        setGlobalVisibility(
           nextVisibility
         )
       },
@@ -141,7 +165,7 @@ export const useVisibility = ({
   const toggleVisibility = (
     useCallback(
       () => {
-        setLocalVisibility((
+        setGlobalVisibility((
           currentVisibility,
         ) => {
           const nextVisibility = (
@@ -162,33 +186,11 @@ export const useVisibility = ({
     )
   )
 
-  // useEffect(
-  //   () => {
-  //     setLocalVisibility(
-  //       globalVisibility,
-  //     )
-  //   },
-  //   [
-  //     globalVisibility,
-  //   ],
-  // )
-
-  // useEffect(
-  //   () => {
-  //     setGlobalVisibility(
-  //       localVisibility,
-  //     )
-  //   },
-  //   [
-  //     localVisibility,
-  //   ],
-  // )
-
   return {
     hideVisibility,
     showVisibility,
     toggleVisibility,
     uniqueId,
-    visibility: localVisibility,
+    visibility: globalVisibility,
   }
 }

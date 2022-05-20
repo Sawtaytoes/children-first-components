@@ -26,6 +26,9 @@ import {
 import {
   VisibilityTrigger,
 } from './VisibilityTrigger'
+import {
+  createVisibilityId,
+} from './useVisibility'
 
 export default {
   args: {
@@ -273,10 +276,12 @@ export const MutuallyExclusive = () => (
   </div>
 )
 
-export const UnifiedProviders = () => (
+export const UnifiedProviders = ({
+  id,
+}) => (
   <div>
     <div>
-      <VisibilityProvider name="same-provider">
+      <VisibilityProvider id={id}>
         <VisibilityTrigger>
           <button>
             Click me to reveal content
@@ -286,7 +291,7 @@ export const UnifiedProviders = () => (
     </div>
 
     <div>
-      <VisibilityProvider name="same-provider">
+      <VisibilityProvider id={id}>
         <VisibilityTrigger>
           <button>
             Click me to reveal the same content
@@ -296,7 +301,7 @@ export const UnifiedProviders = () => (
     </div>
 
     <div>
-      <VisibilityProvider name="same-provider">
+      <VisibilityProvider id={id}>
         <VisibilityTarget>
           <HtmlContent>
             <div>
@@ -308,6 +313,13 @@ export const UnifiedProviders = () => (
     </div>
   </div>
 )
+
+UnifiedProviders
+.args = {
+  id: (
+    createVisibilityId()
+  ),
+}
 
 export const SwitchVisibility = () => (
   <div>

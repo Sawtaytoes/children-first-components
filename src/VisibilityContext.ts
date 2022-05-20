@@ -1,9 +1,22 @@
 import {
+  SetStateAction,
+  WritableAtom,
+} from 'jotai'
+import {
   createContext,
-  useContext,
 } from 'react'
 
-export type VisibilityContextName = string
+export type VisibilityContextId = (
+  WritableAtom<
+    Visibilities,
+    (
+      SetStateAction<
+        Visibilities
+      >
+    ),
+    void,
+  >
+)
 
 export enum Visibilities {
   invisible = 'invisible',

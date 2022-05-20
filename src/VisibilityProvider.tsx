@@ -8,7 +8,7 @@ import {
 import {
   Visibilities,
   VisibilityContext,
-  VisibilityContextName,
+  VisibilityContextId,
 } from './VisibilityContext'
 import {
   useVisibility,
@@ -16,7 +16,7 @@ import {
 
 export type VisibilityProviderProps = {
   children: ReactNode,
-  name?: VisibilityContextName,
+  id?: VisibilityContextId,
   onVisibilityChange?: (
     visibility?: Visibilities,
   ) => (
@@ -26,7 +26,7 @@ export type VisibilityProviderProps = {
 }
 
 const defaultProps = {
-  name: '',
+  id: '',
   onVisibilityChange: () => {},
   visibility: (
     Visibilities
@@ -40,9 +40,9 @@ const VisibilityProvider: (
   >
 ) = ({
   children,
-  name = (
+  id = (
     defaultProps
-    .name
+    .id
   ),
   onVisibilityChange = (
     defaultProps
@@ -61,7 +61,7 @@ const VisibilityProvider: (
     visibility: localVisibility,
   } = (
     useVisibility({
-      name,
+      id,
       onVisibilityChange,
       visibility,
     })
