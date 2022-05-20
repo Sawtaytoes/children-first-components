@@ -18,6 +18,9 @@ import {
   HtmlContent,
 } from './HtmlContent'
 import {
+  VisibilityControlProvider,
+} from './VisibilityControlProvider'
+import {
   VisibilityProvider,
 } from './VisibilityProvider'
 import {
@@ -320,6 +323,46 @@ UnifiedProviders
     createVisibilityId()
   ),
 }
+
+export const ControlledProviders = () => (
+  <VisibilityControlProvider>
+    <div>
+      <VisibilityProvider>
+        <VisibilityTrigger>
+          <button>
+            Click me to reveal content 1
+          </button>
+        </VisibilityTrigger>
+
+        <VisibilityTarget>
+          <HtmlContent>
+            <div>
+              Revealed content 1
+            </div>
+          </HtmlContent>
+        </VisibilityTarget>
+      </VisibilityProvider>
+    </div>
+
+    <div>
+      <VisibilityProvider>
+        <VisibilityTrigger>
+          <button>
+            Click me to reveal content 2
+          </button>
+        </VisibilityTrigger>
+
+        <VisibilityTarget>
+          <HtmlContent>
+            <div>
+              Revealed content 2
+            </div>
+          </HtmlContent>
+        </VisibilityTarget>
+      </VisibilityProvider>
+    </div>
+  </VisibilityControlProvider>
+)
 
 export const SwitchVisibility = ({
   id,
