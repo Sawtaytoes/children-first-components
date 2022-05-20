@@ -212,7 +212,7 @@ export const SwitchVisibility = (
           Revealed content 1
 
           <VisibilityTrigger
-            nextVisibilityProvider="visibility-2"
+            targetVisibilityProvider="visibility-2"
           >
             <button>
               Click me to reveal content 2
