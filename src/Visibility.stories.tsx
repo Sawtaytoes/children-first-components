@@ -194,6 +194,47 @@ export const MutuallyExclusive = (
   </div>
 )
 
+export const SwitchVisibility = (
+  visibilityProviderProps,
+) => (
+  <div>
+    <VisibilityProvider
+      {...visibilityProviderProps}
+    >
+      <VisibilityTrigger>
+        <button>
+          Click me to reveal content 1
+        </button>
+      </VisibilityTrigger>
+
+      <VisibilityTarget>
+        <div>
+          Revealed content 1
+
+          <VisibilityTrigger
+            nextVisibilityProvider="visibility-2"
+          >
+            <button>
+              Click me to reveal content 2
+            </button>
+          </VisibilityTrigger>
+        </div>
+      </VisibilityTarget>
+    </VisibilityProvider>
+
+    <VisibilityProvider
+      name="visibility-2"
+      {...visibilityProviderProps}
+    >
+      <VisibilityTarget>
+        <div>
+          Revealed content 2
+        </div>
+      </VisibilityTarget>
+    </VisibilityProvider>
+  </div>
+)
+
 export const Inception = (
   visibilityProviderProps,
 ) => (
