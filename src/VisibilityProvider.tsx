@@ -18,11 +18,11 @@ export type VisibilityProviderProps = {
   contextKey?: (
     UseVisibilityProps['contextKey']
   ),
+  isVisible?: (
+    UseVisibilityProps['isVisible']
+  ),
   onChange?: (
     UseVisibilityProps['onChange']
-  ),
-  visibility?: (
-    UseVisibilityProps['visibility']
   ),
 }
 
@@ -33,20 +33,20 @@ const VisibilityProvider: (
 ) = ({
   children,
   contextKey,
+  isVisible: isControlledVisible,
   onChange,
-  visibility,
 }) => {
   const {
     hideVisibility,
+    isVisible,
     showVisibility,
     toggleVisibility,
     uniqueId,
-    visibility: localVisibility,
   } = (
     useVisibility({
       contextKey,
+      isVisible: isControlledVisible,
       onChange,
-      visibility,
     })
   )
 
@@ -61,6 +61,7 @@ const VisibilityProvider: (
           )
         ),
         hideVisibility,
+        isVisible,
         showVisibility,
         toggleVisibility,
         triggerId: (
@@ -70,11 +71,10 @@ const VisibilityProvider: (
             'trigger',
           )
         ),
-        visibility: localVisibility,
       }),
       [
         hideVisibility,
-        localVisibility,
+        isVisible,
         showVisibility,
         toggleVisibility,
         uniqueId,

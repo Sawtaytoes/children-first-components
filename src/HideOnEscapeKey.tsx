@@ -16,7 +16,7 @@ const HideOnEscapeKey: (
 ) = () => {
   const {
     hideVisibility,
-    visibility,
+    isVisible,
   } = (
     useContext(
       VisibilityContext
@@ -26,11 +26,7 @@ const HideOnEscapeKey: (
   useEffect(
     () => {
       if (
-        visibility
-        === (
-          Visibilities
-          .invisible
-        )
+        !isVisible
       ) {
         return
       }
@@ -63,7 +59,7 @@ const HideOnEscapeKey: (
     },
     [
       hideVisibility,
-      visibility,
+      isVisible,
     ],
   )
 

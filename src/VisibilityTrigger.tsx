@@ -11,7 +11,6 @@ import {
 } from 'react'
 
 import {
-  Visibilities,
   VisibilityContext,
   VisibilityContextProps,
 } from './VisibilityContext'
@@ -63,10 +62,10 @@ const VisibilityTrigger: (
   const {
     contentId,
     hideVisibility,
+    isVisible,
     showVisibility,
     toggleVisibility,
     triggerId,
-    visibility,
   } = (
     useContext(
       VisibilityContext
@@ -119,10 +118,10 @@ const VisibilityTrigger: (
           translateProps({
             contentId,
             hideVisibility,
+            isVisible,
             showVisibility,
             toggleVisibility,
             triggerId,
-            visibility,
           })
         )
 
@@ -136,13 +135,7 @@ const VisibilityTrigger: (
           return {
             ...otherProps,
             'aria-controls': contentId,
-            'aria-expanded': (
-              visibility
-              === (
-                Visibilities
-                .visible
-              )
-            ),
+            'aria-expanded': isVisible,
             id: triggerId,
             onClick,
             role: 'button',
@@ -153,13 +146,13 @@ const VisibilityTrigger: (
         children,
         contentId,
         hideVisibility,
+        isVisible,
         onClick,
         otherProps,
         showVisibility,
         toggleVisibility,
         translateProps,
         triggerId,
-        visibility,
       ],
     )
   )

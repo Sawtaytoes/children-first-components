@@ -2,19 +2,13 @@ import {
   createContext,
 } from 'react'
 
-export enum Visibilities {
-  invisible = 'invisible',
-  none = 'none',
-  visible = 'visible',
-}
-
 export type VisibilityContextProps = {
   contentId: string,
   hideVisibility: () => void,
+  isVisible?: boolean,
   showVisibility: () => void,
   toggleVisibility: () => void,
   triggerId: string,
-  visibility: Visibilities,
 }
 
 export const defaultVisibilityContextValue: (
@@ -22,13 +16,10 @@ export const defaultVisibilityContextValue: (
 ) = {
   contentId: '',
   hideVisibility: () => {},
+  isVisible: false,
   showVisibility: () => {},
   toggleVisibility: () => {},
   triggerId: '',
-  visibility: (
-    Visibilities
-    .none
-  ),
 }
 
 export const VisibilityContext = (

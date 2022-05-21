@@ -13,9 +13,6 @@ import {
   htmlStyleDecorators,
 } from './htmlStyleDecorators'
 import {
-  Visibilities,
-} from './VisibilityContext'
-import {
   VisibilityContent,
 } from './VisibilityContent'
 import {
@@ -70,30 +67,12 @@ export const Standard = (
 
 Standard
 .args = {
+  isVisible: false,
   onChange: (
     action(
       'onChange'
     )
   ),
-  visibility: (
-    Visibilities
-    .invisible
-  ),
-}
-
-Standard
-.argTypes = {
-  visibility: {
-    control: {
-      type: 'radio',
-    },
-    options: (
-      Object
-      .values(
-        Visibilities
-      )
-    ),
-  },
 }
 
 Standard
@@ -380,10 +359,10 @@ const Button = ({
 
 const Content = ({
   children,
-  isInvisible = true,
+  isHidden = true,
 }) => (
   <div
-    hidden={isInvisible}
+    hidden={isHidden}
     role="region"
   >
     {children}
@@ -422,20 +401,17 @@ export const APIIncompliantComponents = ({
 
 APIIncompliantComponents
 .args = {
+  isVisible: false,
   onChange: (
     action(
       'onChange'
     )
   ),
   translateTargetProps: ({
-    visibility,
+    isVisible,
   }) => ({
-    isInvisible: (
-      visibility
-      === (
-        Visibilities
-        .invisible
-      )
+    isHidden: (
+      !isVisible
     ),
   }),
   translateTriggerProps: ({
@@ -443,10 +419,6 @@ APIIncompliantComponents
   }) => ({
     onSelect: toggleVisibility,
   }),
-  visibility: (
-    Visibilities
-    .invisible
-  ),
 }
 
 APIIncompliantComponents
@@ -460,17 +432,6 @@ APIIncompliantComponents
     table: {
       disable: true,
     },
-  },
-  visibility: {
-    control: {
-      type: 'radio',
-    },
-    options: (
-      Object
-      .values(
-        Visibilities
-      )
-    ),
   },
 }
 

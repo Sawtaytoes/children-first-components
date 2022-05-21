@@ -10,7 +10,6 @@ import {
 } from 'react'
 
 import {
-  Visibilities,
   VisibilityContext,
   VisibilityContextProps,
 } from './VisibilityContext'
@@ -52,10 +51,10 @@ const VisibilityTarget: (
   const {
     contentId,
     hideVisibility,
+    isVisible,
     showVisibility,
     toggleVisibility,
     triggerId,
-    visibility,
   } = (
     useContext(
       VisibilityContext
@@ -69,10 +68,10 @@ const VisibilityTarget: (
           translateProps({
             contentId,
             hideVisibility,
+            isVisible,
             showVisibility,
             toggleVisibility,
             triggerId,
-            visibility,
           })
         )
 
@@ -87,13 +86,7 @@ const VisibilityTarget: (
             ...otherProps,
             'aria-labelledby': triggerId,
             id: contentId,
-            isVisible: (
-              visibility
-              === (
-                Visibilities
-                .visible
-              )
-            ),
+            isVisible,
           }
         }
       },
@@ -101,12 +94,12 @@ const VisibilityTarget: (
         children,
         contentId,
         hideVisibility,
+        isVisible,
         otherProps,
         showVisibility,
         toggleVisibility,
         translateProps,
         triggerId,
-        visibility,
       ],
     )
   )

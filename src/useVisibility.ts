@@ -10,9 +10,6 @@ import {
   createRandomString,
 } from './createRandomString'
 import {
-  Visibilities,
-} from './VisibilityContext'
-import {
   VisibilityControlContext,
 } from './VisibilityControlContext'
 import {
@@ -20,57 +17,30 @@ import {
   VisibilityContextKey,
 } from './useSharedVisibilityContext'
 
-const toggledVisibility = {
-  [
-    Visibilities
-    .invisible
-  ]: (
-    Visibilities
-    .visible
-  ),
-  [
-    Visibilities
-    .none
-  ]: (
-    Visibilities
-    .none
-  ),
-  [
-    Visibilities
-    .visible
-  ]: (
-    Visibilities
-    .invisible
-  ),
-}
-
 export type UseVisibilityProps = {
   contextKey?: VisibilityContextKey,
+  isVisible?: boolean,
   onChange?: (
-    visibility?: Visibilities,
+    isVisible?: boolean,
   ) => (
     void
   ),
-  visibility?: Visibilities,
 }
 
-const defaultProps = {
+export const defaultProps = {
+  isVisible: false,
   onChange: () => {},
-  visibility: (
-    Visibilities
-    .invisible
-  ),
 }
 
 export const useVisibility = ({
   contextKey,
+  isVisible: isControlledVisible = (
+    defaultProps
+    .isVisible
+  ),
   onChange = (
     defaultProps
     .onChange
-  ),
-  visibility = (
-    defaultProps
-    .visibility
   ),
 }: (
   UseVisibilityProps
@@ -103,8 +73,8 @@ export const useVisibility = ({
   )
 
   const {
-    setSharedContext: setSharedVisibility,
-    sharedContext: sharedVisibility,
+    setSharedContext: setIsVisible,
+    sharedContext: isVisible,
     sharedContextKey,
   } = (
     useSharedVisibilityContext({
@@ -114,30 +84,20 @@ export const useVisibility = ({
 
   useEffect(
     () => {
-      setSharedVisibility(
-        visibility,
+      setIsVisible(
+        isControlledVisible,
       )
     },
     [
-      visibility,
+      isControlledVisible,
     ],
   )
 
   useEffect(
     () => {
-      setSharedVisibility(
-        (
-          selectedVisibilityContextKey
-          === sharedContextKey
-        )
-        ? (
-          Visibilities
-          .visible
-        )
-        : (
-          Visibilities
-          .invisible
-        )
+      setIsVisible(
+        selectedVisibilityContextKey
+        === sharedContextKey
       )
     },
     [
@@ -158,27 +118,26 @@ export const useVisibility = ({
   const hideVisibility = (
     useCallback(
       () => {
-        const nextVisibility = (
-          Visibilities
-          .invisible
+        const isNextVisible = (
+          false
         )
 
         onChangeRef
         .current(
-          nextVisibility
+          isNextVisible
+        )
+
+        setIsVisible(
+          isNextVisible
         )
 
         selectVisibilityContextKey(
           null
         )
-
-        setSharedVisibility(
-          nextVisibility
-        )
       },
       [
         selectVisibilityContextKey,
-        setSharedVisibility,
+        setIsVisible,
       ],
     )
   )
@@ -186,28 +145,27 @@ export const useVisibility = ({
   const showVisibility = (
     useCallback(
       () => {
-        const nextVisibility = (
-          Visibilities
-          .visible
+        const isNextVisible = (
+          true
         )
 
         onChangeRef
         .current(
-          nextVisibility
+          isNextVisible
+        )
+
+        setIsVisible(
+          isNextVisible
         )
 
         selectVisibilityContextKey(
           sharedContextKey
         )
-
-        setSharedVisibility(
-          nextVisibility
-        )
       },
       [
         sharedContextKey,
         selectVisibilityContextKey,
-        setSharedVisibility,
+        setIsVisible,
       ],
     )
   )
@@ -215,49 +173,41 @@ export const useVisibility = ({
   const toggleVisibility = (
     useCallback(
       () => {
-        setSharedVisibility((
-          currentVisibility,
+        setIsVisible((
+          isCurrentlyVisible,
         ) => {
-          const nextVisibility = (
-            toggledVisibility
-            [currentVisibility]
+          const isNextVisible = (
+            !isCurrentlyVisible
           )
 
           onChangeRef
           .current(
-            nextVisibility
+            isNextVisible
           )
 
           selectVisibilityContextKey(
-            (
-              nextVisibility
-              === (
-                Visibilities
-                .visible
-              )
-            )
+            isNextVisible
             ? sharedContextKey
             : null
           )
 
           return (
-            nextVisibility
+            isNextVisible
           )
         })
       },
       [
-        sharedContextKey,
         selectVisibilityContextKey,
-        setSharedVisibility,
+        sharedContextKey,
       ],
     )
   )
 
   return {
     hideVisibility,
+    isVisible,
     showVisibility,
     toggleVisibility,
     uniqueId,
-    visibility: sharedVisibility,
   }
 }

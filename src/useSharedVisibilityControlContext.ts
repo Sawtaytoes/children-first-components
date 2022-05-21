@@ -13,17 +13,19 @@ import {
 import {
   VisibilityContextKey,
 } from './useSharedVisibilityContext'
+import {
+  defaultVisibilityControlContextValue,
+  VisibilityControlContextProps,
+} from './VisibilityControlContext'
 
 export type VisibilityControlContextKey = (
   WritableAtom<
     (
-      | VisibilityContextKey
-      | null
+      VisibilityControlContextProps['selectedVisibilityContextKey']
     ),
     (
       SetStateAction<
-        | VisibilityContextKey
-        | null
+        VisibilityControlContextProps['selectedVisibilityContextKey']
       >
     ),
     void
@@ -32,14 +34,14 @@ export type VisibilityControlContextKey = (
 
 export const createVisibilityControlContextKey = () => (
   createAtom(
-    null
+    defaultVisibilityControlContextValue
+    .selectedVisibilityContextKey
   ) as VisibilityControlContextKey
 )
 
 export const useSharedVisibilityControlContext = (
   createUseSharedContext<
-    | VisibilityContextKey
-    | null
+    VisibilityControlContextProps['selectedVisibilityContextKey']
   >({
     createContextKey: (
       createVisibilityControlContextKey
