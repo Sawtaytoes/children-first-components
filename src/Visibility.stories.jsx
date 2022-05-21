@@ -37,8 +37,8 @@ import {
   VisibilityTrigger,
 } from './VisibilityTrigger'
 import {
-  createVisibilityContextId,
-} from './useVisibility'
+  createVisibilityContextKey,
+} from './useVisibilityContextKey'
 
 export default {
   component: VisibilityProvider,
@@ -837,12 +837,12 @@ MutuallyExclusive
 }
 
 export const UnifiedProviders = ({
-  contextId,
+  contextKey,
 }) => (
   <div>
     <div>
       <VisibilityProvider
-        contextId={contextId}
+        contextKey={contextKey}
       >
         <VisibilityTrigger>
           <button>
@@ -854,7 +854,7 @@ export const UnifiedProviders = ({
 
     <div>
       <VisibilityProvider
-        contextId={contextId}
+        contextKey={contextKey}
       >
         <VisibilityTrigger>
           <button>
@@ -866,7 +866,7 @@ export const UnifiedProviders = ({
 
     <div>
       <VisibilityProvider
-        contextId={contextId}
+        contextKey={contextKey}
       >
         <VisibilityTarget>
           <HtmlContent>
@@ -882,14 +882,14 @@ export const UnifiedProviders = ({
 
 UnifiedProviders
 .args = {
-  contextId: (
-    createVisibilityContextId()
+  contextKey: (
+    createVisibilityContextKey()
   ),
 }
 
 UnifiedProviders
 .argTypes = {
-  contextId: {
+  contextKey: {
     table: {
       disable: true,
     },
@@ -1061,7 +1061,7 @@ ControlledProviders
 }
 
 export const SwitchVisibility = ({
-  contextId,
+  contextKey,
 }) => (
   <div>
     <VisibilityProvider>
@@ -1080,8 +1080,8 @@ export const SwitchVisibility = ({
 
             <div>
               <VisibilityTrigger
-                targetContextId={
-                  contextId
+                targetContextKey={
+                  contextKey
                 }
               >
                 <button>
@@ -1095,7 +1095,7 @@ export const SwitchVisibility = ({
     </VisibilityProvider>
 
     <VisibilityProvider
-      contextId={contextId}
+      contextKey={contextKey}
     >
       <VisibilityTrigger>
         <VisibilityTarget>
@@ -1112,14 +1112,14 @@ export const SwitchVisibility = ({
 
 SwitchVisibility
 .args = {
-  contextId: (
-    createVisibilityContextId()
+  contextKey: (
+    createVisibilityContextKey()
   ),
 }
 
 SwitchVisibility
 .argTypes = {
-  contextId: {
+  contextKey: {
     table: {
       disable: true,
     },

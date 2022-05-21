@@ -7,7 +7,7 @@ import {
 } from 'react'
 
 import {
-  VisibilityContextId,
+  VisibilityContextKey,
 } from './VisibilityContext'
 
 export type VisibilityControlContextId = (
@@ -23,7 +23,7 @@ export type VisibilityControlContextId = (
 )
 
 export type VisibilityControlContextProps = {
-  selectedVisibilityId: VisibilityContextId | null,
+  selectedVisibilityId: VisibilityContextKey | null,
   selectVisibilityId: () => void,
 }
 

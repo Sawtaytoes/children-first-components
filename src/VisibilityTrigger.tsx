@@ -13,12 +13,14 @@ import {
 import {
   Visibilities,
   VisibilityContext,
-  VisibilityContextId,
   VisibilityContextProps,
 } from './VisibilityContext'
 import {
   useVisibility,
 } from './useVisibility'
+import {
+  VisibilityContextKey,
+} from './useVisibilityContextKey'
 
 export type VisibilityTriggerProps = {
   children: (
@@ -28,8 +30,8 @@ export type VisibilityTriggerProps = {
       }>
     >
   ),
-  targetContextId?: (
-    VisibilityContextId
+  targetContextKey?: (
+    VisibilityContextKey
   ),
   translateProps?: (
     childProps: VisibilityContextProps
@@ -51,7 +53,7 @@ const VisibilityTrigger: (
   >
 ) = ({
   children,
-  targetContextId,
+  targetContextKey,
   translateProps = (
     defaultProps
     .translateProps
@@ -75,7 +77,7 @@ const VisibilityTrigger: (
     toggleVisibility: toggleNextVisibility,
   } = (
     useVisibility({
-      contextId: targetContextId
+      contextKey: targetContextKey
     })
   )
 
@@ -93,7 +95,7 @@ const VisibilityTrigger: (
 
         toggleVisibility()
 
-        if (targetContextId) {
+        if (targetContextKey) {
           toggleNextVisibility()
         }
       },
@@ -104,7 +106,7 @@ const VisibilityTrigger: (
           .onClick
         ),
         toggleNextVisibility,
-        targetContextId,
+        targetContextKey,
         toggleVisibility,
       ],
     )

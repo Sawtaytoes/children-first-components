@@ -1,5 +1,4 @@
 import {
-  atom as createAtom,
   useAtom,
 } from 'jotai'
 import {
@@ -13,17 +12,13 @@ import {
 } from './createRandomString'
 import {
   Visibilities,
-  VisibilityContextId,
 } from './VisibilityContext'
+import {
+  useVisibilityContextKey,
+  VisibilityContextKey,
+} from './useVisibilityContextKey'
 
 export const JotaiVisibilityScope = Symbol()
-
-export const createVisibilityContextId = () => (
-  createAtom(
-    Visibilities
-    .invisible
-  ) as VisibilityContextId
-)
 
 const toggledVisibility = {
   [
@@ -50,7 +45,7 @@ const toggledVisibility = {
 }
 
 export type UseVisibilityProps = {
-  contextId?: VisibilityContextId,
+  contextKey?: VisibilityContextKey,
   onChange?: (
     visibility?: Visibilities,
   ) => (
@@ -68,7 +63,7 @@ const defaultProps = {
 }
 
 export const useVisibility = ({
-  contextId: syncedAtom,
+  contextKey,
   onChange = (
     defaultProps
     .onChange
@@ -80,41 +75,36 @@ export const useVisibility = ({
 }: (
   UseVisibilityProps
 )) => {
-  const fallbackAtom = (
-    useMemo(
-      () => (
-        createVisibilityContextId()
-      ),
-      [],
-    )
+  const fallbackContextKey = (
+    useVisibilityContextKey()
   )
 
-  const sharedAtom = (
+  const sharedContextKey = (
     useMemo(
       () => (
-        syncedAtom
-        || fallbackAtom
+        contextKey
+        || fallbackContextKey
       ),
       [
-        syncedAtom,
-        fallbackAtom,
+        contextKey,
+        fallbackContextKey,
       ],
     )
   )
 
   const [
-    globalVisibility,
-    setGlobalVisibility,
+    sharedVisibility,
+    setSharedVisibility,
   ] = (
     useAtom(
-      sharedAtom,
+      sharedContextKey,
       JotaiVisibilityScope,
     )
   )
 
   useEffect(
     () => {
-      setGlobalVisibility(
+      setSharedVisibility(
         visibility,
       )
     },
@@ -144,7 +134,7 @@ export const useVisibility = ({
           nextVisibility
         )
 
-        setGlobalVisibility(
+        setSharedVisibility(
           nextVisibility
         )
       },
@@ -164,7 +154,7 @@ export const useVisibility = ({
           nextVisibility
         )
 
-        setGlobalVisibility(
+        setSharedVisibility(
           nextVisibility
         )
       },
@@ -175,7 +165,7 @@ export const useVisibility = ({
   const toggleVisibility = (
     useCallback(
       () => {
-        setGlobalVisibility((
+        setSharedVisibility((
           currentVisibility,
         ) => {
           const nextVisibility = (
@@ -201,6 +191,6 @@ export const useVisibility = ({
     showVisibility,
     toggleVisibility,
     uniqueId,
-    visibility: globalVisibility,
+    visibility: sharedVisibility,
   }
 }
