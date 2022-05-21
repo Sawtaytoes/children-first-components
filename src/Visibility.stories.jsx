@@ -1,8 +1,13 @@
 import {
   action,
 } from '@storybook/addon-actions'
-import { expect } from '@storybook/jest';
-import { within, userEvent } from '@storybook/testing-library';
+import {
+  expect,
+} from '@storybook/jest';
+import {
+  userEvent,
+  within,
+} from '@storybook/testing-library';
 
 import {
   htmlStyleDecorators,
@@ -32,44 +37,10 @@ import {
   VisibilityTrigger,
 } from './VisibilityTrigger'
 import {
-  createVisibilityId,
+  createVisibilityContextId,
 } from './useVisibility'
 
 export default {
-  args: {
-    onVisibilityChange: (
-      action(
-        'onVisibilityChange'
-      )
-    ),
-    visibility: (
-      Visibilities
-      .invisible
-    ),
-  },
-  argTypes: {
-    translateTargetProps: {
-      table: {
-        disable: true,
-      },
-    },
-    translateTriggerProps: {
-      table: {
-        disable: true,
-      },
-    },
-    visibility: {
-      control: {
-        type: 'radio',
-      },
-      options: (
-        Object
-        .values(
-          Visibilities
-        )
-      ),
-    },
-  },
   component: VisibilityProvider,
   decorators: htmlStyleDecorators,
   title: 'Visibility',
@@ -98,6 +69,34 @@ export const Standard = (
 )
 
 Standard
+.args = {
+  onChange: (
+    action(
+      'onChange'
+    )
+  ),
+  visibility: (
+    Visibilities
+    .invisible
+  ),
+}
+
+Standard
+.argTypes = {
+  visibility: {
+    control: {
+      type: 'radio',
+    },
+    options: (
+      Object
+      .values(
+        Visibilities
+      )
+    ),
+  },
+}
+
+Standard
 .play = async ({
   canvasElement,
 }) => {
@@ -105,6 +104,20 @@ Standard
     within(
       canvasElement
     )
+  )
+
+  await (
+    expect(
+      canvas
+      .getByRole(
+        'region',
+        {
+          hidden: true,
+        },
+      )
+    )
+    .not
+    ?.toBeVisible?.()
   )
 
   await (
@@ -124,7 +137,7 @@ Standard
         'region'
       )
     )
-    .toBeVisible()
+    ?.toBeVisible?.()
   )
 
   await (
@@ -148,7 +161,7 @@ Standard
       )
     )
     .not
-    .toBeVisible()
+    ?.toBeVisible?.()
   )
 }
 
@@ -191,6 +204,20 @@ MultipleTriggers
   )
 
   await (
+    expect(
+      canvas
+      .getByRole(
+        'region',
+        {
+          hidden: true,
+        },
+      )
+    )
+    .not
+    ?.toBeVisible?.()
+  )
+
+  await (
     userEvent
     .click(
       canvas
@@ -210,7 +237,7 @@ MultipleTriggers
         'region'
       )
     )
-    .toBeVisible()
+    ?.toBeVisible?.()
   )
 
   await (
@@ -237,7 +264,7 @@ MultipleTriggers
       )
     )
     .not
-    .toBeVisible()
+    ?.toBeVisible?.()
   )
 }
 
@@ -280,6 +307,21 @@ MultipleTargets
   )
 
   await (
+    expect(
+      canvas
+      .getAllByRole(
+        'region',
+        {
+          hidden: true,
+        },
+      )
+    )
+    ?.toHaveLength?.(
+      2
+    )
+  )
+
+  await (
     userEvent
     .click(
       canvas
@@ -296,7 +338,7 @@ MultipleTargets
         'region'
       )
     )
-    .toHaveLength(
+    ?.toHaveLength?.(
       2
     )
   )
@@ -321,7 +363,7 @@ MultipleTargets
         },
       )
     )
-    .toHaveLength(
+    ?.toHaveLength?.(
       2
     )
   )
@@ -340,7 +382,10 @@ const Content = ({
   children,
   isInvisible = true,
 }) => (
-  <div hidden={isInvisible}>
+  <div
+    hidden={isInvisible}
+    role="region"
+  >
     {children}
   </div>
 )
@@ -377,6 +422,11 @@ export const APIIncompliantComponents = ({
 
 APIIncompliantComponents
 .args = {
+  onChange: (
+    action(
+      'onChange'
+    )
+  ),
   translateTargetProps: ({
     visibility,
   }) => ({
@@ -393,6 +443,35 @@ APIIncompliantComponents
   }) => ({
     onSelect: toggleVisibility,
   }),
+  visibility: (
+    Visibilities
+    .invisible
+  ),
+}
+
+APIIncompliantComponents
+.argTypes = {
+  translateTargetProps: {
+    table: {
+      disable: true,
+    },
+  },
+  translateTriggerProps: {
+    table: {
+      disable: true,
+    },
+  },
+  visibility: {
+    control: {
+      type: 'radio',
+    },
+    options: (
+      Object
+      .values(
+        Visibilities
+      )
+    ),
+  },
 }
 
 APIIncompliantComponents
@@ -403,6 +482,20 @@ APIIncompliantComponents
     within(
       canvasElement
     )
+  )
+
+  await (
+    expect(
+      canvas
+      .getByRole(
+        'region',
+        {
+          hidden: true,
+        }
+      )
+    )
+    .not
+    ?.toBeVisible?.()
   )
 
   await (
@@ -422,7 +515,7 @@ APIIncompliantComponents
         'region'
       )
     )
-    .toBeVisible()
+    ?.toBeVisible?.()
   )
 
   await (
@@ -446,7 +539,7 @@ APIIncompliantComponents
       )
     )
     .not
-    .toBeVisible()
+    ?.toBeVisible?.()
   )
 }
 
@@ -454,11 +547,15 @@ export const ShowOnHover = () => (
   <VisibilityProvider>
     <VisibilityTrigger
       translateProps={({
-        showVisibility,
+        contentId,
         hideVisibility,
+        showVisibility,
+        triggerId,
       }) => ({
+        'aria-controls': contentId,
         onMouseEnter: showVisibility,
         onMouseLeave: hideVisibility,
+        id: triggerId,
       })}
     >
       <button>
@@ -475,6 +572,85 @@ export const ShowOnHover = () => (
     </VisibilityTarget>
   </VisibilityProvider>
 )
+
+ShowOnHover
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    expect(
+      canvas
+      .getByRole(
+        'region',
+        {
+          hidden: true,
+        }
+      )
+    )
+    .not
+    ?.toBeVisible?.()
+  )
+
+  await (
+    userEvent
+    .hover(
+      canvas
+      .getByRole(
+        'button'
+      )
+    )
+  )
+
+  // Hack because `.hover` takes too long
+  await new Promise(resolve => (
+    setTimeout(resolve, 300)
+  ))
+
+  await (
+    expect(
+      canvas
+      .getByRole(
+        'region'
+      )
+    )
+    ?.toBeVisible?.()
+  )
+
+  await (
+    userEvent
+    .unhover(
+      canvas
+      .getByRole(
+        'button'
+      )
+    )
+  )
+
+  // Hack because `.hover` takes too long
+  await new Promise(resolve => (
+    setTimeout(resolve, 300)
+  ))
+
+  await (
+    expect(
+      canvas
+      .getByRole(
+        'region',
+        {
+          hidden: true,
+        },
+      )
+    )
+    .not
+    ?.toBeVisible?.()
+  )
+}
 
 export const MutuallyExclusive = () => (
   <div>
@@ -527,6 +703,21 @@ MutuallyExclusive
   )
 
   await (
+    expect(
+      canvas
+      .getAllByRole(
+        'region',
+        {
+          hidden: true,
+        },
+      )
+    )
+    ?.toHaveLength?.(
+      2
+    )
+  )
+
+  await (
     userEvent
     .click(
       canvas
@@ -549,7 +740,7 @@ MutuallyExclusive
         },
       )
     )
-    .toBeVisible()
+    ?.toBeVisible?.()
   )
 
   await (
@@ -575,7 +766,7 @@ MutuallyExclusive
         },
       )
     )
-    .toBeVisible()
+    ?.toBeVisible?.()
   )
 
   await (
@@ -588,7 +779,7 @@ MutuallyExclusive
         },
       )
     )
-    .toBeVisible()
+    ?.toBeVisible?.()
   )
 
   await (
@@ -607,16 +798,13 @@ MutuallyExclusive
   await (
     expect(
       canvas
-      .getByRole(
+      .getAllByRole(
         'region',
-        {
-          hidden: true,
-          name: /1/
-        },
       )
     )
-    .not
-    .toBeVisible()
+    ?.toHaveLength?.(
+      1
+    )
   )
 
   await (
@@ -635,40 +823,27 @@ MutuallyExclusive
   await (
     expect(
       canvas
-      .getByRole(
+      .getAllByRole(
         'region',
         {
           hidden: true,
-          name: /1/
         },
       )
     )
-    .not
-    .toBeVisible()
-  )
-
-  await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          hidden: true,
-          name: /2/
-        },
-      )
+    ?.toHaveLength?.(
+      2
     )
-    .not
-    .toBeVisible()
   )
 }
 
 export const UnifiedProviders = ({
-  id,
+  contextId,
 }) => (
   <div>
     <div>
-      <VisibilityProvider id={id}>
+      <VisibilityProvider
+        contextId={contextId}
+      >
         <VisibilityTrigger>
           <button>
             Click me to reveal content
@@ -678,7 +853,9 @@ export const UnifiedProviders = ({
     </div>
 
     <div>
-      <VisibilityProvider id={id}>
+      <VisibilityProvider
+        contextId={contextId}
+      >
         <VisibilityTrigger>
           <button>
             Click me to reveal the same content
@@ -688,7 +865,9 @@ export const UnifiedProviders = ({
     </div>
 
     <div>
-      <VisibilityProvider id={id}>
+      <VisibilityProvider
+        contextId={contextId}
+      >
         <VisibilityTarget>
           <HtmlContent>
             <div>
@@ -703,9 +882,79 @@ export const UnifiedProviders = ({
 
 UnifiedProviders
 .args = {
-  id: (
-    createVisibilityId()
+  contextId: (
+    createVisibilityContextId()
   ),
+}
+
+UnifiedProviders
+.argTypes = {
+  contextId: {
+    table: {
+      disable: true,
+    },
+  },
+}
+
+UnifiedProviders
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    userEvent
+    .click(
+      canvas
+      .getByRole(
+        'button',
+        {
+          name: 'Click me to reveal content',
+        },
+      )
+    )
+  )
+
+  await (
+    expect(
+      canvas
+      .getByRole(
+        'region'
+      )
+    )
+    ?.toBeVisible?.()
+  )
+
+  await (
+    userEvent
+    .click(
+      canvas
+      .getByRole(
+        'button',
+        {
+          name: 'Click me to reveal the same content',
+        },
+      )
+    )
+  )
+
+  await (
+    expect(
+      canvas
+      .getByRole(
+        'region',
+        {
+          hidden: true,
+        },
+      )
+    )
+    .not
+    ?.toBeVisible?.()
+  )
 }
 
 export const ControlledProviders = () => (
@@ -748,8 +997,71 @@ export const ControlledProviders = () => (
   </VisibilityControlProvider>
 )
 
+ControlledProviders
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    userEvent
+    .click(
+      canvas
+      .getByRole(
+        'button',
+        {
+          name: /1/,
+        },
+      )
+    )
+  )
+
+  await (
+    expect(
+      canvas
+      .getByRole(
+        'region',
+        {
+          name: /1/,
+        },
+      )
+    )
+    ?.toBeVisible?.()
+  )
+
+  await (
+    userEvent
+    .click(
+      canvas
+      .getByRole(
+        'button',
+        {
+          name: /2/,
+        },
+      )
+    )
+  )
+
+  await (
+    expect(
+      canvas
+      .getByRole(
+        'region',
+        {
+          name: /2/,
+        },
+      )
+    )
+    ?.toBeVisible?.()
+  )
+}
+
 export const SwitchVisibility = ({
-  id,
+  contextId,
 }) => (
   <div>
     <VisibilityProvider>
@@ -768,7 +1080,9 @@ export const SwitchVisibility = ({
 
             <div>
               <VisibilityTrigger
-                targetVisibilityId={id}
+                targetContextId={
+                  contextId
+                }
               >
                 <button>
                   Click me to reveal content 2
@@ -781,7 +1095,7 @@ export const SwitchVisibility = ({
     </VisibilityProvider>
 
     <VisibilityProvider
-      id={id}
+      contextId={contextId}
     >
       <VisibilityTrigger>
         <VisibilityTarget>
@@ -798,9 +1112,117 @@ export const SwitchVisibility = ({
 
 SwitchVisibility
 .args = {
-  id: (
-    createVisibilityId()
+  contextId: (
+    createVisibilityContextId()
   ),
+}
+
+SwitchVisibility
+.argTypes = {
+  contextId: {
+    table: {
+      disable: true,
+    },
+  },
+}
+
+SwitchVisibility
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    expect(
+      canvas
+      .getAllByRole(
+        'region',
+        {
+          hidden: true,
+        },
+      )
+    )
+    ?.toHaveLength?.(
+      2
+    )
+  )
+
+  await (
+    userEvent
+    .click(
+      canvas
+      .getByRole(
+        'button',
+        {
+          name: /1/,
+        },
+      )
+    )
+  )
+
+  await (
+    expect(
+      canvas
+      .getByRole(
+        'region',
+        {
+          name: /1/,
+        }
+      )
+    )
+    ?.toBeVisible?.()
+  )
+
+  await (
+    expect(
+      canvas
+      .getAllByRole(
+        'region'
+      )
+    )
+    ?.toHaveLength?.(
+      1
+    )
+  )
+
+  await (
+    userEvent
+    .click(
+      canvas
+      .getByRole(
+        'button',
+        {
+          name: /2/,
+        },
+      )
+    )
+  )
+
+  await (
+    expect(
+      canvas
+      .getByText(
+        'Revealed content 2',
+      )
+    )
+    ?.toBeVisible?.()
+  )
+
+  await (
+    expect(
+      canvas
+      .getAllByRole(
+        'region',
+      )
+    )
+    ?.toHaveLength?.(
+      1
+    )
+  )
 }
 
 export const Inception = () => (
@@ -834,6 +1256,229 @@ export const Inception = () => (
     </VisibilityTarget>
   </VisibilityProvider>
 )
+
+Inception
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    expect(
+      canvas
+      .getAllByRole(
+        'region',
+        {
+          hidden: true,
+        },
+      )
+    )
+    ?.toHaveLength?.(
+      2
+    )
+  )
+
+  await (
+    userEvent
+    .click(
+      canvas
+      .getByRole(
+        'button',
+        {
+          name: 'Click me to reveal another visibility',
+        },
+      )
+    )
+  )
+
+  await (
+    expect(
+      canvas
+      .getAllByRole(
+        'region',
+      )
+    )
+    ?.toHaveLength?.(
+      1
+    )
+  )
+
+  await (
+    userEvent
+    .click(
+      canvas
+      .getByRole(
+        'button',
+        {
+          name: 'Click me to reveal content',
+        },
+      )
+    )
+  )
+
+  await (
+    expect(
+      canvas
+      .getByRole(
+        'region',
+        {
+          name: 'Click me to reveal content',
+        },
+      )
+    )
+    ?.toBeVisible?.()
+  )
+
+  await (
+    userEvent
+    .click(
+      canvas
+      .getByRole(
+        'button',
+        {
+          name: 'Click me to reveal another visibility',
+        },
+      )
+    )
+  )
+
+  await (
+    expect(
+      canvas
+      .getByText(
+        'Revealed content',
+      )
+    )
+    .not
+    ?.toBeVisible?.()
+  )
+
+  await (
+    expect(
+      canvas
+      .getAllByRole(
+        'region',
+        {
+          hidden: true,
+        },
+      )
+    )
+    ?.toHaveLength?.(
+      2
+    )
+  )
+
+  await (
+    userEvent
+    .click(
+      canvas
+      .getByRole(
+        'button',
+        {
+          name: 'Click me to reveal another visibility',
+        },
+      )
+    )
+  )
+
+  await (
+    expect(
+      canvas
+      .getByText(
+        'Revealed content',
+      )
+    )
+    ?.toBeVisible?.()
+  )
+
+  await (
+    expect(
+      canvas
+      .getAllByRole(
+        'region',
+      )
+    )
+    ?.toHaveLength?.(
+      2
+    )
+  )
+
+  await (
+    userEvent
+    .click(
+      canvas
+      .getByRole(
+        'button',
+        {
+          name: 'Click me to reveal content',
+        },
+      )
+    )
+  )
+
+  await (
+    expect(
+      canvas
+      .getByText(
+        'Revealed content',
+      )
+    )
+    .not
+    ?.toBeVisible?.()
+  )
+
+  await (
+    expect(
+      canvas
+      .getAllByRole(
+        'region',
+      )
+    )
+    ?.toHaveLength?.(
+      1
+    )
+  )
+
+  await (
+    userEvent
+    .click(
+      canvas
+      .getByRole(
+        'button',
+        {
+          name: 'Click me to reveal another visibility',
+        },
+      )
+    )
+  )
+
+  await (
+    expect(
+      canvas
+      .getAllByRole(
+        'button',
+      )
+    )
+    ?.toHaveLength?.(
+      1
+    )
+  )
+
+  await (
+    expect(
+      canvas
+      .getByText(
+        'Revealed content',
+      )
+    )
+    .not
+    ?.toBeVisible?.()
+  )
+}
 
 export const HideContentWithTrigger = () => (
   <VisibilityProvider>
