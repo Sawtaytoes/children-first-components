@@ -17,7 +17,7 @@ import {
 export type VisibilityControlProviderProps = {
   children: ReactNode,
   id?: VisibilityControlContextId,
-  onVisibilityChange?: (
+  onChange?: (
     visibility?: Visibilities,
   ) => (
     void
@@ -32,7 +32,7 @@ const VisibilityControlProvider: (
 ) = ({
   children,
   id,
-  onVisibilityChange,
+  onChange,
   visibility,
 }) => {
   const {
@@ -44,7 +44,7 @@ const VisibilityControlProvider: (
   } = (
     useVisibility({
       id,
-      onVisibilityChange,
+      onChange,
       visibility,
     })
   )

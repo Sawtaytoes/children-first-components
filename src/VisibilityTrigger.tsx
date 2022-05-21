@@ -23,12 +23,12 @@ import {
 export type VisibilityTriggerProps = {
   children: (
     ReactElement<
-      JSXElementConstructor<
-        any
-      >
+      JSXElementConstructor<{
+        onClick?: () => void,
+      }>
     >
   ),
-  targetVisibilityId?: (
+  targetContextId?: (
     VisibilityContextId
   ),
   translateProps?: (
@@ -51,10 +51,7 @@ const VisibilityTrigger: (
   >
 ) = ({
   children,
-  targetVisibilityId = (
-    defaultProps
-    .targetVisibilityId
-  ),
+  targetContextId,
   translateProps = (
     defaultProps
     .translateProps
@@ -75,19 +72,20 @@ const VisibilityTrigger: (
   )
 
   const {
-    toggleVisibility: toggleTargetVisibility,
+    toggleVisibility: toggleNextVisibility,
   } = (
     useVisibility({
-      id: targetVisibilityId
+      contextId: targetContextId
     })
   )
 
   const onClick = (
     useCallback(
       (
-        ...args
+        ...args: unknown[]
       ) => {
         children
+        /* @ts-ignore */
         .onClick
         ?.(
           ...args
@@ -95,17 +93,18 @@ const VisibilityTrigger: (
 
         toggleVisibility()
 
-        if (targetVisibilityId) {
-          toggleTargetVisibility()
+        if (targetContextId) {
+          toggleNextVisibility()
         }
       },
       [
         (
           children
+          /* @ts-ignore */
           .onClick
         ),
-        toggleTargetVisibility,
-        targetVisibilityId,
+        toggleNextVisibility,
+        targetContextId,
         toggleVisibility,
       ],
     )
@@ -145,7 +144,6 @@ const VisibilityTrigger: (
             id: triggerId,
             onClick,
             role: 'button',
-            type: 'button',
           }
         }
       },

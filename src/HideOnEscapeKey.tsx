@@ -1,7 +1,6 @@
 import {
   FunctionComponent,
   memo,
-  ReactNode,
   useContext,
   useEffect,
 } from 'react'
@@ -11,18 +10,10 @@ import {
   VisibilityContext,
 } from './VisibilityContext'
 
-export type HideOnEscapeKeyProps = {
-  children: ReactNode,
-  eventType: string,
-}
 
 const HideOnEscapeKey: (
-  FunctionComponent<
-    HideOnEscapeKeyProps
-  >
-) = ({
-  children,
-}) => {
+  FunctionComponent
+) = () => {
   const {
     hideVisibility,
     visibility,
@@ -44,9 +35,13 @@ const HideOnEscapeKey: (
         return
       }
 
-      const onKeyDown = ({
-        code,
-      }) => {
+      const onKeyDown = (
+        {
+          code,
+        }: (
+          KeyboardEvent
+        )
+      ) => {
         if (code === 'Escape') {
           hideVisibility()
         }

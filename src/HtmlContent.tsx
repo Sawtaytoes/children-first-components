@@ -6,8 +6,8 @@ import {
 
 export type HtmlContentProps = {
   children: ReactNode,
-  isVisible: boolean,
-  onClick: () => void,
+  isVisible?: boolean,
+  onClick?: () => void,
 }
 
 const defaultProps = {
@@ -21,10 +21,18 @@ const HtmlContent: (
   >
 ) = ({
   children,
-  isVisible,
-  onClick,
+  isVisible = (
+    defaultProps
+    .isVisible
+  ),
+  onClick = (
+    defaultProps
+    .onClick
+  ),
+  ...otherProps
 }) => (
   <div
+    {...otherProps}
     hidden={!isVisible}
     onClick={onClick}
     role="region"

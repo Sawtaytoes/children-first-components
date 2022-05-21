@@ -1,12 +1,11 @@
 import {
-  atom,
+  atom as createAtom,
   useAtom,
 } from 'jotai'
 import {
   useCallback,
   useEffect,
   useMemo,
-  useState,
 } from 'react'
 
 import {
@@ -16,17 +15,14 @@ import {
   Visibilities,
   VisibilityContextId,
 } from './VisibilityContext'
-// import {
-//   useVisibilityAtom,
-// } from './useVisibilityAtom'
 
 export const JotaiVisibilityScope = Symbol()
 
-export const createVisibilityId = () => (
-  atom(
+export const createVisibilityContextId = () => (
+  createAtom(
     Visibilities
     .invisible
-  )
+  ) as VisibilityContextId
 )
 
 const toggledVisibility = {
@@ -54,8 +50,8 @@ const toggledVisibility = {
 }
 
 export type UseVisibilityProps = {
-  id?: VisibilityContextId,
-  onVisibilityChange?: (
+  contextId?: VisibilityContextId,
+  onChange?: (
     visibility?: Visibilities,
   ) => (
     void
@@ -64,7 +60,7 @@ export type UseVisibilityProps = {
 }
 
 const defaultProps = {
-  onVisibilityChange: () => {},
+  onChange: () => {},
   visibility: (
     Visibilities
     .invisible
@@ -72,10 +68,10 @@ const defaultProps = {
 }
 
 export const useVisibility = ({
-  id: createdAtom,
-  onVisibilityChange = (
+  contextId: syncedAtom,
+  onChange = (
     defaultProps
-    .onVisibilityChange
+    .onChange
   ),
   visibility = (
     defaultProps
@@ -84,10 +80,10 @@ export const useVisibility = ({
 }: (
   UseVisibilityProps
 )) => {
-  const uniqueAtom = (
+  const fallbackAtom = (
     useMemo(
       () => (
-        createVisibilityId()
+        createVisibilityContextId()
       ),
       [],
     )
@@ -96,12 +92,12 @@ export const useVisibility = ({
   const sharedAtom = (
     useMemo(
       () => (
-        createdAtom
-        || uniqueAtom
+        syncedAtom
+        || fallbackAtom
       ),
       [
-        createdAtom,
-        uniqueAtom,
+        syncedAtom,
+        fallbackAtom,
       ],
     )
   )
@@ -144,7 +140,7 @@ export const useVisibility = ({
           .invisible
         )
 
-        onVisibilityChange(
+        onChange(
           nextVisibility
         )
 
@@ -164,7 +160,7 @@ export const useVisibility = ({
           .visible
         )
 
-        onVisibilityChange(
+        onChange(
           nextVisibility
         )
 
@@ -187,7 +183,7 @@ export const useVisibility = ({
             [currentVisibility]
           )
 
-          onVisibilityChange(
+          onChange(
             nextVisibility
           )
 

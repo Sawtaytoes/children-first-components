@@ -14,7 +14,7 @@ export type VisibilityContextId = (
         Visibilities
       >
     ),
-    void,
+    void
   >
 )
 

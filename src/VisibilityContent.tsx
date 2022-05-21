@@ -1,17 +1,13 @@
 import {
+  Fragment,
   FunctionComponent,
   memo,
   ReactNode,
-  useContext,
 } from 'react'
-
-import {
-  VisibilityContext,
-} from './VisibilityContext'
 
 export type VisibilityContentProps = {
   children: ReactNode,
-  fallback: ReactNode,
+  fallback?: ReactNode,
   isVisible?: boolean,
 }
 
@@ -35,9 +31,13 @@ const VisibilityContent: (
     .isVisible
   ),
 }) => (
-  isVisible
-  ? children
-  : fallback
+  <Fragment>
+    {
+      isVisible
+      ? children
+      : fallback
+    }
+  </Fragment>
 )
 
 const MemoizedVisibilityContent = (
