@@ -1,5 +1,4 @@
 - Add `VisibilityControlProvider`.
-- Add method to link multiple contexts.
 - Change `visibility` to `isVisible`. No reason for this to be separate anymore. It simplifies a lot of code too. Figure out what to do about `onVisibilityChange`.
 - Try again to type with `ComponentType` in `cloneElement`, but specify other props are unknown.
 - Move `translateProps` to `VisiblityChild` and remove it from `VisibilityTrigger` and `VisibilityTarget`.

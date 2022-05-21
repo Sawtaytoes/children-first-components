@@ -38,7 +38,7 @@ import {
 } from './VisibilityTrigger'
 import {
   createVisibilityContextKey,
-} from './useVisibilityContextKey'
+} from './useSharedVisibilityContext'
 
 export default {
   component: VisibilityProvider,
@@ -1008,6 +1008,21 @@ ControlledProviders
   )
 
   await (
+    expect(
+      canvas
+      .getAllByRole(
+        'region',
+        {
+          hidden: true,
+        },
+      )
+    )
+    ?.toHaveLength?.(
+      2
+    )
+  )
+
+  await (
     userEvent
     .click(
       canvas
@@ -1031,6 +1046,16 @@ ControlledProviders
       )
     )
     ?.toBeVisible?.()
+  )
+
+  expect(
+    canvas
+    .getAllByRole(
+      'region',
+    )
+  )
+  ?.toHaveLength?.(
+    1
   )
 
   await (
@@ -1057,6 +1082,16 @@ ControlledProviders
       )
     )
     ?.toBeVisible?.()
+  )
+
+  expect(
+    canvas
+    .getAllByRole(
+      'region',
+    )
+  )
+  ?.toHaveLength?.(
+    1
   )
 }
 

@@ -1,37 +1,31 @@
 import {
-  SetStateAction,
-  WritableAtom,
-} from 'jotai'
-import {
   createContext,
 } from 'react'
 
 import {
   VisibilityContextKey,
-} from './VisibilityContext'
-
-export type VisibilityControlContextId = (
-  WritableAtom<
-    string,
-    (
-      SetStateAction<
-        string
-      >
-    ),
-    void,
-  >
-)
+} from './useSharedVisibilityContext'
 
 export type VisibilityControlContextProps = {
-  selectedVisibilityId: VisibilityContextKey | null,
-  selectVisibilityId: () => void,
+  selectedVisibilityKey: (
+    | VisibilityContextKey
+    | null
+  ),
+  selectVisibilityContextKey: (
+    visibilityContextKey: (
+      | VisibilityContextKey
+      | null
+    )
+  ) => (
+    void
+  ),
 }
 
 export const defaultVisibilityControlContextValue: (
   VisibilityControlContextProps
 ) = {
-  selectVisibilityId: () => {},
-  selectedVisibilityId: null,
+  selectedVisibilityKey: null,
+  selectVisibilityContextKey: () => {},
 }
 
 export const VisibilityControlContext = (

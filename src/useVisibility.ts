@@ -1,10 +1,9 @@
 import {
-  useAtom,
-} from 'jotai'
-import {
   useCallback,
+  useContext,
   useEffect,
   useMemo,
+  useRef,
 } from 'react'
 
 import {
@@ -14,11 +13,12 @@ import {
   Visibilities,
 } from './VisibilityContext'
 import {
-  useVisibilityContextKey,
+  VisibilityControlContext,
+} from './VisibilityControlContext'
+import {
+  useSharedVisibilityContext,
   VisibilityContextKey,
-} from './useVisibilityContextKey'
-
-export const JotaiVisibilityScope = Symbol()
+} from './useSharedVisibilityContext'
 
 const toggledVisibility = {
   [
@@ -75,31 +75,41 @@ export const useVisibility = ({
 }: (
   UseVisibilityProps
 )) => {
-  const fallbackContextKey = (
-    useVisibilityContextKey()
-  )
-
-  const sharedContextKey = (
-    useMemo(
-      () => (
-        contextKey
-        || fallbackContextKey
-      ),
-      [
-        contextKey,
-        fallbackContextKey,
-      ],
+  const onChangeRef = (
+    useRef(
+      onChange
     )
   )
 
-  const [
-    sharedVisibility,
-    setSharedVisibility,
-  ] = (
-    useAtom(
-      sharedContextKey,
-      JotaiVisibilityScope,
+  useEffect(
+    () => {
+      onChangeRef
+      .current = (
+        onChange
+      )
+    },
+    [
+      onChange,
+    ],
+  )
+
+  const {
+    selectedVisibilityContextKey,
+    selectVisibilityContextKey,
+  } = (
+    useContext(
+      VisibilityControlContext
     )
+  )
+
+  const {
+    setSharedContext: setSharedVisibility,
+    sharedContext: sharedVisibility,
+    sharedContextKey,
+  } = (
+    useSharedVisibilityContext({
+      contextKey,
+    })
   )
 
   useEffect(
@@ -110,6 +120,29 @@ export const useVisibility = ({
     },
     [
       visibility,
+    ],
+  )
+
+  useEffect(
+    () => {
+      setSharedVisibility(
+        (
+          selectedVisibilityContextKey
+          === sharedContextKey
+        )
+        ? (
+          Visibilities
+          .visible
+        )
+        : (
+          Visibilities
+          .invisible
+        )
+      )
+    },
+    [
+      sharedContextKey,
+      selectedVisibilityContextKey,
     ],
   )
 
@@ -130,15 +163,23 @@ export const useVisibility = ({
           .invisible
         )
 
-        onChange(
+        onChangeRef
+        .current(
           nextVisibility
+        )
+
+        selectVisibilityContextKey(
+          null
         )
 
         setSharedVisibility(
           nextVisibility
         )
       },
-      [],
+      [
+        selectVisibilityContextKey,
+        setSharedVisibility,
+      ],
     )
   )
 
@@ -150,15 +191,24 @@ export const useVisibility = ({
           .visible
         )
 
-        onChange(
+        onChangeRef
+        .current(
           nextVisibility
+        )
+
+        selectVisibilityContextKey(
+          sharedContextKey
         )
 
         setSharedVisibility(
           nextVisibility
         )
       },
-      [],
+      [
+        sharedContextKey,
+        selectVisibilityContextKey,
+        setSharedVisibility,
+      ],
     )
   )
 
@@ -173,16 +223,38 @@ export const useVisibility = ({
             [currentVisibility]
           )
 
-          onChange(
+          onChangeRef
+          .current(
             nextVisibility
           )
+
+          if (
+            nextVisibility
+            === (
+              Visibilities
+              .visible
+            )
+          ) {
+            selectVisibilityContextKey(
+              sharedContextKey
+            )
+          }
+          else {
+            selectVisibilityContextKey(
+              null
+            )
+          }
 
           return (
             nextVisibility
           )
         })
       },
-      [],
+      [
+        sharedContextKey,
+        selectVisibilityContextKey,
+        setSharedVisibility,
+      ],
     )
   )
 

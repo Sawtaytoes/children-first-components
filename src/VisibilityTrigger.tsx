@@ -20,7 +20,7 @@ import {
 } from './useVisibility'
 import {
   VisibilityContextKey,
-} from './useVisibilityContextKey'
+} from './useSharedVisibilityContext'
 
 export type VisibilityTriggerProps = {
   children: (

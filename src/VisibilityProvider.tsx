@@ -14,7 +14,7 @@ import {
 } from './useVisibility'
 import {
   VisibilityContextKey,
-} from './useVisibilityContextKey'
+} from './useSharedVisibilityContext'
 
 export type VisibilityProviderProps = {
   children: ReactNode,

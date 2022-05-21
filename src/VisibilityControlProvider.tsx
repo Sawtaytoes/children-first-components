@@ -6,23 +6,33 @@ import {
 } from 'react'
 
 import {
-  Visibilities,
   VisibilityControlContext,
-  VisibilityControlContextId,
 } from './VisibilityControlContext'
 import {
-  useVisibility,
-} from './useVisibility'
+  useVisibilityControl,
+} from './useVisibilityControl'
+import {
+  VisibilityContextKey,
+} from './useSharedVisibilityContext'
+import {
+  VisibilityControlContextKey,
+} from './useVisibilityControlContextKey'
 
 export type VisibilityControlProviderProps = {
   children: ReactNode,
-  id?: VisibilityControlContextId,
+  contextKey?: VisibilityControlContextKey,
   onChange?: (
-    visibility?: Visibilities,
+    visibilityKey?: (
+      | VisibilityContextKey
+      | null
+    ),
   ) => (
     void
   ),
-  visibility?: Visibilities,
+  selectedVisibilityContextKey?: (
+    | VisibilityContextKey
+    | null
+  ),
 }
 
 const VisibilityControlProvider: (
@@ -31,52 +41,30 @@ const VisibilityControlProvider: (
   >
 ) = ({
   children,
-  id,
+  contextKey,
   onChange,
-  visibility,
+  selectedVisibilityContextKey,
 }) => {
   const {
-    hideVisibility,
-    showVisibility,
-    toggleVisibility,
-    uniqueId,
-    visibility: localVisibility,
+    selectedVisibilityContextKey: sharedSelectedVisibilityContextKey,
+    selectVisibilityContextKey,
   } = (
-    useVisibility({
-      id,
+    useVisibilityControl({
+      contextKey,
       onChange,
-      visibility,
+      selectedVisibilityContextKey,
     })
   )
 
   const providerValue = (
     useMemo(
       () => ({
-        contentId: (
-          uniqueId
-          .concat(
-            '-',
-            'content',
-          )
-        ),
-        hideVisibility,
-        showVisibility,
-        toggleVisibility,
-        triggerId: (
-          uniqueId
-          .concat(
-            '-',
-            'trigger',
-          )
-        ),
-        visibility: localVisibility,
+        selectedVisibilityContextKey: sharedSelectedVisibilityContextKey,
+        selectVisibilityContextKey,
       }),
       [
-        hideVisibility,
-        localVisibility,
-        showVisibility,
-        toggleVisibility,
-        uniqueId,
+        sharedSelectedVisibilityContextKey,
+        selectVisibilityContextKey,
       ],
     )
   )
