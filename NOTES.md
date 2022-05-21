@@ -1,5 +1,3 @@
-- Rename `toggleVisibility` and others to not have the `visibility` part. It's implied because there's only 1 state now.
 - Remove `contentId` and `triggerId` from Visibility. Leave this up to consumers to figure out.
 - Try again to type with `ComponentType` in `cloneElement`, but specify other props are unknown.
 - Move `translateProps` to `VisiblityChild` and remove it from `VisibilityTrigger` and `VisibilityTarget`.
-- Remove tight-coupling between types in `useVisibility` and `VisibilityProvider`.

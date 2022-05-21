@@ -518,13 +518,13 @@ export const ShowOnHover = () => (
     <VisibilityTrigger
       translateProps={({
         contentId,
-        hideVisibility,
-        showVisibility,
+        hide,
+        show,
         triggerId,
       }) => ({
         'aria-controls': contentId,
-        onMouseEnter: showVisibility,
-        onMouseLeave: hideVisibility,
+        onMouseEnter: show,
+        onMouseLeave: hide,
         id: triggerId,
       })}
     >

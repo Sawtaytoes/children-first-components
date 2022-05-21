@@ -115,7 +115,7 @@ export const useVisibility = ({
     )
   )
 
-  const hideVisibility = (
+  const hide = (
     useCallback(
       () => {
         const isNextVisible = (
@@ -142,7 +142,7 @@ export const useVisibility = ({
     )
   )
 
-  const showVisibility = (
+  const show = (
     useCallback(
       () => {
         const isNextVisible = (
@@ -204,9 +204,9 @@ export const useVisibility = ({
   )
 
   return {
-    hideVisibility,
+    hide,
     isVisible,
-    showVisibility,
+    show,
     toggleVisibility,
     uniqueId,
   }

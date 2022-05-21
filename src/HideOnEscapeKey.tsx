@@ -15,7 +15,7 @@ const HideOnEscapeKey: (
   FunctionComponent
 ) = () => {
   const {
-    hideVisibility,
+    hide,
     isVisible,
   } = (
     useContext(
@@ -39,7 +39,7 @@ const HideOnEscapeKey: (
         )
       ) => {
         if (code === 'Escape') {
-          hideVisibility()
+          hide()
         }
       }
 
@@ -58,7 +58,7 @@ const HideOnEscapeKey: (
       }
     },
     [
-      hideVisibility,
+      hide,
       isVisible,
     ],
   )

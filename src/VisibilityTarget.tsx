@@ -50,9 +50,9 @@ const VisibilityTarget: (
 }) => {
   const {
     contentId,
-    hideVisibility,
+    hide,
     isVisible,
-    showVisibility,
+    show,
     toggleVisibility,
     triggerId,
   } = (
@@ -67,9 +67,9 @@ const VisibilityTarget: (
         const translatedProps = (
           translateProps({
             contentId,
-            hideVisibility,
+            hide,
             isVisible,
-            showVisibility,
+            show,
             toggleVisibility,
             triggerId,
           })
@@ -93,10 +93,10 @@ const VisibilityTarget: (
       [
         children,
         contentId,
-        hideVisibility,
+        hide,
         isVisible,
         otherProps,
-        showVisibility,
+        show,
         toggleVisibility,
         translateProps,
         triggerId,

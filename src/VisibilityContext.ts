@@ -4,9 +4,9 @@ import {
 
 export type VisibilityContextProps = {
   contentId: string,
-  hideVisibility: () => void,
+  hide: () => void,
   isVisible?: boolean,
-  showVisibility: () => void,
+  show: () => void,
   toggleVisibility: () => void,
   triggerId: string,
 }
@@ -15,9 +15,9 @@ export const defaultVisibilityContextValue: (
   VisibilityContextProps
 ) = {
   contentId: '',
-  hideVisibility: () => {},
+  hide: () => {},
   isVisible: false,
-  showVisibility: () => {},
+  show: () => {},
   toggleVisibility: () => {},
   triggerId: '',
 }

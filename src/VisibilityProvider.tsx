@@ -37,9 +37,9 @@ const VisibilityProvider: (
   onChange,
 }) => {
   const {
-    hideVisibility,
+    hide,
     isVisible,
-    showVisibility,
+    show,
     toggleVisibility,
     uniqueId,
   } = (
@@ -60,9 +60,9 @@ const VisibilityProvider: (
             'content',
           )
         ),
-        hideVisibility,
+        hide,
         isVisible,
-        showVisibility,
+        show,
         toggleVisibility,
         triggerId: (
           uniqueId
@@ -73,9 +73,9 @@ const VisibilityProvider: (
         ),
       }),
       [
-        hideVisibility,
+        hide,
         isVisible,
-        showVisibility,
+        show,
         toggleVisibility,
         uniqueId,
       ],

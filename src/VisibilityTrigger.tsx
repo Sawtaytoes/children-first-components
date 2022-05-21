@@ -61,9 +61,9 @@ const VisibilityTrigger: (
 }) => {
   const {
     contentId,
-    hideVisibility,
+    hide,
     isVisible,
-    showVisibility,
+    show,
     toggleVisibility,
     triggerId,
   } = (
@@ -117,9 +117,9 @@ const VisibilityTrigger: (
         const translatedProps = (
           translateProps({
             contentId,
-            hideVisibility,
+            hide,
             isVisible,
-            showVisibility,
+            show,
             toggleVisibility,
             triggerId,
           })
@@ -145,11 +145,11 @@ const VisibilityTrigger: (
       [
         children,
         contentId,
-        hideVisibility,
+        hide,
         isVisible,
         onClick,
         otherProps,
-        showVisibility,
+        show,
         toggleVisibility,
         translateProps,
         triggerId,
