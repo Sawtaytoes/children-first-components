@@ -1048,14 +1048,16 @@ ControlledProviders
     ?.toBeVisible?.()
   )
 
-  expect(
-    canvas
-    .getAllByRole(
-      'region',
+  await (
+    expect(
+      canvas
+      .getAllByRole(
+        'region',
+      )
     )
-  )
-  ?.toHaveLength?.(
-    1
+    ?.toHaveLength?.(
+      1
+    )
   )
 
   await (
@@ -1084,14 +1086,21 @@ ControlledProviders
     ?.toBeVisible?.()
   )
 
-  expect(
-    canvas
-    .getAllByRole(
-      'region',
+  // Hack because `.swapping` takes too long
+  await new Promise(resolve => (
+    setTimeout(resolve)
+  ))
+
+  await (
+    expect(
+      canvas
+      .getAllByRole(
+        'region',
+      )
     )
-  )
-  ?.toHaveLength?.(
-    1
+    ?.toHaveLength?.(
+      1
+    )
   )
 }
 
