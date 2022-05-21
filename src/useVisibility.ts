@@ -228,22 +228,17 @@ export const useVisibility = ({
             nextVisibility
           )
 
-          if (
-            nextVisibility
-            === (
-              Visibilities
-              .visible
+          selectVisibilityContextKey(
+            (
+              nextVisibility
+              === (
+                Visibilities
+                .visible
+              )
             )
-          ) {
-            selectVisibilityContextKey(
-              sharedContextKey
-            )
-          }
-          else {
-            selectVisibilityContextKey(
-              null
-            )
-          }
+            ? sharedContextKey
+            : null
+          )
 
           return (
             nextVisibility
