@@ -10,28 +10,19 @@ import {
 } from './VisibilityControlContext'
 import {
   useVisibilityControl,
+  UseVisibilityControlProps,
 } from './useVisibilityControl'
-import {
-  VisibilityContextKey,
-} from './useSharedVisibilityContext'
-import {
-  VisibilityControlContextKey,
-} from './useVisibilityControlContextKey'
 
 export type VisibilityControlProviderProps = {
   children: ReactNode,
-  contextKey?: VisibilityControlContextKey,
+  contextKey?: (
+    UseVisibilityControlProps['contextKey']
+  ),
   onChange?: (
-    visibilityKey?: (
-      | VisibilityContextKey
-      | null
-    ),
-  ) => (
-    void
+    UseVisibilityControlProps['onChange']
   ),
   selectedVisibilityContextKey?: (
-    | VisibilityContextKey
-    | null
+    UseVisibilityControlProps['selectedVisibilityContextKey']
   ),
 }
 

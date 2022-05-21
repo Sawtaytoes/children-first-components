@@ -6,25 +6,24 @@ import {
 } from 'react'
 
 import {
-  Visibilities,
   VisibilityContext,
 } from './VisibilityContext'
 import {
   useVisibility,
+  UseVisibilityProps,
 } from './useVisibility'
-import {
-  VisibilityContextKey,
-} from './useSharedVisibilityContext'
 
 export type VisibilityProviderProps = {
   children: ReactNode,
-  contextKey?: VisibilityContextKey,
-  onChange?: (
-    visibility?: Visibilities,
-  ) => (
-    void
+  contextKey?: (
+    UseVisibilityProps['contextKey']
   ),
-  visibility?: Visibilities,
+  onChange?: (
+    UseVisibilityProps['onChange']
+  ),
+  visibility?: (
+    UseVisibilityProps['visibility']
+  ),
 }
 
 const VisibilityProvider: (

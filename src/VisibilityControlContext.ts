@@ -7,7 +7,7 @@ import {
 } from './useSharedVisibilityContext'
 
 export type VisibilityControlContextProps = {
-  selectedVisibilityKey: (
+  selectedVisibilityContextKey: (
     | VisibilityContextKey
     | null
   ),
@@ -24,7 +24,7 @@ export type VisibilityControlContextProps = {
 export const defaultVisibilityControlContextValue: (
   VisibilityControlContextProps
 ) = {
-  selectedVisibilityKey: null,
+  selectedVisibilityContextKey: null,
   selectVisibilityContextKey: () => {},
 }
 
