@@ -6,6 +6,7 @@ import {
 } from '@storybook/jest';
 import {
   userEvent,
+  waitFor,
   within,
 } from '@storybook/testing-library';
 
@@ -86,61 +87,63 @@ Standard
   )
 
   await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          hidden: true,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
       )
-    )
-    .not
-    ?.toBeVisible?.()
+      .not
+      .toBeVisible()
+    })
   )
 
-  await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button'
-      )
-    )
-  )
-
-  await (
-    expect(
-      canvas
-      .getByRole(
-        'region'
-      )
-    )
-    ?.toBeVisible?.()
-  )
-
-  await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button'
-      )
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button'
     )
   )
 
   await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          hidden: true,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region'
+        )
       )
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button'
     )
-    .not
-    ?.toBeVisible?.()
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
+      )
+      .not
+      .toBeVisible()
+    })
   )
 }
 
@@ -183,67 +186,69 @@ MultipleTriggers
   )
 
   await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          hidden: true,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
       )
-    )
-    .not
-    ?.toBeVisible?.()
+      .not
+      .toBeVisible()
+    })
   )
 
-  await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: 'Click me to reveal content',
-        },
-      )
-    )
-  )
-
-  await (
-    expect(
-      canvas
-      .getByRole(
-        'region'
-      )
-    )
-    ?.toBeVisible?.()
-  )
-
-  await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: 'Click me to reveal the same content',
-        },
-      )
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'Click me to reveal content',
+      },
     )
   )
 
   await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          hidden: true,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region'
+        )
       )
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'Click me to reveal the same content',
+      },
     )
-    .not
-    ?.toBeVisible?.()
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
+      )
+      .not
+      .toBeVisible()
+    })
   )
 }
 
@@ -286,65 +291,67 @@ MultipleTargets
   )
 
   await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region',
-        {
-          hidden: true,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
       )
-    )
-    ?.toHaveLength?.(
-      2
+      ?.toHaveLength?.(
+        2
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button'
     )
   )
 
   await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button'
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region'
+        )
       )
+      ?.toHaveLength?.(
+        2
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button'
     )
   )
 
   await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region'
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
       )
-    )
-    ?.toHaveLength?.(
-      2
-    )
-  )
-
-  await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button'
+      ?.toHaveLength?.(
+        2
       )
-    )
-  )
-
-  await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region',
-        {
-          hidden: true,
-        },
-      )
-    )
-    ?.toHaveLength?.(
-      2
-    )
+    })
   )
 }
 
@@ -446,61 +453,63 @@ APIIncompliantComponents
   )
 
   await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          hidden: true,
-        }
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            hidden: true,
+          }
+        )
       )
-    )
-    .not
-    ?.toBeVisible?.()
+      .not
+      .toBeVisible()
+    })
   )
 
-  await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button'
-      )
-    )
-  )
-
-  await (
-    expect(
-      canvas
-      .getByRole(
-        'region'
-      )
-    )
-    ?.toBeVisible?.()
-  )
-
-  await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button'
-      )
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button'
     )
   )
 
   await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          hidden: true,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region'
+        )
       )
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button'
     )
-    .not
-    ?.toBeVisible?.()
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
+      )
+      .not
+      .toBeVisible()
+    })
   )
 }
 
@@ -535,6 +544,9 @@ export const ShowOnHover = () => (
 )
 
 ShowOnHover
+.storyName = 'Show on Hover'
+
+ShowOnHover
 .play = async ({
   canvasElement,
 }) => {
@@ -545,71 +557,63 @@ ShowOnHover
   )
 
   await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          hidden: true,
-        }
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            hidden: true,
+          }
+        )
       )
+      .not
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .hover(
+    canvas
+    .queryByRole(
+      'button'
     )
-    .not
-    ?.toBeVisible?.()
   )
 
   await (
-    userEvent
-    .hover(
-      canvas
-      .getByRole(
-        'button'
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region'
+        )
       )
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .unhover(
+    canvas
+    .queryByRole(
+      'button'
     )
   )
 
-  // Hack because `.hover` takes too long
-  await new Promise(resolve => (
-    setTimeout(resolve, 300)
-  ))
-
   await (
-    expect(
-      canvas
-      .getByRole(
-        'region'
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
       )
-    )
-    ?.toBeVisible?.()
-  )
-
-  await (
-    userEvent
-    .unhover(
-      canvas
-      .getByRole(
-        'button'
-      )
-    )
-  )
-
-  // Hack because `.hover` takes too long
-  await new Promise(resolve => (
-    setTimeout(resolve, 300)
-  ))
-
-  await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          hidden: true,
-        },
-      )
-    )
-    .not
-    ?.toBeVisible?.()
+      .not
+      .toBeVisible()
+    })
   )
 }
 
@@ -664,136 +668,140 @@ MutuallyExclusive
   )
 
   await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region',
-        {
-          hidden: true,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
       )
-    )
-    ?.toHaveLength?.(
-      2
+      ?.toHaveLength?.(
+        2
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: /1/,
+      },
     )
   )
 
   await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: /1/,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            name: /1/,
+          },
+        )
       )
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: /2/,
+      },
     )
   )
 
   await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          name: /1/,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            name: /1/,
+          },
+        )
       )
-    )
-    ?.toBeVisible?.()
+      .toBeVisible()
+    })
   )
 
   await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: /2/,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            name: /2/,
+          },
+        )
       )
-    )
+      .toBeVisible()
+    })
   )
 
-  await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          name: /1/,
-        },
-      )
-    )
-    ?.toBeVisible?.()
-  )
-
-  await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          name: /2/,
-        },
-      )
-    )
-    ?.toBeVisible?.()
-  )
-
-  await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: /1/,
-        },
-      )
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: /1/,
+      },
     )
   )
 
   await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region',
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region',
+        )
       )
-    )
-    ?.toHaveLength?.(
-      1
+      ?.toHaveLength?.(
+        1
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: /2/,
+      },
     )
   )
 
   await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: /2/,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
       )
-    )
-  )
-
-  await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region',
-        {
-          hidden: true,
-        },
+      ?.toHaveLength?.(
+        2
       )
-    )
-    ?.toHaveLength?.(
-      2
-    )
+    })
   )
 }
 
@@ -868,53 +876,69 @@ UnifiedProviders
   )
 
   await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: 'Click me to reveal content',
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
       )
+      .not
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'Click me to reveal content',
+      },
     )
   )
 
   await (
-    expect(
-      canvas
-      .getByRole(
-        'region'
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region'
+        )
       )
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'Click me to reveal the same content',
+      },
     )
-    ?.toBeVisible?.()
   )
 
   await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: 'Click me to reveal the same content',
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
       )
-    )
-  )
-
-  await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          hidden: true,
-        },
-      )
-    )
-    .not
-    ?.toBeVisible?.()
+      .not
+      .toBeVisible()
+    })
   )
 }
 
@@ -969,99 +993,100 @@ ControlledProviders
   )
 
   await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region',
-        {
-          hidden: true,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
       )
-    )
-    ?.toHaveLength?.(
-      2
+      ?.toHaveLength?.(
+        2
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: /1/,
+      },
     )
   )
 
   await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: /1/,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            name: /1/,
+          },
+        )
       )
+      .toBeVisible()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region',
+        )
+      )
+      ?.toHaveLength?.(
+        1
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: /2/,
+      },
     )
   )
 
   await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          name: /1/,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            name: /2/,
+          },
+        )
       )
-    )
-    ?.toBeVisible?.()
+      .toBeVisible()
+    })
   )
 
   await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region',
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region',
+        )
       )
-    )
-    ?.toHaveLength?.(
-      1
-    )
-  )
-
-  await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: /2/,
-        },
+      ?.toHaveLength?.(
+        1
       )
-    )
-  )
-
-  await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          name: /2/,
-        },
-      )
-    )
-    ?.toBeVisible?.()
-  )
-
-  // Hack because `.swapping` takes too long
-  await new Promise(resolve => (
-    setTimeout(resolve)
-  ))
-
-  await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region',
-      )
-    )
-    ?.toHaveLength?.(
-      1
-    )
+    })
   )
 }
 
@@ -1142,91 +1167,97 @@ SwitchVisibility
   )
 
   await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region',
-        {
-          hidden: true,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
       )
-    )
-    ?.toHaveLength?.(
-      2
+      ?.toHaveLength?.(
+        2
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: /1/,
+      },
     )
   )
 
   await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: /1/,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            name: /1/,
+          }
+        )
       )
+      .toBeVisible()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region'
+        )
+      )
+      ?.toHaveLength?.(
+        1
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: /2/,
+      },
     )
   )
 
   await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          name: /1/,
-        }
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByText(
+          'Revealed content 2',
+        )
       )
-    )
-    ?.toBeVisible?.()
+      .toBeVisible()
+    })
   )
 
   await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region'
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region',
+        )
       )
-    )
-    ?.toHaveLength?.(
-      1
-    )
-  )
-
-  await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: /2/,
-        },
+      ?.toHaveLength?.(
+        1
       )
-    )
-  )
-
-  await (
-    expect(
-      canvas
-      .getByText(
-        'Revealed content 2',
-      )
-    )
-    ?.toBeVisible?.()
-  )
-
-  await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region',
-      )
-    )
-    ?.toHaveLength?.(
-      1
-    )
+    })
   )
 }
 
@@ -1273,215 +1304,225 @@ Inception
   )
 
   await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region',
-        {
-          hidden: true,
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
       )
-    )
-    ?.toHaveLength?.(
-      2
+      ?.toHaveLength?.(
+        2
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'Click me to reveal another visibility',
+      },
     )
   )
 
   await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: 'Click me to reveal another visibility',
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region',
+        )
       )
+      ?.toHaveLength?.(
+        1
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'Click me to reveal content',
+      },
     )
   )
 
   await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region',
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            name: 'Click me to reveal content',
+          },
+        )
       )
-    )
-    ?.toHaveLength?.(
-      1
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'Click me to reveal another visibility',
+      },
     )
   )
 
   await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: 'Click me to reveal content',
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByText(
+          'Revealed content',
+        )
       )
+      .not
+      .toBeVisible()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
+      )
+      ?.toHaveLength?.(
+        2
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'Click me to reveal another visibility',
+      },
     )
   )
 
   await (
-    expect(
-      canvas
-      .getByRole(
-        'region',
-        {
-          name: 'Click me to reveal content',
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByText(
+          'Revealed content',
+        )
       )
-    )
-    ?.toBeVisible?.()
+      .toBeVisible()
+    })
   )
 
   await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: 'Click me to reveal another visibility',
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region',
+        )
       )
-    )
+      ?.toHaveLength?.(
+        2
+      )
+    })
   )
 
-  await (
-    expect(
-      canvas
-      .getByText(
-        'Revealed content',
-      )
-    )
-    .not
-    ?.toBeVisible?.()
-  )
-
-  await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region',
-        {
-          hidden: true,
-        },
-      )
-    )
-    ?.toHaveLength?.(
-      2
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'Click me to reveal content',
+      },
     )
   )
 
   await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: 'Click me to reveal another visibility',
-        },
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByText(
+          'Revealed content',
+        )
       )
+      .not
+      .toBeVisible()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'region',
+        )
+      )
+      ?.toHaveLength?.(
+        1
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'Click me to reveal another visibility',
+      },
     )
   )
 
   await (
-    expect(
-      canvas
-      .getByText(
-        'Revealed content',
+    waitFor(() => {
+      expect(
+        canvas
+        .getAllByRole(
+          'button',
+        )
       )
-    )
-    ?.toBeVisible?.()
+      ?.toHaveLength?.(
+        1
+      )
+    })
   )
 
   await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region',
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByText(
+          'Revealed content',
+        )
       )
-    )
-    ?.toHaveLength?.(
-      2
-    )
-  )
-
-  await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: 'Click me to reveal content',
-        },
-      )
-    )
-  )
-
-  await (
-    expect(
-      canvas
-      .getByText(
-        'Revealed content',
-      )
-    )
-    .not
-    ?.toBeVisible?.()
-  )
-
-  await (
-    expect(
-      canvas
-      .getAllByRole(
-        'region',
-      )
-    )
-    ?.toHaveLength?.(
-      1
-    )
-  )
-
-  await (
-    userEvent
-    .click(
-      canvas
-      .getByRole(
-        'button',
-        {
-          name: 'Click me to reveal another visibility',
-        },
-      )
-    )
-  )
-
-  await (
-    expect(
-      canvas
-      .getAllByRole(
-        'button',
-      )
-    )
-    ?.toHaveLength?.(
-      1
-    )
-  )
-
-  await (
-    expect(
-      canvas
-      .getByText(
-        'Revealed content',
-      )
-    )
-    .not
-    ?.toBeVisible?.()
+      .not
+      .toBeVisible()
+    })
   )
 }
 
@@ -1508,6 +1549,77 @@ export const HideContentWithTrigger = () => (
     </VisibilityTrigger>
   </VisibilityProvider>
 )
+
+HideContentWithTrigger
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
+      )
+      .not
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+        )
+      )
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'region',
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
+      )
+      .not
+      .toBeVisible()
+    })
+  )
+}
 
 const ModalContent = ({
   children,
@@ -1544,6 +1656,71 @@ export const HideModalComponentWithTrigger = () => (
   </VisibilityProvider>
 )
 
+HideModalComponentWithTrigger
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByText(
+          'Revealed content',
+        )
+      )
+      .not
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByText(
+          'Revealed content',
+        )
+      )
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByText(
+      'Revealed content',
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByText(
+          'Revealed content',
+        )
+      )
+      .not
+      .toBeVisible()
+    })
+  )
+}
+
 export const HideOnEscapeKeyImplementation = () => (
   <VisibilityProvider>
     <VisibilityTrigger>
@@ -1565,3 +1742,68 @@ export const HideOnEscapeKeyImplementation = () => (
     </VisibilityTarget>
   </VisibilityProvider>
 )
+
+HideOnEscapeKeyImplementation
+.storyName = 'Hide on Escape Key'
+
+HideOnEscapeKeyImplementation
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByText(
+          'Revealed content',
+        )
+      )
+      .not
+      .toBeInTheDocument()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByText(
+          'Revealed content',
+        )
+      )
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .keyboard(
+    '[Escape]'
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByText(
+          'Revealed content',
+        )
+      )
+      .not
+      .toBeInTheDocument()
+    })
+  )
+}
