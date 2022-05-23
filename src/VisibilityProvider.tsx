@@ -33,7 +33,7 @@ const VisibilityProvider: (
 ) = ({
   children,
   contextKey,
-  isVisible: isControlledVisible,
+  isVisible: isVisibleProp,
   onChange,
 }) => {
   const {
@@ -45,7 +45,7 @@ const VisibilityProvider: (
   } = (
     useVisibility({
       contextKey,
-      isVisible: isControlledVisible,
+      isVisible: isVisibleProp,
       onChange,
     })
   )

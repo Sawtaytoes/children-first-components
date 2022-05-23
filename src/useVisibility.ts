@@ -34,7 +34,7 @@ export const defaultProps = {
 
 export const useVisibility = ({
   contextKey,
-  isVisible: isControlledVisible = (
+  isVisible: isVisibleProp = (
     defaultProps
     .isVisible
   ),
@@ -85,11 +85,11 @@ export const useVisibility = ({
   useEffect(
     () => {
       setIsVisible(
-        isControlledVisible,
+        isVisibleProp,
       )
     },
     [
-      isControlledVisible,
+      isVisibleProp,
     ],
   )
 
