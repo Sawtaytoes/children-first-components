@@ -21,6 +21,9 @@ export type VisibilityProviderProps = {
   isVisible?: (
     UseVisibilityProps['isVisible']
   ),
+  name?: (
+    UseVisibilityProps['name']
+  ),
   onChange?: (
     UseVisibilityProps['onChange']
   ),
@@ -34,6 +37,7 @@ const VisibilityProvider: (
   children,
   contextKey,
   isVisible: isVisibleProp,
+  name,
   onChange,
 }) => {
   const {
@@ -46,6 +50,7 @@ const VisibilityProvider: (
     useVisibility({
       contextKey,
       isVisible: isVisibleProp,
+      name,
       onChange,
     })
   )

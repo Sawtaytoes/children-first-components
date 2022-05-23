@@ -16,10 +16,14 @@ import {
   useSharedVisibilityContext,
   VisibilityContextKey,
 } from './useSharedVisibilityContext'
+import {
+  useUniqueId,
+} from './useUniqueId'
 
 export type UseVisibilityProps = {
   contextKey?: VisibilityContextKey,
   isVisible?: boolean,
+  name?: string,
   onChange?: (
     isVisible?: boolean,
   ) => (
@@ -29,6 +33,7 @@ export type UseVisibilityProps = {
 
 export const defaultProps = {
   isVisible: false,
+  name: '',
   onChange: () => {},
 }
 
@@ -37,6 +42,10 @@ export const useVisibility = ({
   isVisible: isVisibleProp = (
     defaultProps
     .isVisible
+  ),
+  name = (
+    defaultProps
+    .name
   ),
   onChange = (
     defaultProps
@@ -61,6 +70,12 @@ export const useVisibility = ({
     [
       onChange,
     ],
+  )
+
+  const uniqueId = (
+    useUniqueId(
+      name
+    )
   )
 
   const {
@@ -104,15 +119,6 @@ export const useVisibility = ({
       sharedContextKey,
       selectedVisibilityContextKey,
     ],
-  )
-
-  const uniqueId = (
-    useMemo(
-      () => (
-        createRandomString()
-      ),
-      [],
-    )
   )
 
   const hide = (
