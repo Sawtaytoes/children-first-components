@@ -12,7 +12,6 @@ import {
 
 import {
   VisibilityContext,
-  VisibilityContextProps,
 } from './VisibilityContext'
 import {
   useVisibility,
@@ -24,26 +23,21 @@ import {
 export type VisibilityTriggerProps = {
   children: (
     ReactElement<
-      JSXElementConstructor<{
-        onClick?: () => void,
-      }>
+      JSXElementConstructor<
+        any
+      >
     >
   ),
-  targetContextKey?: (
-    VisibilityContextKey
+  eventName?: (
+    string
   ),
-  translateProps?: (
-    childProps: VisibilityContextProps
-  ) => (
-    object
-    | null
+  linkedContextKey?: (
+    VisibilityContextKey
   ),
 }
 
 const defaultProps = {
-  translateProps: () => (
-    null
-  ),
+  eventName: 'onClick',
 }
 
 const VisibilityTrigger: (
@@ -52,18 +46,16 @@ const VisibilityTrigger: (
   >
 ) = ({
   children,
-  targetContextKey,
-  translateProps = (
+  eventName = (
     defaultProps
-    .translateProps
+    .eventName
   ),
+  linkedContextKey,
   ...otherProps
 }) => {
   const {
     contentId,
-    hide,
     isVisible,
-    show,
     toggleVisibility,
     triggerId,
   } = (
@@ -76,82 +68,58 @@ const VisibilityTrigger: (
     toggleVisibility: toggleNextVisibility,
   } = (
     useVisibility({
-      contextKey: targetContextKey
+      contextKey: linkedContextKey
     })
   )
 
-  const onClick = (
+  const onAction = (
     useCallback(
       (
         ...args: unknown[]
       ) => {
-        children
         /* @ts-ignore */
-        .onClick
-        ?.(
+        children
+        .props
+        [eventName]?.(
           ...args
         )
 
         toggleVisibility()
 
-        if (targetContextKey) {
+        if (linkedContextKey) {
           toggleNextVisibility()
         }
       },
       [
         (
-          children
           /* @ts-ignore */
-          .onClick
+          children
+          .props
+          [eventName]
         ),
-        toggleNextVisibility,
-        targetContextKey,
+        linkedContextKey,
         toggleVisibility,
+        toggleNextVisibility,
       ],
     )
   )
 
   const childProps = (
     useMemo(
-      () => {
-        const translatedProps = (
-          translateProps({
-            contentId,
-            hide,
-            isVisible,
-            show,
-            toggleVisibility,
-            triggerId,
-          })
-        )
-
-        if (translatedProps) {
-          return {
-            ...otherProps,
-            ...translatedProps,
-          }
-        }
-        else {
-          return {
-            ...otherProps,
-            'aria-controls': contentId,
-            'aria-expanded': isVisible,
-            id: triggerId,
-            onClick,
-            role: 'button',
-          }
-        }
-      },
+      () => ({
+        ...otherProps,
+        [eventName]: onAction,
+        'aria-controls': contentId,
+        'aria-expanded': isVisible,
+        id: triggerId,
+        role: 'button',
+      }),
       [
-        children,
         contentId,
-        hide,
+        eventName,
         isVisible,
-        onClick,
+        onAction,
         otherProps,
-        show,
-        toggleVisibility,
-        translateProps,
         triggerId,
       ],
     )

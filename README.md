@@ -9,6 +9,7 @@ You can use this as inspiration or copy-paste directly, but please reference whe
 - `createVisibilityControlContextKey`
 - `useVisibility`
 - `useVisibilityControl`
+- `VisibilityConsumer`
 - `VisibilityControlProvider`
 - `VisibilityProvider`
 - `VisibilityTarget`

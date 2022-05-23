@@ -23,6 +23,9 @@ import {
   HtmlContent,
 } from './HtmlContent'
 import {
+  VisibilityConsumer,
+} from './VisibilityConsumer'
+import {
   VisibilityControlProvider,
 } from './VisibilityControlProvider'
 import {
@@ -384,25 +387,31 @@ export const APIIncompliantComponents = ({
   <VisibilityProvider
     {...visibilityProviderProps}
   >
-    <VisibilityTrigger
-      translateProps={
-        translateTriggerProps
-      }
+    <VisibilityConsumer
+      translateProps={({
+        toggleVisibility,
+      }) => ({
+        onSelect: toggleVisibility,
+      })}
     >
       <Button>
         Click me to reveal content
       </Button>
-    </VisibilityTrigger>
+    </VisibilityConsumer>
 
-    <VisibilityTarget
-      translateProps={
-        translateTargetProps
-      }
+    <VisibilityConsumer
+      translateProps={({
+        isVisible,
+      }) => ({
+        isHidden: (
+          !isVisible
+        ),
+      })}
     >
       <Content>
         Revealed content
       </Content>
-    </VisibilityTarget>
+    </VisibilityConsumer>
   </VisibilityProvider>
 )
 
@@ -414,32 +423,6 @@ APIIncompliantComponents
       'onChange'
     )
   ),
-  translateTargetProps: ({
-    isVisible,
-  }) => ({
-    isHidden: (
-      !isVisible
-    ),
-  }),
-  translateTriggerProps: ({
-    toggleVisibility,
-  }) => ({
-    onSelect: toggleVisibility,
-  }),
-}
-
-APIIncompliantComponents
-.argTypes = {
-  translateTargetProps: {
-    table: {
-      disable: true,
-    },
-  },
-  translateTriggerProps: {
-    table: {
-      disable: true,
-    },
-  },
 }
 
 APIIncompliantComponents
@@ -515,7 +498,7 @@ APIIncompliantComponents
 
 export const ShowOnHover = () => (
   <VisibilityProvider>
-    <VisibilityTrigger
+    <VisibilityConsumer
       translateProps={({
         contentId,
         hide,
@@ -531,7 +514,7 @@ export const ShowOnHover = () => (
       <button>
         Click me to reveal content
       </button>
-    </VisibilityTrigger>
+    </VisibilityConsumer>
 
     <VisibilityTarget>
       <HtmlContent>
@@ -943,7 +926,9 @@ UnifiedProviders
 }
 
 export const ControlledProviders = () => (
-  <VisibilityControlProvider>
+  <VisibilityControlProvider
+    onChange={action('control')}
+  >
     <div>
       <VisibilityProvider>
         <VisibilityTrigger>
@@ -1110,7 +1095,7 @@ export const SwitchVisibility = ({
 
             <div>
               <VisibilityTrigger
-                targetContextKey={
+                linkedContextKey={
                   contextKey
                 }
               >
