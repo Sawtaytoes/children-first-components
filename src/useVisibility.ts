@@ -124,17 +124,17 @@ export const useVisibility = ({
   const hide = (
     useCallback(
       () => {
-        const isNextVisible = (
+        const isVisibleAfter = (
           false
         )
 
         onChangeRef
         .current(
-          isNextVisible
+          isVisibleAfter
         )
 
         setIsVisible(
-          isNextVisible
+          isVisibleAfter
         )
 
         selectVisibilityContextKey(
@@ -151,17 +151,17 @@ export const useVisibility = ({
   const show = (
     useCallback(
       () => {
-        const isNextVisible = (
+        const isVisibleAfter = (
           true
         )
 
         onChangeRef
         .current(
-          isNextVisible
+          isVisibleAfter
         )
 
         setIsVisible(
-          isNextVisible
+          isVisibleAfter
         )
 
         selectVisibilityContextKey(
@@ -180,25 +180,25 @@ export const useVisibility = ({
     useCallback(
       () => {
         setIsVisible((
-          isCurrentlyVisible,
+          isVisibleBefore,
         ) => {
-          const isNextVisible = (
-            !isCurrentlyVisible
+          const isVisibleAfter = (
+            !isVisibleBefore
           )
 
           onChangeRef
           .current(
-            isNextVisible
+            isVisibleAfter
           )
 
           selectVisibilityContextKey(
-            isNextVisible
+            isVisibleAfter
             ? sharedContextKey
             : null
           )
 
           return (
-            isNextVisible
+            isVisibleAfter
           )
         })
       },
