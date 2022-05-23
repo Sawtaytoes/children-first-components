@@ -5,12 +5,16 @@ import {
 } from 'react'
 
 export type HtmlContentProps = {
+  'aria-labelledby': string,
   children: ReactNode,
+  id: string,
   isVisible?: boolean,
   onClick?: () => void,
 }
 
 const defaultProps = {
+  ariaLabelledby: '',
+  id: '',
   isVisible: false,
   onClick: () => {},
 }
@@ -20,7 +24,15 @@ const HtmlContent: (
     HtmlContentProps
   >
 ) = ({
+  aria-labelledBy: ariaLabelledby = (
+    defaultProps
+    .ariaLabelledby
+  ),
   children,
+  id = (
+    defaultProps
+    .id
+  ),
   isVisible = (
     defaultProps
     .isVisible
@@ -32,8 +44,9 @@ const HtmlContent: (
   ...otherProps
 }) => (
   <div
-    {...otherProps}
+    aria-labelledby={ariaLabelledby}
     hidden={!isVisible}
+    id={id}
     onClick={onClick}
     role="region"
   >
