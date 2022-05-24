@@ -17,7 +17,7 @@ const GlobalStyles = () => (
 
         label {
           align-items: center;
-          display: flex;
+          display: inline-flex;
         }
 
         button,
@@ -58,6 +58,21 @@ const GlobalStyles = () => (
           height: 20px;
           margin-right: 10px;
           width: 20px;
+        }
+
+        span[aria-checked]:not([class]) {
+          border: 2px solid black;
+          cursor: pointer;
+          display: inline-block;
+          margin: 2px;
+          padding: 10px;
+          user-select: none;
+        }
+
+        span[aria-checked="true"]:not([class]) {
+          background-color: lightblue;
+          border-color: darkblue;
+          color: darkblue;
         }
 
         option {
