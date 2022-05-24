@@ -8,8 +8,8 @@ import {
 } from 'react'
 
 import {
-  jotaiScope,
-} from './jotaiScope'
+  useScopedAtom,
+} from './useScopedAtom'
 
 export const createUseSharedContext = <
   ContextValue,
@@ -17,13 +17,31 @@ export const createUseSharedContext = <
   createContextKey,
 }: {
   createContextKey: () => (
-    WritableAtom<ContextValue, SetStateAction<ContextValue>, void>
+    WritableAtom<
+      ContextValue,
+      (
+        SetStateAction<
+          ContextValue
+        >
+      ),
+      void
+    >
   ),
 }) => ({
   contextKey,
 }: {
   contextKey: (
-    | WritableAtom<ContextValue, SetStateAction<ContextValue>, void>
+    | (
+      WritableAtom<
+        ContextValue,
+        (
+          SetStateAction<
+            ContextValue
+          >
+        ),
+        void
+      >
+    )
     | undefined
   ),
 }) => {
@@ -56,9 +74,8 @@ export const createUseSharedContext = <
     sharedContext,
     setSharedContext,
   ] = (
-    useAtom(
+    useScopedAtom(
       sharedContextKey,
-      jotaiScope,
     )
   )
 

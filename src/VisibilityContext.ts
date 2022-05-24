@@ -3,23 +3,19 @@ import {
 } from 'react'
 
 export type VisibilityContextProps = {
-  contentId: string,
   hide: () => void,
   isVisible?: boolean,
   show: () => void,
-  toggleVisibility: () => void,
-  triggerId: string,
+  toggle: () => void,
 }
 
 export const defaultVisibilityContextValue: (
   VisibilityContextProps
 ) = {
-  contentId: '',
   hide: () => {},
   isVisible: false,
   show: () => {},
-  toggleVisibility: () => {},
-  triggerId: '',
+  toggle: () => {},
 }
 
 export const VisibilityContext = (

@@ -2,13 +2,12 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useRef,
 } from 'react'
 
 import {
-  createRandomString,
-} from './createRandomString'
+  useScopedAtom,
+} from './useScopedAtom'
 import {
   VisibilityControlContext,
 } from './VisibilityControlContext'
@@ -16,14 +15,10 @@ import {
   useSharedVisibilityContext,
   VisibilityContextKey,
 } from './useSharedVisibilityContext'
-import {
-  useUniqueId,
-} from './useUniqueId'
 
 export type UseVisibilityProps = {
   contextKey?: VisibilityContextKey,
   isVisible?: boolean,
-  name?: string,
   onChange?: (
     isVisible?: boolean,
   ) => (
@@ -33,7 +28,6 @@ export type UseVisibilityProps = {
 
 export const defaultProps = {
   isVisible: false,
-  name: '',
   onChange: () => {},
 }
 
@@ -42,10 +36,6 @@ export const useVisibility = ({
   isVisible: isVisibleProp = (
     defaultProps
     .isVisible
-  ),
-  name = (
-    defaultProps
-    .name
   ),
   onChange = (
     defaultProps
@@ -72,12 +62,6 @@ export const useVisibility = ({
     ],
   )
 
-  const uniqueId = (
-    useUniqueId(
-      name
-    )
-  )
-
   const {
     selectedVisibilityContextKey,
     selectVisibilityContextKey,
@@ -88,13 +72,22 @@ export const useVisibility = ({
   )
 
   const {
-    setSharedContext: setIsVisible,
-    sharedContext: isVisible,
+    sharedContext,
     sharedContextKey,
   } = (
     useSharedVisibilityContext({
       contextKey,
     })
+  )
+
+  const [
+    isVisible,
+    setIsVisible,
+  ] = (
+    useScopedAtom(
+      sharedContext
+      .isVisibleAtom
+    )
   )
 
   useEffect(
@@ -176,7 +169,7 @@ export const useVisibility = ({
     )
   )
 
-  const toggleVisibility = (
+  const toggle = (
     useCallback(
       () => {
         setIsVisible((
@@ -213,7 +206,6 @@ export const useVisibility = ({
     hide,
     isVisible,
     show,
-    toggleVisibility,
-    uniqueId,
+    toggle,
   }
 }

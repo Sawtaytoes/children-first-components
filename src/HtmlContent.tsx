@@ -13,7 +13,7 @@ export type HtmlContentProps = {
 }
 
 const defaultProps = {
-  ariaLabelledby: '',
+  ariaLabelledBy: '',
   id: '',
   isVisible: false,
   onClick: () => {},
@@ -24,9 +24,9 @@ const HtmlContent: (
     HtmlContentProps
   >
 ) = ({
-  aria-labelledBy: ariaLabelledby = (
+  'aria-labelledby': ariaLabelledBy = (
     defaultProps
-    .ariaLabelledby
+    .ariaLabelledBy
   ),
   children,
   id = (
@@ -44,7 +44,7 @@ const HtmlContent: (
   ...otherProps
 }) => (
   <div
-    aria-labelledby={ariaLabelledby}
+    aria-labelledby={ariaLabelledBy}
     hidden={!isVisible}
     id={id}
     onClick={onClick}

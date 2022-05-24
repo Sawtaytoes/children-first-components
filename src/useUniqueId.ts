@@ -7,15 +7,15 @@ import {
 } from './createRandomString'
 
 export const useUniqueId = (
-  name,
+  existingId?: string,
 ) => (
   useMemo(
     () => (
-      name
+      existingId
       || createRandomString()
     ),
     [
-      name,
+      existingId,
     ],
   )
 )

@@ -10,8 +10,16 @@ import {
 } from 'react'
 
 import {
+  AccessibleVisibilityContext,
+} from './AccessibleVisibilityContext'
+import {
+  useAccessibleTarget,
+} from './useAccessibleTarget'
+import {
+  useClonedChild,
+} from './useClonedChild'
+import {
   VisibilityContext,
-  VisibilityContextProps,
 } from './VisibilityContext'
 
 export type VisibilityTargetProps = {
@@ -22,6 +30,9 @@ export type VisibilityTargetProps = {
       >
     >
   ),
+  id?: (
+    string
+  ),
 }
 
 const VisibilityTarget: (
@@ -30,52 +41,35 @@ const VisibilityTarget: (
   >
 ) = ({
   children,
+  id: idProp,
   ...otherProps
 }) => {
   const {
-    contentId,
     isVisible,
-    triggerId,
   } = (
     useContext(
       VisibilityContext
     )
   )
 
-  const childProps = (
-    useMemo(
-      () => ({
-        ...otherProps,
-        'aria-labelledby': triggerId,
-        id: contentId,
-        isVisible,
-      }),
-      [
-        contentId,
-        isVisible,
-        otherProps,
-        triggerId,
-      ],
+  const {
+    id,
+    triggerIds,
+  } = (
+    useAccessibleTarget(
+      idProp
     )
   )
 
   const clonedChild = (
-    useMemo(
-      () => (
-        cloneElement(
-          (
-            Children
-            .only(
-              children
-            )
-          ),
-          childProps,
-        )
-      ),
-      [
-        children,
-        childProps,
-      ],
+    useClonedChild(
+      children,
+      {
+        ...otherProps,
+        'aria-labelledby': triggerIds,
+        id,
+        isVisible,
+      },
     )
   )
 

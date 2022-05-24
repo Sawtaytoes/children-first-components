@@ -10,6 +10,9 @@ import {
 } from 'react'
 
 import {
+  useClonedChild,
+} from './useClonedChild'
+import {
   VisibilityContext,
   VisibilityContextProps,
 } from './VisibilityContext'
@@ -48,81 +51,33 @@ const VisibilityConsumer: (
   ),
   ...otherProps
 }) => {
-  const {
-    contentId,
-    hide,
-    isVisible,
-    show,
-    toggleVisibility,
-    triggerId,
-  } = (
+  const visibilityContext = (
     useContext(
       VisibilityContext
     )
   )
 
-  const childProps = (
+  const translatedProps = (
     useMemo(
-      () => {
-        const translatedProps = (
-          translateProps({
-            contentId,
-            hide,
-            isVisible,
-            show,
-            toggleVisibility,
-            triggerId,
-          })
+      () => (
+        translateProps(
+          visibilityContext
         )
-
-        if (translatedProps) {
-          return {
-            ...otherProps,
-            ...translatedProps,
-          }
-        }
-        else {
-          return {
-            contentId,
-            hide,
-            isVisible,
-            show,
-            toggleVisibility,
-            triggerId,
-          }
-        }
-      },
+      ),
       [
-        children,
-        contentId,
-        hide,
-        isVisible,
-        otherProps,
-        show,
-        toggleVisibility,
         translateProps,
-        triggerId,
+        visibilityContext,
       ],
     )
   )
 
   const clonedChild = (
-    useMemo(
-      () => (
-        cloneElement(
-          (
-            Children
-            .only(
-              children
-            )
-          ),
-          childProps,
-        )
-      ),
-      [
-        children,
-        childProps,
-      ],
+    useClonedChild(
+      children,
+      {
+        ...otherProps,
+        ...translatedProps,
+      },
     )
   )
 

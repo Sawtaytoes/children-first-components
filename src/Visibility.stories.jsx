@@ -14,17 +14,20 @@ import {
   htmlStyleDecorators,
 } from './htmlStyleDecorators'
 import {
-  VisibilityContent,
-} from './VisibilityContent'
-import {
   HideOnEscapeKey,
 } from './HideOnEscapeKey'
 import {
   HtmlContent,
 } from './HtmlContent'
 import {
+  createVisibilityContextKey,
+} from './useSharedVisibilityContext'
+import {
   VisibilityConsumer,
 } from './VisibilityConsumer'
+import {
+  VisibilityContent,
+} from './VisibilityContent'
 import {
   VisibilityControlProvider,
 } from './VisibilityControlProvider'
@@ -37,9 +40,6 @@ import {
 import {
   VisibilityTrigger,
 } from './VisibilityTrigger'
-import {
-  createVisibilityContextKey,
-} from './useSharedVisibilityContext'
 
 export default {
   component: VisibilityProvider,
@@ -150,35 +150,53 @@ Standard
   )
 }
 
-export const MultipleTriggers = () => (
-  <VisibilityProvider>
-    <div>
-      <VisibilityTrigger>
-        <button>
-          Click me to reveal content
-        </button>
-      </VisibilityTrigger>
-    </div>
+export const APIIncompliantComponents = ({
+  translateTargetProps,
+  translateTriggerProps,
+  ...visibilityProviderProps
+}) => (
+  <VisibilityProvider
+    {...visibilityProviderProps}
+  >
+    <VisibilityConsumer
+      translateProps={({
+        toggle,
+      }) => ({
+        onSelect: toggle,
+      })}
+    >
+      <Button>
+        Click me to reveal content
+      </Button>
+    </VisibilityConsumer>
 
-    <div>
-      <VisibilityTrigger>
-        <button>
-          Click me to reveal the same content
-        </button>
-      </VisibilityTrigger>
-    </div>
-
-    <VisibilityTarget>
-      <HtmlContent>
-        <div>
-          Revealed content
-        </div>
-      </HtmlContent>
-    </VisibilityTarget>
+    <VisibilityConsumer
+      translateProps={({
+        isVisible,
+      }) => ({
+        isHidden: (
+          !isVisible
+        ),
+      })}
+    >
+      <Content>
+        Revealed content
+      </Content>
+    </VisibilityConsumer>
   </VisibilityProvider>
 )
 
-MultipleTriggers
+APIIncompliantComponents
+.args = {
+  isVisible: false,
+  onChange: (
+    action(
+      'onChange'
+    )
+  ),
+}
+
+APIIncompliantComponents
 .play = async ({
   canvasElement,
 }) => {
@@ -196,7 +214,7 @@ MultipleTriggers
           'region',
           {
             hidden: true,
-          },
+          }
         )
       )
       .not
@@ -208,10 +226,7 @@ MultipleTriggers
   .click(
     canvas
     .queryByRole(
-      'button',
-      {
-        name: 'Click me to reveal content',
-      },
+      'button'
     )
   )
 
@@ -231,10 +246,7 @@ MultipleTriggers
   .click(
     canvas
     .queryByRole(
-      'button',
-      {
-        name: 'Click me to reveal the same content',
-      },
+      'button'
     )
   )
 
@@ -251,6 +263,208 @@ MultipleTriggers
       )
       .not
       .toBeVisible()
+    })
+  )
+}
+
+const ModalContent = ({
+  'aria-labelledby': ariaLabelledBy,
+  children,
+  id,
+  isVisible,
+  onClick,
+}) => (
+  <div
+    aria-labelledby={ariaLabelledBy}
+    hidden={!isVisible}
+    id={id}
+    onClick={onClick}
+    role="dialog"
+  >
+    <div className="overlay">
+      <div className="content">
+        {children}
+      </div>
+    </div>
+  </div>
+)
+
+export const TargetWithTrigger = () => (
+  <VisibilityProvider>
+    <VisibilityTrigger>
+      <button>
+        Click me to reveal content
+      </button>
+    </VisibilityTrigger>
+
+    <VisibilityTrigger>
+      <VisibilityTarget>
+        <ModalContent>
+          Click me to hide content
+        </ModalContent>
+      </VisibilityTarget>
+    </VisibilityTrigger>
+  </VisibilityProvider>
+)
+
+TargetWithTrigger
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'dialog',
+          {
+            hidden: true,
+          },
+        )
+      )
+      .not
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button'
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'dialog'
+        )
+      )
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'dialog'
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'dialog',
+          {
+            hidden: true,
+          },
+        )
+      )
+      .not
+      .toBeVisible()
+    })
+  )
+}
+
+export const TargetWithTarget = () => (
+  <VisibilityProvider>
+    <VisibilityTrigger>
+      <button>
+        Click me to reveal content
+      </button>
+    </VisibilityTrigger>
+
+      <VisibilityTarget>
+        <VisibilityContent>
+          <VisibilityTrigger>
+            <VisibilityTarget>
+              <HtmlContent>
+                <div className="overlay">
+                  <div className="content">
+                    Revealed content
+                  </div>
+                </div>
+              </HtmlContent>
+            </VisibilityTarget>
+          </VisibilityTrigger>
+        </VisibilityContent>
+      </VisibilityTarget>
+  </VisibilityProvider>
+)
+
+TargetWithTarget
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByText(
+          'Revealed content',
+        )
+      )
+      .not
+      .toBeInTheDocument()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByText(
+          'Revealed content',
+        )
+      )
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByText(
+      'Revealed content',
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByText(
+          'Revealed content',
+        )
+      )
+      .not
+      .toBeInTheDocument()
     })
   )
 }
@@ -358,6 +572,111 @@ MultipleTargets
   )
 }
 
+export const MultipleTriggers = () => (
+  <VisibilityProvider>
+    <div>
+      <VisibilityTrigger>
+        <button>
+          Click me to reveal content
+        </button>
+      </VisibilityTrigger>
+    </div>
+
+    <div>
+      <VisibilityTrigger>
+        <button>
+          Click me to reveal the same content
+        </button>
+      </VisibilityTrigger>
+    </div>
+
+    <VisibilityTarget>
+      <HtmlContent>
+        <div>
+          Revealed content
+        </div>
+      </HtmlContent>
+    </VisibilityTarget>
+  </VisibilityProvider>
+)
+
+MultipleTriggers
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
+      )
+      .not
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'Click me to reveal content',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region'
+        )
+      )
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'Click me to reveal the same content',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
+      )
+      .not
+      .toBeVisible()
+    })
+  )
+}
+
 const Button = ({
   children,
   onSelect = () => {},
@@ -378,227 +697,6 @@ const Content = ({
     {children}
   </div>
 )
-
-export const APIIncompliantComponents = ({
-  translateTargetProps,
-  translateTriggerProps,
-  ...visibilityProviderProps
-}) => (
-  <VisibilityProvider
-    {...visibilityProviderProps}
-  >
-    <VisibilityConsumer
-      translateProps={({
-        toggleVisibility,
-      }) => ({
-        onSelect: toggleVisibility,
-      })}
-    >
-      <Button>
-        Click me to reveal content
-      </Button>
-    </VisibilityConsumer>
-
-    <VisibilityConsumer
-      translateProps={({
-        isVisible,
-      }) => ({
-        isHidden: (
-          !isVisible
-        ),
-      })}
-    >
-      <Content>
-        Revealed content
-      </Content>
-    </VisibilityConsumer>
-  </VisibilityProvider>
-)
-
-APIIncompliantComponents
-.args = {
-  isVisible: false,
-  onChange: (
-    action(
-      'onChange'
-    )
-  ),
-}
-
-APIIncompliantComponents
-.play = async ({
-  canvasElement,
-}) => {
-  const canvas = (
-    within(
-      canvasElement
-    )
-  )
-
-  await (
-    waitFor(() => {
-      expect(
-        canvas
-        .queryByRole(
-          'region',
-          {
-            hidden: true,
-          }
-        )
-      )
-      .not
-      .toBeVisible()
-    })
-  )
-
-  userEvent
-  .click(
-    canvas
-    .queryByRole(
-      'button'
-    )
-  )
-
-  await (
-    waitFor(() => {
-      expect(
-        canvas
-        .queryByRole(
-          'region'
-        )
-      )
-      .toBeVisible()
-    })
-  )
-
-  userEvent
-  .click(
-    canvas
-    .queryByRole(
-      'button'
-    )
-  )
-
-  await (
-    waitFor(() => {
-      expect(
-        canvas
-        .queryByRole(
-          'region',
-          {
-            hidden: true,
-          },
-        )
-      )
-      .not
-      .toBeVisible()
-    })
-  )
-}
-
-export const ShowOnHover = () => (
-  <VisibilityProvider>
-    <VisibilityConsumer
-      translateProps={({
-        contentId,
-        hide,
-        show,
-        triggerId,
-      }) => ({
-        'aria-controls': contentId,
-        onMouseEnter: show,
-        onMouseLeave: hide,
-        id: triggerId,
-      })}
-    >
-      <button>
-        Click me to reveal content
-      </button>
-    </VisibilityConsumer>
-
-    <VisibilityTarget>
-      <HtmlContent>
-        <div>
-          Revealed content
-        </div>
-      </HtmlContent>
-    </VisibilityTarget>
-  </VisibilityProvider>
-)
-
-ShowOnHover
-.storyName = 'Show on Hover'
-
-ShowOnHover
-.play = async ({
-  canvasElement,
-}) => {
-  const canvas = (
-    within(
-      canvasElement
-    )
-  )
-
-  await (
-    waitFor(() => {
-      expect(
-        canvas
-        .queryByRole(
-          'region',
-          {
-            hidden: true,
-          }
-        )
-      )
-      .not
-      .toBeVisible()
-    })
-  )
-
-  userEvent
-  .hover(
-    canvas
-    .queryByRole(
-      'button'
-    )
-  )
-
-  await (
-    waitFor(() => {
-      expect(
-        canvas
-        .queryByRole(
-          'region'
-        )
-      )
-      .toBeVisible()
-    })
-  )
-
-  userEvent
-  .unhover(
-    canvas
-    .queryByRole(
-      'button'
-    )
-  )
-
-  await (
-    waitFor(() => {
-      expect(
-        canvas
-        .queryByRole(
-          'region',
-          {
-            hidden: true,
-          },
-        )
-      )
-      .not
-      .toBeVisible()
-    })
-  )
-}
 
 export const MutuallyExclusive = () => (
   <div>
@@ -788,7 +886,7 @@ MutuallyExclusive
   )
 }
 
-export const UnifiedProviders = ({
+export const SyncedProviders = ({
   contextKey,
 }) => (
   <div>
@@ -832,14 +930,14 @@ export const UnifiedProviders = ({
   </div>
 )
 
-UnifiedProviders
+SyncedProviders
 .args = {
   contextKey: (
     createVisibilityContextKey()
   ),
 }
 
-UnifiedProviders
+SyncedProviders
 .argTypes = {
   contextKey: {
     table: {
@@ -848,7 +946,7 @@ UnifiedProviders
   },
 }
 
-UnifiedProviders
+SyncedProviders
 .play = async ({
   canvasElement,
 }) => {
@@ -1071,6 +1169,110 @@ ControlledProviders
       ?.toHaveLength?.(
         1
       )
+    })
+  )
+}
+
+export const ShowOnHover = () => (
+  <VisibilityProvider>
+    <VisibilityConsumer
+      translateProps={({
+        contentId,
+        hide,
+        show,
+        triggerId,
+      }) => ({
+        'aria-controls': contentId,
+        onMouseEnter: show,
+        onMouseLeave: hide,
+        id: triggerId,
+      })}
+    >
+      <button>
+        Click me to reveal content
+      </button>
+    </VisibilityConsumer>
+
+    <VisibilityTarget>
+      <HtmlContent>
+        <div>
+          Revealed content
+        </div>
+      </HtmlContent>
+    </VisibilityTarget>
+  </VisibilityProvider>
+)
+
+ShowOnHover
+.storyName = 'Show on Hover'
+
+ShowOnHover
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            hidden: true,
+          }
+        )
+      )
+      .not
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .hover(
+    canvas
+    .queryByRole(
+      'button'
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region'
+        )
+      )
+      .toBeVisible()
+    })
+  )
+
+  userEvent
+  .unhover(
+    canvas
+    .queryByRole(
+      'button'
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'region',
+          {
+            hidden: true,
+          },
+        )
+      )
+      .not
+      .toBeVisible()
     })
   )
 }
@@ -1511,201 +1713,6 @@ Inception
   )
 }
 
-export const HideContentWithTrigger = () => (
-  <VisibilityProvider>
-    <VisibilityTrigger>
-      <button>
-        Click me to reveal content
-      </button>
-    </VisibilityTrigger>
-
-    <VisibilityTrigger>
-      <VisibilityTarget>
-        <HtmlContent>
-          <div>
-            <div className="overlay">
-              <div className="content">
-                Revealed content
-              </div>
-            </div>
-          </div>
-        </HtmlContent>
-      </VisibilityTarget>
-    </VisibilityTrigger>
-  </VisibilityProvider>
-)
-
-HideContentWithTrigger
-.play = async ({
-  canvasElement,
-}) => {
-  const canvas = (
-    within(
-      canvasElement
-    )
-  )
-
-  await (
-    waitFor(() => {
-      expect(
-        canvas
-        .queryByRole(
-          'region',
-          {
-            hidden: true,
-          },
-        )
-      )
-      .not
-      .toBeVisible()
-    })
-  )
-
-  userEvent
-  .click(
-    canvas
-    .queryByRole(
-      'button',
-    )
-  )
-
-  await (
-    waitFor(() => {
-      expect(
-        canvas
-        .queryByRole(
-          'region',
-        )
-      )
-      .toBeVisible()
-    })
-  )
-
-  userEvent
-  .click(
-    canvas
-    .queryByRole(
-      'region',
-    )
-  )
-
-  await (
-    waitFor(() => {
-      expect(
-        canvas
-        .queryByRole(
-          'region',
-          {
-            hidden: true,
-          },
-        )
-      )
-      .not
-      .toBeVisible()
-    })
-  )
-}
-
-const ModalContent = ({
-  children,
-  isVisible,
-  onClick,
-}) => (
-  <div
-    hidden={!isVisible}
-    onClick={onClick}
-  >
-    <div className="overlay">
-      <div className="content">
-        {children}
-      </div>
-    </div>
-  </div>
-)
-
-export const HideModalComponentWithTrigger = () => (
-  <VisibilityProvider>
-    <VisibilityTrigger>
-      <button>
-        Click me to reveal content
-      </button>
-    </VisibilityTrigger>
-
-    <VisibilityTrigger>
-      <VisibilityTarget>
-        <ModalContent>
-          Revealed content
-        </ModalContent>
-      </VisibilityTarget>
-    </VisibilityTrigger>
-  </VisibilityProvider>
-)
-
-HideModalComponentWithTrigger
-.play = async ({
-  canvasElement,
-}) => {
-  const canvas = (
-    within(
-      canvasElement
-    )
-  )
-
-  await (
-    waitFor(() => {
-      expect(
-        canvas
-        .queryByText(
-          'Revealed content',
-        )
-      )
-      .not
-      .toBeVisible()
-    })
-  )
-
-  userEvent
-  .click(
-    canvas
-    .queryByRole(
-      'button',
-    )
-  )
-
-  await (
-    waitFor(() => {
-      expect(
-        canvas
-        .queryByText(
-          'Revealed content',
-        )
-      )
-      .toBeVisible()
-    })
-  )
-
-  userEvent
-  .click(
-    canvas
-    .queryByText(
-      'Revealed content',
-    )
-  )
-
-  await (
-    waitFor(() => {
-      expect(
-        canvas
-        .queryByText(
-          'Revealed content',
-        )
-      )
-      .not
-      .toBeVisible()
-    })
-  )
-}
-
 export const HideOnEscapeKeyImplementation = () => (
   <VisibilityProvider>
     <VisibilityTrigger>
@@ -1718,11 +1725,15 @@ export const HideOnEscapeKeyImplementation = () => (
 
     <VisibilityTarget>
       <VisibilityContent>
-        <div className="overlay">
-          <div className="content">
-            Revealed content
-          </div>
-        </div>
+        <VisibilityTarget>
+          <HtmlContent>
+            <div className="overlay">
+              <div className="content">
+                Revealed content
+              </div>
+            </div>
+          </HtmlContent>
+        </VisibilityTarget>
       </VisibilityContent>
     </VisibilityTarget>
   </VisibilityProvider>

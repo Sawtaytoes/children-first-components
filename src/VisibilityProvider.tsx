@@ -6,23 +6,28 @@ import {
 } from 'react'
 
 import {
-  VisibilityContext,
-} from './VisibilityContext'
+  AccessibleVisibilityContext,
+} from './AccessibleVisibilityContext'
+import {
+  useAccessibleVisibility,
+  UseAccessibleVisibilityProps,
+} from './useAccessibleVisibility'
 import {
   useVisibility,
   UseVisibilityProps,
 } from './useVisibility'
+import {
+  VisibilityContext,
+} from './VisibilityContext'
 
 export type VisibilityProviderProps = {
   children: ReactNode,
   contextKey?: (
-    UseVisibilityProps['contextKey']
+    | UseAccessibleVisibilityProps['contextKey']
+    | UseVisibilityProps['contextKey']
   ),
   isVisible?: (
     UseVisibilityProps['isVisible']
-  ),
-  name?: (
-    UseVisibilityProps['name']
   ),
   onChange?: (
     UseVisibilityProps['onChange']
@@ -37,61 +42,75 @@ const VisibilityProvider: (
   children,
   contextKey,
   isVisible: isVisibleProp,
-  name,
   onChange,
 }) => {
   const {
     hide,
     isVisible,
     show,
-    toggleVisibility,
-    uniqueId,
+    toggle,
   } = (
     useVisibility({
       contextKey,
       isVisible: isVisibleProp,
-      name,
       onChange,
     })
   )
 
-  const providerValue = (
+  const {
+    registerTargetId,
+    registerTriggerId,
+    targetIds,
+    triggerIds,
+  } = (
+    useAccessibleVisibility({
+      contextKey,
+    })
+  )
+
+  const visibilityProviderValue = (
     useMemo(
       () => ({
-        contentId: (
-          uniqueId
-          .concat(
-            '-',
-            'content',
-          )
-        ),
         hide,
         isVisible,
         show,
-        toggleVisibility,
-        triggerId: (
-          uniqueId
-          .concat(
-            '-',
-            'trigger',
-          )
-        ),
+        toggle,
       }),
       [
         hide,
         isVisible,
         show,
-        toggleVisibility,
-        uniqueId,
+        toggle,
+      ],
+    )
+  )
+
+  const accessibleVisibilityProviderValue = (
+    useMemo(
+      () => ({
+        registerTargetId,
+        registerTriggerId,
+        targetIds,
+        triggerIds,
+      }),
+      [
+        registerTargetId,
+        registerTriggerId,
+        targetIds,
+        triggerIds,
       ],
     )
   )
 
   return (
     <VisibilityContext.Provider
-      value={providerValue}
+      value={visibilityProviderValue}
     >
-      {children}
+      <AccessibleVisibilityContext.Provider
+        value={accessibleVisibilityProviderValue}
+      >
+        {children}
+      </AccessibleVisibilityContext.Provider>
     </VisibilityContext.Provider>
   )
 }

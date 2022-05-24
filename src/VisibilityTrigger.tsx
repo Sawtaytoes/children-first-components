@@ -11,14 +11,20 @@ import {
 } from 'react'
 
 import {
-  VisibilityContext,
-} from './VisibilityContext'
+  useAccessibleTrigger,
+} from './useAccessibleTrigger'
+import {
+  useClonedChild,
+} from './useClonedChild'
+import {
+  VisibilityContextKey,
+} from './useSharedVisibilityContext'
 import {
   useVisibility,
 } from './useVisibility'
 import {
-  VisibilityContextKey,
-} from './useSharedVisibilityContext'
+  VisibilityContext,
+} from './VisibilityContext'
 
 export type VisibilityTriggerProps = {
   children: (
@@ -29,6 +35,9 @@ export type VisibilityTriggerProps = {
     >
   ),
   eventName?: (
+    string
+  ),
+  id?: (
     string
   ),
   linkedContextKey?: (
@@ -50,14 +59,13 @@ const VisibilityTrigger: (
     defaultProps
     .eventName
   ),
+  id: idProp,
   linkedContextKey,
   ...otherProps
 }) => {
   const {
-    contentId,
     isVisible,
-    toggleVisibility,
-    triggerId,
+    toggle,
   } = (
     useContext(
       VisibilityContext
@@ -65,7 +73,16 @@ const VisibilityTrigger: (
   )
 
   const {
-    toggleVisibility: toggleNextVisibility,
+    id,
+    targetIds,
+  } = (
+    useAccessibleTrigger(
+      idProp
+    )
+  )
+
+  const {
+    toggle: toggleLinked,
   } = (
     useVisibility({
       contextKey: linkedContextKey
@@ -84,10 +101,10 @@ const VisibilityTrigger: (
           ...args
         )
 
-        toggleVisibility()
+        toggle()
 
         if (linkedContextKey) {
-          toggleNextVisibility()
+          toggleLinked()
         }
       },
       [
@@ -98,50 +115,22 @@ const VisibilityTrigger: (
           [eventName]
         ),
         linkedContextKey,
-        toggleVisibility,
-        toggleNextVisibility,
-      ],
-    )
-  )
-
-  const childProps = (
-    useMemo(
-      () => ({
-        ...otherProps,
-        [eventName]: onAction,
-        'aria-controls': contentId,
-        'aria-expanded': isVisible,
-        id: triggerId,
-        role: 'button',
-      }),
-      [
-        contentId,
-        eventName,
-        isVisible,
-        onAction,
-        otherProps,
-        triggerId,
+        toggle,
+        toggleLinked,
       ],
     )
   )
 
   const clonedChild = (
-    useMemo(
-      () => (
-        cloneElement(
-          (
-            Children
-            .only(
-              children
-            )
-          ),
-          childProps,
-        )
-      ),
-      [
-        children,
-        childProps,
-      ],
+    useClonedChild(
+      children,
+      {
+        ...otherProps,
+        [eventName]: onAction,
+        'aria-controls': targetIds,
+        'aria-expanded': isVisible,
+        id,
+      },
     )
   )
 

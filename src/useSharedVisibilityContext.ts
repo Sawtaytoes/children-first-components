@@ -12,8 +12,8 @@ import {
   VisibilityContextProps,
 } from './VisibilityContext'
 
-export type VisibilityContextKey = (
-  (
+export type VisibilityContextKeyProps = {
+  isVisibleAtom: (
     WritableAtom<
       VisibilityContextProps['isVisible'],
       (
@@ -23,19 +23,69 @@ export type VisibilityContextKey = (
       ),
       void
     >
+  ),
+  targetIds: (
+    WritableAtom<
+      string[],
+      (
+        SetStateAction<
+          string[]
+        >
+      ),
+      void
+    >
+  ),
+  triggerIds: (
+    WritableAtom<
+      string[],
+      (
+        SetStateAction<
+          string[]
+        >
+      ),
+      void
+    >
+  ),
+}
+
+export type VisibilityContextKey = (
+  (
+    WritableAtom<
+      object,
+      (
+        SetStateAction<
+          object
+        >
+      ),
+      void
+    >
   )
 )
 
 export const createVisibilityContextKey = () => (
-  createAtom(
-    defaultVisibilityContextValue
-    .isVisible
-  ) as VisibilityContextKey
+  createAtom({
+    isVisibleAtom: (
+      createAtom(
+        defaultVisibilityContextValue
+        .isVisible
+      )
+    ),
+    targetIdsAtom: (
+      createAtom(
+        []
+      )
+    ),
+    triggerIdsAtom: (
+      createAtom(
+        []
+      )
+    ),
+  }) as VisibilityContextKey
 )
 
 export const useSharedVisibilityContext = (
   createUseSharedContext<
-    VisibilityContextProps['isVisible']
+    object
   >({
     createContextKey: (
       createVisibilityContextKey

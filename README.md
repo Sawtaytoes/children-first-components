@@ -7,6 +7,9 @@ You can use this as inspiration or copy-paste directly, but please reference whe
 ### Visibility
 - `createVisibilityContextKey`
 - `createVisibilityControlContextKey`
+- `useAccessibleTarget`
+- `useAccessibleTrigger`
+- `useAccessibleVisibility`
 - `useVisibility`
 - `useVisibilityControl`
 - `VisibilityConsumer`

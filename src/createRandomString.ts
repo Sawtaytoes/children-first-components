@@ -11,6 +11,6 @@ export const createRandomString = (
     36
   )
   .slice(
-    -6
+    -8
   )
 )

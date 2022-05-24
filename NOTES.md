@@ -1,2 +1,1 @@
-- Remove `contentId` and `triggerId` from Visibility. Leave this up to consumers to figure out.
 - Try again to type with `ComponentType` in `cloneElement`, but specify other props are unknown.
