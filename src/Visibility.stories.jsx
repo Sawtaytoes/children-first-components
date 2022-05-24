@@ -3,12 +3,12 @@ import {
 } from '@storybook/addon-actions'
 import {
   expect,
-} from '@storybook/jest';
+} from '@storybook/jest'
 import {
   userEvent,
   waitFor,
   within,
-} from '@storybook/testing-library';
+} from '@storybook/testing-library'
 
 import {
   htmlStyleDecorators,
@@ -1023,9 +1023,11 @@ SyncedProviders
   )
 }
 
-export const ControlledProviders = () => (
+export const ControlledProviders = ({
+  onChange,
+}) => (
   <VisibilityControlProvider
-    onChange={action('control')}
+    onChange={onChange}
   >
     <div>
       <VisibilityProvider>
@@ -1064,6 +1066,15 @@ export const ControlledProviders = () => (
     </div>
   </VisibilityControlProvider>
 )
+
+ControlledProviders
+.args = {
+  onChange: (
+    action(
+      'control'
+    )
+  ),
+}
 
 ControlledProviders
 .play = async ({
