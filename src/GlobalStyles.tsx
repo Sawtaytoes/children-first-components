@@ -75,15 +75,13 @@ const GlobalStyles = () => (
           width: 20px;
         }
 
-        ul {
+        fieldset {
+          border: none;
           display: flex;
           gap: 6px;
           margin: 0;
+          outline: none;
           padding: 0;
-        }
-
-        li {
-          list-style: none;
         }
 
         span[aria-checked]:not([class]) {

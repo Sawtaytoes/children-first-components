@@ -21,7 +21,10 @@
   "module": "dist/esm",
   "types": "src/index.d.ts",
   "source": "src",
-  "sideEffects": false,
+  "sideEffects": [
+    "*.expect.js",
+    "*.expect.ts"
+  ],
   "license": "MIT",
   "publishConfig": {
     "access": "public"

@@ -7,7 +7,7 @@ import {
 } from 'react'
 
 // This hook is optional if you don't have a form state manager like OneForm.
-export const usePickerSelection = (
+export const usePickerField = (
   value: (
     InputHTMLAttributes<
       Element

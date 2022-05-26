@@ -21,7 +21,7 @@ import {
   useUniqueId,
 } from './useUniqueId'
 
-export type PickerSelectorProps = {
+export type PickerSelectionProps = {
   children: (
     ReactElement<
       JSXElementConstructor<
@@ -55,9 +55,9 @@ const defaultProps = {
   value: null,
 }
 
-const PickerSelector: (
+const PickerSelection: (
   FunctionComponent<
-    PickerSelectorProps
+    PickerSelectionProps
   >
 ) = ({
   children,
@@ -187,12 +187,12 @@ const PickerSelector: (
   )
 }
 
-const MemoizedPickerSelector = (
+const MemoizedPickerSelection = (
   memo(
-    PickerSelector
+    PickerSelection
   )
 )
 
 export {
-  MemoizedPickerSelector as PickerSelector,
+  MemoizedPickerSelection as PickerSelection,
 }

@@ -22,11 +22,11 @@ import {
   SelectionType,
 } from './PickerProvider'
 import {
-  PickerSelector,
-} from './PickerSelector'
+  PickerSelection,
+} from './PickerSelection'
 import {
-  usePickerSelection,
-} from './usePickerSelection'
+  usePickerField,
+} from './usePickerField'
 
 export default {
   component: PickerProvider,
@@ -47,7 +47,7 @@ const ButtonOption = ({
   </button>
 )
 
-const HtmlOption = ({
+const InputOption = ({
   children,
   isSelected,
   role,
@@ -66,37 +66,31 @@ export const Standard = (
   <PickerProvider
     {...pickerProviderProps}
   >
-    <ul>
-      <li>
-        <PickerSelector
-          value="first"
-        >
-          <HtmlOption>
-            First
-          </HtmlOption>
-        </PickerSelector>
-      </li>
+    <fieldset role="radiogroup">
+      <PickerSelection
+        value="first"
+      >
+        <InputOption>
+          First
+        </InputOption>
+      </PickerSelection>
 
-      <li>
-        <PickerSelector
-          value="second"
-        >
-          <HtmlOption>
-            Second
-          </HtmlOption>
-        </PickerSelector>
-      </li>
+      <PickerSelection
+        value="second"
+      >
+        <InputOption>
+          Second
+        </InputOption>
+      </PickerSelection>
 
-      <li>
-        <PickerSelector
-          value="third"
-        >
-          <HtmlOption>
-            Third
-          </HtmlOption>
-        </PickerSelector>
-      </li>
-    </ul>
+      <PickerSelection
+        value="third"
+      >
+        <InputOption>
+          Third
+        </InputOption>
+      </PickerSelection>
+    </fieldset>
   </PickerProvider>
 )
 
@@ -213,7 +207,7 @@ export const SingleSelectionHook = () => {
     onChange,
     value,
   } = (
-    usePickerSelection(
+    usePickerField(
       ''
     )
   )
@@ -227,37 +221,31 @@ export const SingleSelectionHook = () => {
       }
       value={value}
     >
-      <ul>
-        <li>
-          <PickerSelector
-            value="first"
-          >
-            <HtmlOption>
-              First
-            </HtmlOption>
-          </PickerSelector>
-        </li>
+      <fieldset>
+        <PickerSelection
+          value="first"
+        >
+          <InputOption>
+            First
+          </InputOption>
+        </PickerSelection>
 
-        <li>
-          <PickerSelector
-            value="second"
-          >
-            <HtmlOption>
-              Second
-            </HtmlOption>
-          </PickerSelector>
-        </li>
+        <PickerSelection
+          value="second"
+        >
+          <InputOption>
+            Second
+          </InputOption>
+        </PickerSelection>
 
-        <li>
-          <PickerSelector
-            value="third"
-          >
-            <HtmlOption>
-              Third
-            </HtmlOption>
-          </PickerSelector>
-        </li>
-      </ul>
+        <PickerSelection
+          value="third"
+        >
+          <InputOption>
+            Third
+          </InputOption>
+        </PickerSelection>
+      </fieldset>
     </PickerProvider>
   )
 }
@@ -423,7 +411,7 @@ export const MultipleSelectionHook = () => {
     onChange,
     value,
   } = (
-    usePickerSelection(
+    usePickerField(
       defaultMultipleSelectionHookValue
     )
   )
@@ -437,37 +425,31 @@ export const MultipleSelectionHook = () => {
       }
       value={value}
     >
-      <ul>
-        <li>
-          <PickerSelector
-            value="first"
-          >
-            <HtmlOption>
-              First
-            </HtmlOption>
-          </PickerSelector>
-        </li>
+      <fieldset>
+        <PickerSelection
+          value="first"
+        >
+          <InputOption>
+            First
+          </InputOption>
+        </PickerSelection>
 
-        <li>
-          <PickerSelector
-            value="second"
-          >
-            <HtmlOption>
-              Second
-            </HtmlOption>
-          </PickerSelector>
-        </li>
+        <PickerSelection
+          value="second"
+        >
+          <InputOption>
+            Second
+          </InputOption>
+        </PickerSelection>
 
-        <li>
-          <PickerSelector
-            value="third"
-          >
-            <HtmlOption>
-              Third
-            </HtmlOption>
-          </PickerSelector>
-        </li>
-      </ul>
+        <PickerSelection
+          value="third"
+        >
+          <InputOption>
+            Third
+          </InputOption>
+        </PickerSelection>
+      </fieldset>
     </PickerProvider>
   )
 }
@@ -670,12 +652,12 @@ MultipleSelectionHook
   )
 }
 
-export const SingleSelectionButtonOption = () => {
+export const SingleSelectionButton = () => {
   const {
     onChange,
     value,
   } = (
-    usePickerSelection(
+    usePickerField(
       ''
     )
   )
@@ -689,42 +671,36 @@ export const SingleSelectionButtonOption = () => {
       }
       value={value}
     >
-      <ul>
-        <li>
-          <PickerSelector
-            value="first"
-          >
-            <ButtonOption>
-              First
-            </ButtonOption>
-          </PickerSelector>
-        </li>
+      <fieldset>
+        <PickerSelection
+          value="first"
+        >
+          <ButtonOption>
+            First
+          </ButtonOption>
+        </PickerSelection>
 
-        <li>
-          <PickerSelector
-            value="second"
-          >
-            <ButtonOption>
-              Second
-            </ButtonOption>
-          </PickerSelector>
-        </li>
+        <PickerSelection
+          value="second"
+        >
+          <ButtonOption>
+            Second
+          </ButtonOption>
+        </PickerSelection>
 
-        <li>
-          <PickerSelector
-            value="third"
-          >
-            <ButtonOption>
-              Third
-            </ButtonOption>
-          </PickerSelector>
-        </li>
-      </ul>
+        <PickerSelection
+          value="third"
+        >
+          <ButtonOption>
+            Third
+          </ButtonOption>
+        </PickerSelection>
+      </fieldset>
     </PickerProvider>
   )
 }
 
-SingleSelectionButtonOption
+SingleSelectionButton
 .play = async ({
   canvasElement,
 }) => {
@@ -885,7 +861,7 @@ export const MultipleSelectionButton = () => {
     onChange,
     value,
   } = (
-    usePickerSelection(
+    usePickerField(
       defaultMultipleSelectionButtonValue
     )
   )
@@ -899,37 +875,31 @@ export const MultipleSelectionButton = () => {
       }
       value={value}
     >
-      <ul>
-        <li>
-          <PickerSelector
-            value="first"
-          >
-            <ButtonOption>
-              First
-            </ButtonOption>
-          </PickerSelector>
-        </li>
+      <fieldset>
+        <PickerSelection
+          value="first"
+        >
+          <ButtonOption>
+            First
+          </ButtonOption>
+        </PickerSelection>
 
-        <li>
-          <PickerSelector
-            value="second"
-          >
-            <ButtonOption>
-              Second
-            </ButtonOption>
-          </PickerSelector>
-        </li>
+        <PickerSelection
+          value="second"
+        >
+          <ButtonOption>
+            Second
+          </ButtonOption>
+        </PickerSelection>
 
-        <li>
-          <PickerSelector
-            value="third"
-          >
-            <ButtonOption>
-              Third
-            </ButtonOption>
-          </PickerSelector>
-        </li>
-      </ul>
+        <PickerSelection
+          value="third"
+        >
+          <ButtonOption>
+            Third
+          </ButtonOption>
+        </PickerSelection>
+      </fieldset>
     </PickerProvider>
   )
 }
@@ -1142,37 +1112,31 @@ export const SingleSelectionOneForm = () => (
           .single
         }
       >
-        <ul>
-          <li>
-            <PickerSelector
-              value="first"
-            >
-              <HtmlOption>
-                First
-              </HtmlOption>
-            </PickerSelector>
-          </li>
+        <fieldset>
+          <PickerSelection
+            value="first"
+          >
+            <InputOption>
+              First
+            </InputOption>
+          </PickerSelection>
 
-          <li>
-            <PickerSelector
-              value="second"
-            >
-              <HtmlOption>
-                Second
-              </HtmlOption>
-            </PickerSelector>
-          </li>
+          <PickerSelection
+            value="second"
+          >
+            <InputOption>
+              Second
+            </InputOption>
+          </PickerSelection>
 
-          <li>
-            <PickerSelector
-              value="third"
-            >
-              <HtmlOption>
-                Third
-              </HtmlOption>
-            </PickerSelector>
-          </li>
-        </ul>
+          <PickerSelection
+            value="third"
+          >
+            <InputOption>
+              Third
+            </InputOption>
+          </PickerSelection>
+        </fieldset>
       </PickerProvider>
     </Field>
   </OneForm>
@@ -1353,37 +1317,31 @@ export const MultipleSelectionOneForm = () => (
           .multiple
         }
       >
-        <ul>
-          <li>
-            <PickerSelector
-              value="first"
-            >
-              <HtmlOption>
-                First
-              </HtmlOption>
-            </PickerSelector>
-          </li>
+        <fieldset>
+          <PickerSelection
+            value="first"
+          >
+            <InputOption>
+              First
+            </InputOption>
+          </PickerSelection>
 
-          <li>
-            <PickerSelector
-              value="second"
-            >
-              <HtmlOption>
-                Second
-              </HtmlOption>
-            </PickerSelector>
-          </li>
+          <PickerSelection
+            value="second"
+          >
+            <InputOption>
+              Second
+            </InputOption>
+          </PickerSelection>
 
-          <li>
-            <PickerSelector
-              value="third"
-            >
-              <HtmlOption>
-                Third
-              </HtmlOption>
-            </PickerSelector>
-          </li>
-        </ul>
+          <PickerSelection
+            value="third"
+          >
+            <InputOption>
+              Third
+            </InputOption>
+          </PickerSelection>
+        </fieldset>
       </PickerProvider>
     </Field>
   </OneForm>
