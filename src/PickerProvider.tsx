@@ -38,6 +38,7 @@ const selectionTypeToOptionType: (
 
 export type PickerProviderProps = {
   children: ReactNode,
+  name?: string,
   onChange?: (
     event: (
       ChangeEvent<
@@ -56,6 +57,7 @@ export type PickerProviderProps = {
 }
 
 const defaultProps = {
+  name: '',
   onChange: () => {},
   value: '',
 }
@@ -79,6 +81,7 @@ const PickerProvider: (
   const providerValue = (
     useMemo(
       () => ({
+        name,
         onChange,
         optionType: (
           selectionTypeToOptionType
@@ -87,6 +90,7 @@ const PickerProvider: (
         selectedValue: value,
       }),
       [
+        name,
         onChange,
         selectionType,
         value,

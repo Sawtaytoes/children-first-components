@@ -35,17 +35,32 @@ const GlobalStyles = () => (
         }
 
         button {
-          box-shadow: rgb(170, 170, 170) 0 4px 0 0;
+          --box-shadow-color: #aaaaaa;
+          box-shadow: var(--box-shadow-color) 0 4px 0 0;
         }
 
-        button:hover {
-          box-shadow: rgb(170, 170, 170) 0 2px 0 0;
+        button:hover,
+        button[aria-pressed="true"] {
+          box-shadow:
+          var(--box-shadow-color) 0 2px 0 0;
           position: relative;
           top: 2px;
         }
 
+        button[aria-pressed="true"] {
+          --box-shadow-color: darkgreen;
+          background-color: green;
+          color: lightgreen;
+        }
+
+        button[aria-pressed="false"] {
+          --box-shadow-color: darkred;
+          background-color: crimson;
+          color: pink;
+        }
+
         button:active {
-          box-shadow: rgb(170, 170, 170) 0 0 0 0;
+          box-shadow: var(--box-shadow-color) 0 0 0 0;
           position: relative;
           top: 4px;
         }
@@ -60,11 +75,22 @@ const GlobalStyles = () => (
           width: 20px;
         }
 
+        ul {
+          display: flex;
+          gap: 6px;
+          margin: 0;
+          padding: 0;
+        }
+
+        li {
+          list-style: none;
+        }
+
         span[aria-checked]:not([class]) {
           border: 2px solid black;
+          border-radius: 10px;
           cursor: pointer;
           display: inline-block;
-          margin: 2px;
           padding: 10px;
           user-select: none;
         }

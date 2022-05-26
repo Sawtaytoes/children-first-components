@@ -4,8 +4,10 @@ import {
   JSXElementConstructor,
   memo,
   ReactElement,
+  useCallback,
   useContext,
   useMemo,
+  useRef,
 } from 'react'
 
 import {
@@ -31,6 +33,7 @@ export type PickerSelectorProps = {
   translateProps?: (
     childProps: {
       isSelected: boolean,
+      onClick: () => void,
       role: OptionType,
     }
   ) => (
@@ -72,7 +75,27 @@ const PickerSelector: (
   ),
   ...otherProps
 }) => {
+  const inputRef = (
+    useRef<
+      HTMLInputElement
+    >()
+  )
+
+  const inputId = useUniqueId()
+
+  const onClick = (
+    useCallback(
+      () => {
+        inputRef
+        .current
+        ?.click()
+      },
+      [],
+    )
+  )
+
   const {
+    name,
     onChange,
     optionType,
     selectedValue,
@@ -109,22 +132,23 @@ const PickerSelector: (
     )
   )
 
-  const inputId = useUniqueId()
-
   const translatedProps = (
     useMemo(
       () => (
         translateProps({
           isSelected,
+          onClick,
           role: optionType,
         })
         || {
           isSelected,
+          onClick,
           role: optionType,
         }
       ),
       [
         isSelected,
+        onClick,
         optionType,
         translateProps,
       ],
@@ -151,7 +175,9 @@ const PickerSelector: (
         checked={isSelected}
         hidden
         id={inputId}
+        name={name}
         onChange={onChange}
+        ref={inputRef}
         type={optionType}
         value={value}
       />
