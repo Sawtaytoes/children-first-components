@@ -27,6 +27,7 @@ import {
 import {
   usePickerField,
 } from './usePickerField'
+import './toBePressed.expect'
 
 export default {
   component: PickerProvider,
@@ -715,7 +716,7 @@ SingleSelectionButton
       expect(
         canvas
         .queryAllByRole(
-          'radio',
+          'button',
         )
       )
       .toHaveLength(
@@ -728,7 +729,7 @@ SingleSelectionButton
   .click(
     canvas
     .queryByRole(
-      'radio',
+      'button',
       {
         name: 'First',
       },
@@ -740,13 +741,13 @@ SingleSelectionButton
       expect(
         canvas
         .queryByRole(
-          'radio',
+          'button',
           {
             name: 'First',
           },
         )
       )
-      .toBeChecked()
+      .toBePressed()
     })
   )
 
@@ -755,9 +756,9 @@ SingleSelectionButton
       expect(
         canvas
         .queryAllByRole(
-          'radio',
+          'button',
           {
-            checked: true,
+            pressed: true,
           },
         )
       )
@@ -771,7 +772,7 @@ SingleSelectionButton
   .click(
     canvas
     .queryByRole(
-      'radio',
+      'button',
       {
         name: 'Second',
       },
@@ -783,13 +784,13 @@ SingleSelectionButton
       expect(
         canvas
         .queryByRole(
-          'radio',
+          'button',
           {
             name: 'Second',
           },
         )
       )
-      .toBeChecked()
+      .toBePressed()
     })
   )
 
@@ -798,9 +799,9 @@ SingleSelectionButton
       expect(
         canvas
         .queryAllByRole(
-          'radio',
+          'button',
           {
-            checked: true,
+            pressed: true,
           },
         )
       )
@@ -814,7 +815,7 @@ SingleSelectionButton
   .click(
     canvas
     .queryByRole(
-      'radio',
+      'button',
       {
         name: 'Second',
       },
@@ -826,13 +827,13 @@ SingleSelectionButton
       expect(
         canvas
         .queryByRole(
-          'radio',
+          'button',
           {
             name: 'Second',
           },
         )
       )
-      .toBeChecked()
+      .toBePressed()
     })
   )
 
@@ -841,9 +842,9 @@ SingleSelectionButton
       expect(
         canvas
         .queryAllByRole(
-          'radio',
+          'button',
           {
-            checked: true,
+            pressed: true,
           },
         )
       )
@@ -919,7 +920,7 @@ MultipleSelectionButton
       expect(
         canvas
         .queryAllByRole(
-          'checkbox',
+          'button',
         )
       )
       .toHaveLength(
@@ -932,7 +933,7 @@ MultipleSelectionButton
   .click(
     canvas
     .queryByRole(
-      'checkbox',
+      'button',
       {
         name: 'First',
       },
@@ -944,13 +945,13 @@ MultipleSelectionButton
       expect(
         canvas
         .queryByRole(
-          'checkbox',
+          'button',
           {
             name: 'First',
           },
         )
       )
-      .toBeChecked()
+      .toBePressed()
     })
   )
 
@@ -959,9 +960,9 @@ MultipleSelectionButton
       expect(
         canvas
         .queryAllByRole(
-          'checkbox',
+          'button',
           {
-            checked: true,
+            pressed: true,
           },
         )
       )
@@ -975,7 +976,7 @@ MultipleSelectionButton
   .click(
     canvas
     .queryByRole(
-      'checkbox',
+      'button',
       {
         name: 'Second',
       },
@@ -987,13 +988,13 @@ MultipleSelectionButton
       expect(
         canvas
         .queryByRole(
-          'checkbox',
+          'button',
           {
             name: 'First',
           },
         )
       )
-      .toBeChecked()
+      .toBePressed()
     })
   )
 
@@ -1002,13 +1003,13 @@ MultipleSelectionButton
       expect(
         canvas
         .queryByRole(
-          'checkbox',
+          'button',
           {
             name: 'Second',
           },
         )
       )
-      .toBeChecked()
+      .toBePressed()
     })
   )
 
@@ -1017,9 +1018,9 @@ MultipleSelectionButton
       expect(
         canvas
         .queryAllByRole(
-          'checkbox',
+          'button',
           {
-            checked: true,
+            pressed: true,
           },
         )
       )
@@ -1033,7 +1034,7 @@ MultipleSelectionButton
   .click(
     canvas
     .queryByRole(
-      'checkbox',
+      'button',
       {
         name: 'Third',
       },
@@ -1045,9 +1046,9 @@ MultipleSelectionButton
       expect(
         canvas
         .queryAllByRole(
-          'checkbox',
+          'button',
           {
-            checked: true,
+            pressed: true,
           },
         )
       )
@@ -1061,7 +1062,7 @@ MultipleSelectionButton
   .click(
     canvas
     .queryByRole(
-      'checkbox',
+      'button',
       {
         name: 'First',
       },
@@ -1073,14 +1074,14 @@ MultipleSelectionButton
       expect(
         canvas
         .queryByRole(
-          'checkbox',
+          'button',
           {
             name: 'First',
           },
         )
       )
       .not
-      .toBeChecked()
+      .toBePressed()
     })
   )
 
@@ -1089,9 +1090,9 @@ MultipleSelectionButton
       expect(
         canvas
         .queryAllByRole(
-          'checkbox',
+          'button',
           {
-            checked: true,
+            pressed: true,
           },
         )
       )
