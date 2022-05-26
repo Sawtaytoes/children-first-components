@@ -10,6 +10,7 @@ export enum OptionType {
 }
 
 export type PickerContextProps = {
+  name: string,
   onChange: (
     event: (
       ChangeEvent<
@@ -30,6 +31,7 @@ export type PickerContextProps = {
 export const defaultPickerContextValue: (
   PickerContextProps
 ) = {
+  name: '',
   onChange: () => {},
   optionType: (
     OptionType
