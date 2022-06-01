@@ -67,7 +67,7 @@ export const Standard = (
   <PickerProvider
     {...pickerProviderProps}
   >
-    <fieldset role="radiogroup">
+    <fieldset>
       <PickerSelection
         value="first"
       >
