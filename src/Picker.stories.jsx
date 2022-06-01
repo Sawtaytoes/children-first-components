@@ -89,7 +89,7 @@ const InputRoleOption = ({
     aria-label={children}
     onClick={onClick}
     role={role}
-    tabindex="0"
+    tabIndex="0"
   >
     {children}
   </span>
@@ -106,7 +106,7 @@ const SelectOption = ({
     aria-selected={isSelected}
     onClick={onClick}
     role="option"
-    tabindex="0"
+    tabIndex="0"
   >
     {children}
   </span>
