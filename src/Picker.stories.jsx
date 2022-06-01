@@ -57,6 +57,23 @@ const ButtonOption = ({
 const InputOption = ({
   children,
   isSelected,
+  name,
+  role,
+  value,
+}) => (
+  <input
+    checked={isSelected}
+    name={name}
+    type={role}
+    value={value}
+  >
+    {children}
+  </span>
+)
+
+const InputRoleOption = ({
+  children,
+  isSelected,
   role,
 }) => (
   <span
@@ -101,25 +118,25 @@ export const Standard = (
       <PickerSelector
         value="first"
       >
-        <InputOption>
+        <InputRoleOption>
           First
-        </InputOption>
+        </InputRoleOption>
       </PickerSelector>
 
       <PickerSelector
         value="second"
       >
-        <InputOption>
+        <InputRoleOption>
           Second
-        </InputOption>
+        </InputRoleOption>
       </PickerSelector>
 
       <PickerSelector
         value="third"
       >
-        <InputOption>
+        <InputRoleOption>
           Third
-        </InputOption>
+        </InputRoleOption>
       </PickerSelector>
     </fieldset>
   </PickerProvider>
@@ -233,7 +250,7 @@ Standard
   )
 }
 
-export const SingleSelectionHook = () => {
+export const SingleSelectionInput = () => {
   const {
     onChange,
     value,
@@ -281,7 +298,7 @@ export const SingleSelectionHook = () => {
   )
 }
 
-SingleSelectionHook
+SingleSelectionInput
 .play = async ({
   canvasElement,
 }) => {
@@ -435,15 +452,15 @@ SingleSelectionHook
   )
 }
 
-const defaultMultipleSelectionHookValue = []
+const defaultMultipleSelectionInputValue = []
 
-export const MultipleSelectionHook = () => {
+export const MultipleSelectionInput = () => {
   const {
     onChange,
     value,
   } = (
     usePickerField(
-      defaultMultipleSelectionHookValue
+      defaultMultipleSelectionInputValue
     )
   )
 
@@ -485,7 +502,457 @@ export const MultipleSelectionHook = () => {
   )
 }
 
-MultipleSelectionHook
+MultipleSelectionInput
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'checkbox',
+        )
+      )
+      .toHaveLength(
+        3
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'checkbox',
+      {
+        name: 'First',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'checkbox',
+          {
+            name: 'First',
+          },
+        )
+      )
+      .toBeChecked()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'checkbox',
+          {
+            checked: true,
+          },
+        )
+      )
+      .toHaveLength(
+        1
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'checkbox',
+      {
+        name: 'Second',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'checkbox',
+          {
+            name: 'First',
+          },
+        )
+      )
+      .toBeChecked()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'checkbox',
+          {
+            name: 'Second',
+          },
+        )
+      )
+      .toBeChecked()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'checkbox',
+          {
+            checked: true,
+          },
+        )
+      )
+      .toHaveLength(
+        2
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'checkbox',
+      {
+        name: 'Third',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'checkbox',
+          {
+            checked: true,
+          },
+        )
+      )
+      .toHaveLength(
+        3
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'checkbox',
+      {
+        name: 'First',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'checkbox',
+          {
+            name: 'First',
+          },
+        )
+      )
+      .not
+      .toBeChecked()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'checkbox',
+          {
+            checked: true,
+          },
+        )
+      )
+      .toHaveLength(
+        2
+      )
+    })
+  )
+}
+
+export const SingleSelectionInputRole = () => {
+  const {
+    onChange,
+    value,
+  } = (
+    usePickerField(
+      ''
+    )
+  )
+
+  return (
+    <PickerProvider
+      onChange={onChange}
+      selectionType={
+        SelectionType
+        .single
+      }
+      value={value}
+    >
+      <fieldset>
+        <PickerSelector
+          value="first"
+        >
+          <InputRoleOption>
+            First
+          </InputRoleOption>
+        </PickerSelector>
+
+        <PickerSelector
+          value="second"
+        >
+          <InputRoleOption>
+            Second
+          </InputRoleOption>
+        </PickerSelector>
+
+        <PickerSelector
+          value="third"
+        >
+          <InputRoleOption>
+            Third
+          </InputRoleOption>
+        </PickerSelector>
+      </fieldset>
+    </PickerProvider>
+  )
+}
+
+SingleSelectionInputRole
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'radio',
+        )
+      )
+      .toHaveLength(
+        3
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'radio',
+      {
+        name: 'First',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'radio',
+          {
+            name: 'First',
+          },
+        )
+      )
+      .toBeChecked()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'radio',
+          {
+            checked: true,
+          },
+        )
+      )
+      .toHaveLength(
+        1
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'radio',
+      {
+        name: 'Second',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'radio',
+          {
+            name: 'Second',
+          },
+        )
+      )
+      .toBeChecked()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'radio',
+          {
+            checked: true,
+          },
+        )
+      )
+      .toHaveLength(
+        1
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'radio',
+      {
+        name: 'Second',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'radio',
+          {
+            name: 'Second',
+          },
+        )
+      )
+      .toBeChecked()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'radio',
+          {
+            checked: true,
+          },
+        )
+      )
+      .toHaveLength(
+        1
+      )
+    })
+  )
+}
+
+const defaultMultipleSelectionInputRoleValue = []
+
+export const MultipleSelectionInputRole = () => {
+  const {
+    onChange,
+    value,
+  } = (
+    usePickerField(
+      defaultMultipleSelectionInputRoleValue
+    )
+  )
+
+  return (
+    <PickerProvider
+      onChange={onChange}
+      selectionType={
+        SelectionType
+        .multiple
+      }
+      value={value}
+    >
+      <fieldset>
+        <PickerSelector
+          value="first"
+        >
+          <InputRoleOption>
+            First
+          </InputRoleOption>
+        </PickerSelector>
+
+        <PickerSelector
+          value="second"
+        >
+          <InputRoleOption>
+            Second
+          </InputRoleOption>
+        </PickerSelector>
+
+        <PickerSelector
+          value="third"
+        >
+          <InputRoleOption>
+            Third
+          </InputRoleOption>
+        </PickerSelector>
+      </fieldset>
+    </PickerProvider>
+  )
+}
+
+MultipleSelectionInputRole
 .play = async ({
   canvasElement,
 }) => {
@@ -1603,25 +2070,25 @@ export const SingleSelectionOneForm = () => (
           <PickerSelector
             value="first"
           >
-            <InputOption>
+            <InputRoleOption>
               First
-            </InputOption>
+            </InputRoleOption>
           </PickerSelector>
 
           <PickerSelector
             value="second"
           >
-            <InputOption>
+            <InputRoleOption>
               Second
-            </InputOption>
+            </InputRoleOption>
           </PickerSelector>
 
           <PickerSelector
             value="third"
           >
-            <InputOption>
+            <InputRoleOption>
               Third
-            </InputOption>
+            </InputRoleOption>
           </PickerSelector>
         </fieldset>
       </PickerProvider>
@@ -1788,15 +2255,9 @@ SingleSelectionOneForm
   )
 }
 
-const defaultMultipleSelectionOneFormValues = {
-  picker: [],
-}
-
 export const MultipleSelectionOneForm = () => (
-  <OneForm
-    values={defaultMultipleSelectionOneFormValues}
-  >
-    <Field>
+  <OneForm>
+    <Field isMultiFieldElement>
       <PickerProvider
         name="picker"
         selectionType={
@@ -1808,25 +2269,25 @@ export const MultipleSelectionOneForm = () => (
           <PickerSelector
             value="first"
           >
-            <InputOption>
+            <InputRoleOption>
               First
-            </InputOption>
+            </InputRoleOption>
           </PickerSelector>
 
           <PickerSelector
             value="second"
           >
-            <InputOption>
+            <InputRoleOption>
               Second
-            </InputOption>
+            </InputRoleOption>
           </PickerSelector>
 
           <PickerSelector
             value="third"
           >
-            <InputOption>
+            <InputRoleOption>
               Third
-            </InputOption>
+            </InputRoleOption>
           </PickerSelector>
         </fieldset>
       </PickerProvider>
