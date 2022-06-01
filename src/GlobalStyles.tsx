@@ -48,15 +48,9 @@ const GlobalStyles = () => (
         }
 
         button[aria-pressed="true"] {
-          --box-shadow-color: darkgreen;
-          background-color: green;
-          color: lightgreen;
-        }
-
-        button[aria-pressed="false"] {
-          --box-shadow-color: darkred;
-          background-color: crimson;
-          color: pink;
+          --box-shadow-color: bisque;
+          background-color: beige;
+          color: lightsalmon;
         }
 
         button:active {
