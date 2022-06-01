@@ -13,6 +13,9 @@ import {
   waitFor,
   within,
 } from '@storybook/testing-library'
+import {
+  Fragment,
+} from 'react'
 
 import {
   htmlStyleDecorators,
@@ -58,54 +61,67 @@ const InputOption = ({
   children,
   isSelected,
   name,
+  onClick,
   role,
   value,
 }) => (
-  <input
-    checked={isSelected}
-    name={name}
-    type={role}
-    value={value}
-  >
+  <label>
+    <input
+      checked={isSelected}
+      name={name}
+      onClick={onClick}
+      type={role}
+      value={value}
+    />
+
     {children}
-  </span>
+  </label>
 )
 
 const InputRoleOption = ({
   children,
   isSelected,
+  onClick,
   role,
 }) => (
   <span
     aria-checked={isSelected}
+    aria-label={children}
+    onClick={onClick}
     role={role}
+    tabindex="0"
   >
     {children}
   </span>
-)
-
-const SelectOptionGroup = ({
-  children,
-}) => (
-  <div
-    aria-orientation="vertical"
-    role="listbox"
-  >
-    {children}
-  </div>
 )
 
 const SelectOption = ({
   children,
   isSelected,
+  onClick,
   role,
 }) => (
   <span
+    aria-label={children}
     aria-selected={isSelected}
+    onClick={onClick}
     role="option"
+    tabindex="0"
   >
     {children}
   </span>
+)
+
+const SelectOptionList = ({
+  children,
+}) => (
+  <div
+    aria-orientation="vertical"
+    data-vertical
+    role="listbox"
+  >
+    {children}
+  </div>
 )
 
 export const Standard = (
@@ -114,7 +130,7 @@ export const Standard = (
   <PickerProvider
     {...pickerProviderProps}
   >
-    <fieldset>
+    <fieldset data-horizontal>
       <PickerSelector
         value="first"
       >
@@ -269,7 +285,7 @@ export const SingleSelectionInput = () => {
       }
       value={value}
     >
-      <fieldset>
+      <fieldset data-vertical>
         <PickerSelector
           value="first"
         >
@@ -473,7 +489,7 @@ export const MultipleSelectionInput = () => {
       }
       value={value}
     >
-      <fieldset>
+      <fieldset data-vertical>
         <PickerSelector
           value="first"
         >
@@ -719,7 +735,7 @@ export const SingleSelectionInputRole = () => {
       }
       value={value}
     >
-      <fieldset>
+      <fieldset data-horizontal>
         <PickerSelector
           value="first"
         >
@@ -923,7 +939,7 @@ export const MultipleSelectionInputRole = () => {
       }
       value={value}
     >
-      <fieldset>
+      <fieldset data-horizontal>
         <PickerSelector
           value="first"
         >
@@ -1169,7 +1185,7 @@ export const SingleSelectionButton = () => {
       }
       value={value}
     >
-      <fieldset>
+      <fieldset data-horizontal>
         <PickerSelector
           value="first"
         >
@@ -1373,7 +1389,7 @@ export const MultipleSelectionButton = () => {
       }
       value={value}
     >
-      <fieldset>
+      <fieldset data-horizontal>
         <PickerSelector
           value="first"
         >
@@ -1619,37 +1635,31 @@ export const SingleSelectionSelect = () => {
       }
       value={value}
     >
-      <SelectOptionGroup>
-        <div>
-          <PickerSelector
-            value="first"
-          >
-            <SelectOption>
-              First
-            </SelectOption>
-          </PickerSelector>
-        </div>
+      <SelectOptionList>
+        <PickerSelector
+          value="first"
+        >
+          <SelectOption>
+            First
+          </SelectOption>
+        </PickerSelector>
 
-        <div>
-          <PickerSelector
-            value="second"
-          >
-            <SelectOption>
-              Second
-            </SelectOption>
-          </PickerSelector>
-        </div>
+        <PickerSelector
+          value="second"
+        >
+          <SelectOption>
+            Second
+          </SelectOption>
+        </PickerSelector>
 
-        <div>
-          <PickerSelector
-            value="third"
-          >
-            <SelectOption>
-              Third
-            </SelectOption>
-          </PickerSelector>
-        </div>
-      </SelectOptionGroup>
+        <PickerSelector
+          value="third"
+        >
+          <SelectOption>
+            Third
+          </SelectOption>
+        </PickerSelector>
+      </SelectOptionList>
     </PickerProvider>
   )
 }
@@ -1829,7 +1839,7 @@ export const MultipleSelectionSelect = () => {
       }
       value={value}
     >
-      <SelectOptionGroup>
+      <SelectOptionList>
         <PickerSelector
           value="first"
         >
@@ -1853,7 +1863,7 @@ export const MultipleSelectionSelect = () => {
             Third
           </SelectOption>
         </PickerSelector>
-      </SelectOptionGroup>
+      </SelectOptionList>
     </PickerProvider>
   )
 }
@@ -2066,7 +2076,7 @@ export const SingleSelectionOneForm = () => (
           .single
         }
       >
-        <fieldset>
+        <fieldset data-horizontal>
           <PickerSelector
             value="first"
           >
@@ -2265,7 +2275,7 @@ export const MultipleSelectionOneForm = () => (
           .multiple
         }
       >
-        <fieldset>
+        <fieldset data-horizontal>
           <PickerSelector
             value="first"
           >

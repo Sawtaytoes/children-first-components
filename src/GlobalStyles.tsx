@@ -15,11 +15,6 @@ const GlobalStyles = () => (
           background-color: #e0e0da;
         }
 
-        label {
-          align-items: center;
-          display: inline-flex;
-        }
-
         button,
         input,
         option,
@@ -71,21 +66,30 @@ const GlobalStyles = () => (
 
         fieldset {
           border: none;
-          display: flex;
-          gap: 6px;
           margin: 0;
           outline: none;
           padding: 0;
         }
 
+        [data-horizontal],
+        [data-vertical] {
+          display: inline-flex;
+          gap: 6px;
+        }
+
+        [data-horizontal] {
+          flex-direction: row;
+        }
+
+        [data-vertical] {
+          flex-direction: column;
+        }
+
         span[aria-checked]:not([class]),
         [role="option"][aria-selected]:not([class]) {
           background-color: white;
-          border: 2px solid black;
-          border-radius: 10px;
           cursor: pointer;
           display: inline-block;
-          margin-bottom: 10px;
           padding: 10px;
           user-select: none;
         }
@@ -93,7 +97,6 @@ const GlobalStyles = () => (
         span[aria-checked="true"]:not([class]),
         [role="option"][aria-selected="true"]:not([class]) {
           background-color: lightblue;
-          border-color: darkblue;
           color: darkblue;
         }
 

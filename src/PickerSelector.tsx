@@ -1,4 +1,5 @@
 import {
+  Fragment,
   FunctionComponent,
   InputHTMLAttributes,
   JSXElementConstructor,
@@ -17,9 +18,6 @@ import {
 import {
   useClonedChild,
 } from './useClonedChild'
-import {
-  useUniqueId,
-} from './useUniqueId'
 
 export type HtmlInputValue = (
   InputHTMLAttributes<
@@ -79,8 +77,6 @@ const PickerSelector: (
       HTMLInputElement
     >()
   )
-
-  const inputId = useUniqueId()
 
   const onClick = (
     useCallback(
@@ -171,20 +167,19 @@ const PickerSelector: (
   )
 
   return (
-    <label htmlFor={inputId}>
+    <Fragment>
+      {clonedChild}
+
       <input
         checked={isSelected}
         hidden
-        id={inputId}
         name={name}
         onChange={onChange}
         ref={inputRef}
         type={optionType}
         value={value}
       />
-
-      {clonedChild}
-    </label>
+    </Fragment>
   )
 }
 
