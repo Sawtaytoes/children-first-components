@@ -29,7 +29,6 @@ export type PickerSelectorProps = {
       >
     >
   ),
-  labelText: string,
   translateProps?: (
     childProps: {
       isSelected: boolean,
@@ -61,10 +60,6 @@ const PickerSelector: (
   >
 ) = ({
   children,
-  labelText = (
-    defaultProps
-    .labelText
-  ),
   translateProps = (
     defaultProps
     .translateProps
@@ -168,10 +163,6 @@ const PickerSelector: (
   return (
     <label htmlFor={inputId}>
       <input
-        aria-label={
-          labelText
-          || value
-        }
         checked={isSelected}
         hidden
         id={inputId}
