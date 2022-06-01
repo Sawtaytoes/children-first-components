@@ -78,16 +78,20 @@ const GlobalStyles = () => (
           padding: 0;
         }
 
-        span[aria-checked]:not([class]) {
+        span[aria-checked]:not([class]),
+        [role="option"][aria-selected]:not([class]) {
+          background-color: white;
           border: 2px solid black;
           border-radius: 10px;
           cursor: pointer;
           display: inline-block;
+          margin-bottom: 10px;
           padding: 10px;
           user-select: none;
         }
 
-        span[aria-checked="true"]:not([class]) {
+        span[aria-checked="true"]:not([class]),
+        [role="option"][aria-selected="true"]:not([class]) {
           background-color: lightblue;
           border-color: darkblue;
           color: darkblue;
