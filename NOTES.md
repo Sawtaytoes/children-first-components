@@ -14,3 +14,6 @@
 - Test when when using input instead of button.
 - Test when using input with a type of button.
 - Potentially remove <label> if we're using aria-label.
+
+- Pass `value` down for `<button>`.
+- Create `MultiplePickerProvider` and `SinglePickerProvider` components instead of just `PickerProvider`. Then we can remove `selectionType` altogether.
