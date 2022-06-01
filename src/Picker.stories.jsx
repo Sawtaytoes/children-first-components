@@ -39,11 +39,16 @@ export default {
 const ButtonOption = ({
   children,
   isSelected,
+  name,
   onClick,
+  value,
 }) => (
   <button
     aria-pressed={isSelected}
+    name={name}
     onClick={onClick}
+    type="button"
+    value={value}
   >
     {children}
   </button>

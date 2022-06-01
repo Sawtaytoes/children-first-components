@@ -11,8 +11,8 @@ import {
 } from 'react'
 
 import {
-  OptionType,
   PickerContext,
+  PickerContextProps,
 } from './PickerContext'
 import {
   useClonedChild,
@@ -20,6 +20,12 @@ import {
 import {
   useUniqueId,
 } from './useUniqueId'
+
+export type HtmlInputValue = (
+  InputHTMLAttributes<
+    Element
+  >['value']
+)
 
 export type PickerSelectorProps = {
   children: (
@@ -32,18 +38,16 @@ export type PickerSelectorProps = {
   translateProps?: (
     childProps: {
       isSelected: boolean,
+      name: PickerContextProps['name'],
       onClick: () => void,
-      role: OptionType,
+      role: PickerContextProps['optionType'],
+      value: HtmlInputValue,
     }
   ) => (
     object
     | null
   ),
-  value?: (
-    InputHTMLAttributes<
-      Element
-    >['value']
-  ),
+  value?: HtmlInputValue,
 }
 
 const defaultProps = {
@@ -132,20 +136,26 @@ const PickerSelector: (
       () => (
         translateProps({
           isSelected,
+          name,
           onClick,
           role: optionType,
+          value,
         })
         || {
           isSelected,
+          name,
           onClick,
           role: optionType,
+          value,
         }
       ),
       [
         isSelected,
+        name,
         onClick,
         optionType,
         translateProps,
+        value,
       ],
     )
   )
