@@ -126,6 +126,34 @@ const SelectOptionList = ({
   </div>
 )
 
+const SwitchOption = ({
+  children,
+  isSelected,
+  onClick,
+  role,
+}) => (
+  <label>
+    <div>
+      {children}
+    </div>
+
+    <button
+      aria-checked={isSelected}
+      onClick={onClick}
+      role="switch"
+      tabIndex="0"
+    >
+      <span>
+        Off
+      </span>
+
+      <span>
+        On
+      </span>
+    </button>
+  </label>
+)
+
 export const SingleSelectionControlled = (
   singlePickerProviderProps,
 ) => (
@@ -2000,6 +2028,448 @@ MultipleSelectionSelect
           'option',
           {
             selected: true,
+          },
+        )
+      )
+      .toHaveLength(
+        2
+      )
+    })
+  )
+}
+
+export const SingleSelectionSwitch = () => {
+  const {
+    onChange,
+    value,
+  } = (
+    usePickerField(
+      ''
+    )
+  )
+
+  return (
+    <SinglePickerProvider
+      onChange={onChange}
+      value={value}
+    >
+      <fieldset data-vertical>
+        <PickerSelector
+          value="first"
+        >
+          <SwitchOption>
+            First
+          </SwitchOption>
+        </PickerSelector>
+
+        <PickerSelector
+          value="second"
+        >
+          <SwitchOption>
+            Second
+          </SwitchOption>
+        </PickerSelector>
+
+        <PickerSelector
+          value="third"
+        >
+          <SwitchOption>
+            Third
+          </SwitchOption>
+        </PickerSelector>
+      </fieldset>
+    </SinglePickerProvider>
+  )
+}
+
+SingleSelectionSwitch
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'switch',
+        )
+      )
+      .toHaveLength(
+        3
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'switch',
+      {
+        name: 'First',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'switch',
+          {
+            name: 'First',
+          },
+        )
+      )
+      .toBeChecked()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'switch',
+          {
+            checked: true,
+          },
+        )
+      )
+      .toHaveLength(
+        1
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'switch',
+      {
+        name: 'Second',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'switch',
+          {
+            name: 'Second',
+          },
+        )
+      )
+      .toBeChecked()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'switch',
+          {
+            checked: true,
+          },
+        )
+      )
+      .toHaveLength(
+        1
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'switch',
+      {
+        name: 'Second',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'switch',
+          {
+            name: 'Second',
+          },
+        )
+      )
+      .toBeChecked()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'switch',
+          {
+            checked: true,
+          },
+        )
+      )
+      .toHaveLength(
+        1
+      )
+    })
+  )
+}
+
+const defaultMultipleSelectionSwitchValue = []
+
+export const MultipleSelectionSwitch = () => {
+  const {
+    onChange,
+    value,
+  } = (
+    usePickerField(
+      defaultMultipleSelectionSwitchValue
+    )
+  )
+
+  return (
+    <MultiplePickerProvider
+      onChange={onChange}
+      value={value}
+    >
+      <fieldset data-vertical>
+        <PickerSelector
+          value="first"
+        >
+          <SwitchOption>
+            First
+          </SwitchOption>
+        </PickerSelector>
+
+        <PickerSelector
+          value="second"
+        >
+          <SwitchOption>
+            Second
+          </SwitchOption>
+        </PickerSelector>
+
+        <PickerSelector
+          value="third"
+        >
+          <SwitchOption>
+            Third
+          </SwitchOption>
+        </PickerSelector>
+      </fieldset>
+    </MultiplePickerProvider>
+  )
+}
+
+MultipleSelectionSwitch
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'switch',
+        )
+      )
+      .toHaveLength(
+        3
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'switch',
+      {
+        name: 'First',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'switch',
+          {
+            name: 'First',
+          },
+        )
+      )
+      .toBeChecked()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'switch',
+          {
+            checked: true,
+          },
+        )
+      )
+      .toHaveLength(
+        1
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'switch',
+      {
+        name: 'Second',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'switch',
+          {
+            name: 'First',
+          },
+        )
+      )
+      .toBeChecked()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'switch',
+          {
+            name: 'Second',
+          },
+        )
+      )
+      .toBeChecked()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'switch',
+          {
+            checked: true,
+          },
+        )
+      )
+      .toHaveLength(
+        2
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'switch',
+      {
+        name: 'Third',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'switch',
+          {
+            checked: true,
+          },
+        )
+      )
+      .toHaveLength(
+        3
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'switch',
+      {
+        name: 'First',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'switch',
+          {
+            name: 'First',
+          },
+        )
+      )
+      .not
+      .toBeChecked()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'switch',
+          {
+            checked: true,
           },
         )
       )

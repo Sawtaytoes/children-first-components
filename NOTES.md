@@ -4,5 +4,4 @@
 - The fallback context key should be in useVisibility instead of the shared context.
 
 - PickerSelector should pass onClick and take eventName instead of relying on label. Most apps are going to pass a button, not a span, because buttons are clickable.
-- Button needs any sets of ARIA for `selected`, `pressed`, `checked`, `switched`.
 - Test when using input with a type of button.

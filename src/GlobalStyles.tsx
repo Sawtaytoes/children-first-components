@@ -85,8 +85,19 @@ const GlobalStyles = () => (
           flex-direction: column;
         }
 
-        span[aria-checked]:not([class]),
-        [role="option"][aria-selected]:not([class]) {
+        [role="switch"] {
+          display: inline-flex;
+          gap: 12px;
+        }
+
+        [role="switch"] > span {
+          border-radius: 10px;
+          padding: 10px;
+        }
+
+        [role="checkbox"][aria-checked],
+        [role="option"][aria-selected],
+        [role="radio"][aria-checked] {
           background-color: white;
           cursor: pointer;
           display: inline-block;
@@ -94,8 +105,11 @@ const GlobalStyles = () => (
           user-select: none;
         }
 
-        span[aria-checked="true"]:not([class]),
-        [role="option"][aria-selected="true"]:not([class]) {
+        [role="checkbox"][aria-checked="true"],
+        [role="option"][aria-selected="true"],
+        [role="radio"][aria-checked="true"],
+        [role="switch"][aria-checked="false"] > :first-child,
+        [role="switch"][aria-checked="true"] > :last-child {
           background-color: lightblue;
           color: darkblue;
         }
