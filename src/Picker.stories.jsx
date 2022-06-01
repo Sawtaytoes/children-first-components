@@ -22,8 +22,8 @@ import {
   SelectionType,
 } from './PickerProvider'
 import {
-  PickerSelection,
-} from './PickerSelection'
+  PickerSelector,
+} from './PickerSelector'
 import {
   usePickerField,
 } from './usePickerField'
