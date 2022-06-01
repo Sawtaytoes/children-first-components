@@ -21,9 +21,11 @@ import {
   htmlStyleDecorators,
 } from './htmlStyleDecorators'
 import {
-  PickerProvider,
-  SelectionType,
-} from './PickerProvider'
+  MultiplePickerProvider,
+} from './MultiplePickerProvider'
+import {
+  SinglePickerProvider,
+} from './SinglePickerProvider'
 import {
   PickerSelector,
 } from './PickerSelector'
@@ -34,7 +36,7 @@ import './toBePressed.expect'
 import './toBeSelected.expect'
 
 export default {
-  component: PickerProvider,
+  component: SinglePickerProvider,
   decorators: htmlStyleDecorators,
   title: 'Picker',
 }
@@ -124,11 +126,11 @@ const SelectOptionList = ({
   </div>
 )
 
-export const Standard = (
-  pickerProviderProps,
+export const SingleSelectionControlled = (
+  singlePickerProviderProps,
 ) => (
-  <PickerProvider
-    {...pickerProviderProps}
+  <SinglePickerProvider
+    {...singlePickerProviderProps}
   >
     <fieldset data-horizontal>
       <PickerSelector
@@ -155,39 +157,24 @@ export const Standard = (
         </InputRoleOption>
       </PickerSelector>
     </fieldset>
-  </PickerProvider>
+  </SinglePickerProvider>
 )
 
-Standard
+SingleSelectionControlled
 .args = {
   onChange: (
     action(
       'onChange'
     )
   ),
-  selectionType: (
-    SelectionType
-    .single
-  ),
   value: '',
 }
 
-Standard
+SingleSelectionControlled
 .argTypes = {
-  selectionType: {
-    control: {
-      type: 'radio',
-    },
-    options: (
-      Object
-      .keys(
-        SelectionType
-      )
-    ),
-  },
   value: {
     control: {
-      type: 'select',
+      type: 'radio',
     },
     options: [
       'first',
@@ -197,73 +184,62 @@ Standard
   },
 }
 
-Standard
-.play = async ({
-  canvasElement,
-}) => {
-  const canvas = (
-    within(
-      canvasElement
+export const MultipleSelectionControlled = (
+  multiplePickerProviderProps,
+) => (
+  <MultiplePickerProvider
+    {...multiplePickerProviderProps}
+  >
+    <fieldset data-horizontal>
+      <PickerSelector
+        value="first"
+      >
+        <InputRoleOption>
+          First
+        </InputRoleOption>
+      </PickerSelector>
+
+      <PickerSelector
+        value="second"
+      >
+        <InputRoleOption>
+          Second
+        </InputRoleOption>
+      </PickerSelector>
+
+      <PickerSelector
+        value="third"
+      >
+        <InputRoleOption>
+          Third
+        </InputRoleOption>
+      </PickerSelector>
+    </fieldset>
+  </MultiplePickerProvider>
+)
+
+MultipleSelectionControlled
+.args = {
+  onChange: (
+    action(
+      'onChange'
     )
-  )
+  ),
+  value: [],
+}
 
-  await (
-    waitFor(() => {
-      expect(
-        canvas
-        .queryAllByRole(
-          'radio',
-        )
-      )
-      .toHaveLength(
-        3
-      )
-    })
-  )
-
-  userEvent
-  .click(
-    canvas
-    .queryByRole(
-      'radio',
-      {
-        name: 'First',
-      },
-    )
-  )
-
-  await (
-    waitFor(() => {
-      expect(
-        canvas
-        .queryByRole(
-          'radio',
-          {
-            name: 'First',
-          },
-        )
-      )
-      .not
-      .toBeChecked()
-    })
-  )
-
-  await (
-    waitFor(() => {
-      expect(
-        canvas
-        .queryAllByRole(
-          'radio',
-          {
-            checked: true,
-          },
-        )
-      )
-      .toHaveLength(
-        0
-      )
-    })
-  )
+MultipleSelectionControlled
+.argTypes = {
+  value: {
+    control: {
+      type: 'check',
+    },
+    options: [
+      'first',
+      'second',
+      'third',
+    ],
+  },
 }
 
 export const SingleSelectionInput = () => {
@@ -277,12 +253,8 @@ export const SingleSelectionInput = () => {
   )
 
   return (
-    <PickerProvider
+    <SinglePickerProvider
       onChange={onChange}
-      selectionType={
-        SelectionType
-        .single
-      }
       value={value}
     >
       <fieldset data-vertical>
@@ -310,7 +282,7 @@ export const SingleSelectionInput = () => {
           </InputOption>
         </PickerSelector>
       </fieldset>
-    </PickerProvider>
+    </SinglePickerProvider>
   )
 }
 
@@ -481,12 +453,8 @@ export const MultipleSelectionInput = () => {
   )
 
   return (
-    <PickerProvider
+    <MultiplePickerProvider
       onChange={onChange}
-      selectionType={
-        SelectionType
-        .multiple
-      }
       value={value}
     >
       <fieldset data-vertical>
@@ -514,7 +482,7 @@ export const MultipleSelectionInput = () => {
           </InputOption>
         </PickerSelector>
       </fieldset>
-    </PickerProvider>
+    </MultiplePickerProvider>
   )
 }
 
@@ -727,12 +695,8 @@ export const SingleSelectionInputRole = () => {
   )
 
   return (
-    <PickerProvider
+    <SinglePickerProvider
       onChange={onChange}
-      selectionType={
-        SelectionType
-        .single
-      }
       value={value}
     >
       <fieldset data-horizontal>
@@ -760,7 +724,7 @@ export const SingleSelectionInputRole = () => {
           </InputRoleOption>
         </PickerSelector>
       </fieldset>
-    </PickerProvider>
+    </SinglePickerProvider>
   )
 }
 
@@ -931,12 +895,8 @@ export const MultipleSelectionInputRole = () => {
   )
 
   return (
-    <PickerProvider
+    <MultiplePickerProvider
       onChange={onChange}
-      selectionType={
-        SelectionType
-        .multiple
-      }
       value={value}
     >
       <fieldset data-horizontal>
@@ -964,7 +924,7 @@ export const MultipleSelectionInputRole = () => {
           </InputRoleOption>
         </PickerSelector>
       </fieldset>
-    </PickerProvider>
+    </MultiplePickerProvider>
   )
 }
 
@@ -1177,12 +1137,8 @@ export const SingleSelectionButton = () => {
   )
 
   return (
-    <PickerProvider
+    <SinglePickerProvider
       onChange={onChange}
-      selectionType={
-        SelectionType
-        .single
-      }
       value={value}
     >
       <fieldset data-horizontal>
@@ -1210,7 +1166,7 @@ export const SingleSelectionButton = () => {
           </ButtonOption>
         </PickerSelector>
       </fieldset>
-    </PickerProvider>
+    </SinglePickerProvider>
   )
 }
 
@@ -1381,12 +1337,8 @@ export const MultipleSelectionButton = () => {
   )
 
   return (
-    <PickerProvider
+    <MultiplePickerProvider
       onChange={onChange}
-      selectionType={
-        SelectionType
-        .multiple
-      }
       value={value}
     >
       <fieldset data-horizontal>
@@ -1414,7 +1366,7 @@ export const MultipleSelectionButton = () => {
           </ButtonOption>
         </PickerSelector>
       </fieldset>
-    </PickerProvider>
+    </MultiplePickerProvider>
   )
 }
 
@@ -1627,12 +1579,8 @@ export const SingleSelectionSelect = () => {
   )
 
   return (
-    <PickerProvider
+    <SinglePickerProvider
       onChange={onChange}
-      selectionType={
-        SelectionType
-        .single
-      }
       value={value}
     >
       <SelectOptionList>
@@ -1660,7 +1608,7 @@ export const SingleSelectionSelect = () => {
           </SelectOption>
         </PickerSelector>
       </SelectOptionList>
-    </PickerProvider>
+    </SinglePickerProvider>
   )
 }
 
@@ -1831,12 +1779,8 @@ export const MultipleSelectionSelect = () => {
   )
 
   return (
-    <PickerProvider
+    <MultiplePickerProvider
       onChange={onChange}
-      selectionType={
-        SelectionType
-        .multiple
-      }
       value={value}
     >
       <SelectOptionList>
@@ -1864,7 +1808,7 @@ export const MultipleSelectionSelect = () => {
           </SelectOption>
         </PickerSelector>
       </SelectOptionList>
-    </PickerProvider>
+    </MultiplePickerProvider>
   )
 }
 
@@ -2069,12 +2013,8 @@ MultipleSelectionSelect
 export const SingleSelectionOneForm = () => (
   <OneForm>
     <Field>
-      <PickerProvider
+      <SinglePickerProvider
         name="picker"
-        selectionType={
-          SelectionType
-          .single
-        }
       >
         <fieldset data-horizontal>
           <PickerSelector
@@ -2101,7 +2041,7 @@ export const SingleSelectionOneForm = () => (
             </InputRoleOption>
           </PickerSelector>
         </fieldset>
-      </PickerProvider>
+      </SinglePickerProvider>
     </Field>
   </OneForm>
 )
@@ -2267,13 +2207,9 @@ SingleSelectionOneForm
 
 export const MultipleSelectionOneForm = () => (
   <OneForm>
-    <Field isMultiFieldElement>
-      <PickerProvider
+    <Field isMultipleElement>
+      <MultiplePickerProvider
         name="picker"
-        selectionType={
-          SelectionType
-          .multiple
-        }
       >
         <fieldset data-horizontal>
           <PickerSelector
@@ -2300,7 +2236,7 @@ export const MultipleSelectionOneForm = () => (
             </InputRoleOption>
           </PickerSelector>
         </fieldset>
-      </PickerProvider>
+      </MultiplePickerProvider>
     </Field>
   </OneForm>
 )

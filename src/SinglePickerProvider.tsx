@@ -12,31 +12,7 @@ import {
   PickerContext,
 } from './PickerContext'
 
-export enum SelectionType {
-  multiple = 'multiple',
-  single = 'single',
-}
-
-const selectionTypeToOptionType: (
-  { [key in SelectionType]: OptionType }
-) = {
-  [
-    SelectionType
-    .multiple
-  ]: (
-    OptionType
-    .checkbox
-  ),
-  [
-    SelectionType
-    .single
-  ]: (
-    OptionType
-    .radio
-  ),
-}
-
-export type PickerProviderProps = {
+export type SinglePickerProviderProps = {
   children: ReactNode,
   name?: string,
   onChange?: (
@@ -48,7 +24,6 @@ export type PickerProviderProps = {
   ) => (
     void
   ),
-  selectionType: SelectionType,
   value?: (
     InputHTMLAttributes<
       Element
@@ -62,9 +37,9 @@ const defaultProps = {
   value: '',
 }
 
-const PickerProvider: (
+const SinglePickerProvider: (
   FunctionComponent<
-    PickerProviderProps
+    SinglePickerProviderProps
   >
 ) = ({
   children,
@@ -84,8 +59,8 @@ const PickerProvider: (
         name,
         onChange,
         optionType: (
-          selectionTypeToOptionType
-          [selectionType]
+          OptionType
+          .radio
         ),
         selectedValue: value,
       }),
@@ -107,12 +82,12 @@ const PickerProvider: (
   )
 }
 
-const MemoizedPickerProvider = (
+const MemoizedSinglePickerProvider = (
   memo(
-    PickerProvider
+    SinglePickerProvider
   )
 )
 
 export {
-  MemoizedPickerProvider as PickerProvider,
+  MemoizedSinglePickerProvider as SinglePickerProvider,
 }
