@@ -10,7 +10,7 @@
     "ci:buildStorybook": "build-storybook",
     "ci:testStorybook": "delay 10 && test-storybook --watch",
     "ci:test": "npm-run-all --race --parallel dev:storybook ci:testStorybook",
-    "dev": "npm-run-all --parallel dev:storybook dev:cypress",
+    "dev": "dev:storybook",
     "dev:storybook": "start-storybook --port 6006 --ci",
     "dev:testStorybook": "delay 10 && test-storybook --watch",
     "dev:test": "npm-run-all --parallel dev:storybook dev:testStorybook",
