@@ -13,9 +13,6 @@ import {
   waitFor,
   within,
 } from '@storybook/testing-library'
-import {
-  Fragment,
-} from 'react'
 
 import {
   htmlStyleDecorators,
@@ -45,13 +42,13 @@ const ButtonOption = ({
   children,
   isSelected,
   name,
-  onClick,
+  selectOption,
   value,
 }) => (
   <button
     aria-pressed={isSelected}
     name={name}
-    onClick={onClick}
+    onClick={selectOption}
     type="button"
     value={value}
   >
@@ -63,16 +60,16 @@ const InputOption = ({
   children,
   isSelected,
   name,
-  onClick,
-  role,
+  selectOption,
+  optionType,
   value,
 }) => (
   <label>
     <input
       checked={isSelected}
       name={name}
-      onClick={onClick}
-      type={role}
+      onClick={selectOption}
+      type={optionType}
       value={value}
     />
 
@@ -83,14 +80,14 @@ const InputOption = ({
 const InputRoleOption = ({
   children,
   isSelected,
-  onClick,
-  role,
+  selectOption,
+  optionType,
 }) => (
   <span
     aria-checked={isSelected}
     aria-label={children}
-    onClick={onClick}
-    role={role}
+    onClick={selectOption}
+    role={optionType}
     tabIndex="0"
   >
     {children}
@@ -100,13 +97,12 @@ const InputRoleOption = ({
 const SelectOption = ({
   children,
   isSelected,
-  onClick,
-  role,
+  selectOption,
 }) => (
   <span
     aria-label={children}
     aria-selected={isSelected}
-    onClick={onClick}
+    onClick={selectOption}
     role="option"
     tabIndex="0"
   >
@@ -129,8 +125,7 @@ const SelectOptionList = ({
 const SwitchOption = ({
   children,
   isSelected,
-  onClick,
-  role,
+  selectOption,
 }) => (
   <label>
     <div>
@@ -139,7 +134,7 @@ const SwitchOption = ({
 
     <button
       aria-checked={isSelected}
-      onClick={onClick}
+      onClick={selectOption}
       role="switch"
       tabIndex="0"
     >

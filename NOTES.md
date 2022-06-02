@@ -3,5 +3,4 @@
 - Return useScopedAtom from the shared context hook creator instead of the object that's currently there.
 - The fallback context key should be in useVisibility instead of the shared context.
 
-- PickerSelector should pass onClick and take eventName instead of relying on label. Most apps are going to pass a button, not a span, because buttons are clickable.
 - Test when using input with a type of button.

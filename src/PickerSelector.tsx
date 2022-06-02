@@ -25,6 +25,14 @@ export type HtmlInputValue = (
   >['value']
 )
 
+export type PickerSelectorChildProps = {
+  isSelected: boolean,
+  name: PickerContextProps['name'],
+  optionType: PickerContextProps['optionType'],
+  selectOption: () => void,
+  value: HtmlInputValue,
+}
+
 export type PickerSelectorProps = {
   children: (
     ReactElement<
@@ -34,13 +42,7 @@ export type PickerSelectorProps = {
     >
   ),
   translateProps?: (
-    childProps: {
-      isSelected: boolean,
-      name: PickerContextProps['name'],
-      onClick: () => void,
-      role: PickerContextProps['optionType'],
-      value: HtmlInputValue,
-    }
+    childProps: PickerSelectorChildProps,
   ) => (
     object
     | null
@@ -49,11 +51,12 @@ export type PickerSelectorProps = {
 }
 
 const defaultProps = {
-  labelText: '',
-  translateProps: () => (
-    null
+  translateProps: (
+    props: PickerSelectorChildProps,
+  ) => (
+    props
   ),
-  value: null,
+  value: '',
 }
 
 const PickerSelector: (
@@ -75,10 +78,12 @@ const PickerSelector: (
   const inputRef = (
     useRef<
       HTMLInputElement
-    >()
+    >(
+      null
+    )
   )
 
-  const onClick = (
+  const selectOption = (
     useCallback(
       () => {
         inputRef
@@ -133,23 +138,16 @@ const PickerSelector: (
         translateProps({
           isSelected,
           name,
-          onClick,
-          role: optionType,
+          optionType,
+          selectOption,
           value,
         })
-        || {
-          isSelected,
-          name,
-          onClick,
-          role: optionType,
-          value,
-        }
       ),
       [
         isSelected,
         name,
-        onClick,
         optionType,
+        selectOption,
         translateProps,
         value,
       ],
