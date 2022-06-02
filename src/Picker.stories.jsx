@@ -77,6 +77,23 @@ const InputOption = ({
   </label>
 )
 
+const InputButtonOption = ({
+  children,
+  isSelected,
+  name,
+  selectOption,
+  optionType,
+}) => (
+  <input
+    aria-pressed={isSelected}
+    checked={isSelected}
+    name={name}
+    onClick={selectOption}
+    type="button"
+    value={children}
+  />
+)
+
 const InputRoleOption = ({
   children,
   isSelected,
@@ -697,6 +714,448 @@ MultipleSelectionInput
           'checkbox',
           {
             checked: true,
+          },
+        )
+      )
+      .toHaveLength(
+        2
+      )
+    })
+  )
+}
+
+export const SingleSelectionInputButton = () => {
+  const {
+    onChange,
+    value,
+  } = (
+    usePickerField(
+      ''
+    )
+  )
+
+  return (
+    <SinglePickerProvider
+      onChange={onChange}
+      value={value}
+    >
+      <fieldset data-vertical>
+        <PickerSelector
+          value="first"
+        >
+          <InputButtonOption>
+            First
+          </InputButtonOption>
+        </PickerSelector>
+
+        <PickerSelector
+          value="second"
+        >
+          <InputButtonOption>
+            Second
+          </InputButtonOption>
+        </PickerSelector>
+
+        <PickerSelector
+          value="third"
+        >
+          <InputButtonOption>
+            Third
+          </InputButtonOption>
+        </PickerSelector>
+      </fieldset>
+    </SinglePickerProvider>
+  )
+}
+
+SingleSelectionInputButton
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'button',
+        )
+      )
+      .toHaveLength(
+        3
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'First',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'button',
+          {
+            name: 'First',
+          },
+        )
+      )
+      .toBePressed()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'button',
+          {
+            pressed: true,
+          },
+        )
+      )
+      .toHaveLength(
+        1
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'Second',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'button',
+          {
+            name: 'Second',
+          },
+        )
+      )
+      .toBePressed()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'button',
+          {
+            pressed: true,
+          },
+        )
+      )
+      .toHaveLength(
+        1
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'Second',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'button',
+          {
+            name: 'Second',
+          },
+        )
+      )
+      .toBePressed()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'button',
+          {
+            pressed: true,
+          },
+        )
+      )
+      .toHaveLength(
+        1
+      )
+    })
+  )
+}
+
+const defaultMultipleSelectionInputButtonValue = []
+
+export const MultipleSelectionInputButton = () => {
+  const {
+    onChange,
+    value,
+  } = (
+    usePickerField(
+      defaultMultipleSelectionInputButtonValue
+    )
+  )
+
+  return (
+    <MultiplePickerProvider
+      onChange={onChange}
+      value={value}
+    >
+      <fieldset data-vertical>
+        <PickerSelector
+          value="first"
+        >
+          <InputButtonOption>
+            First
+          </InputButtonOption>
+        </PickerSelector>
+
+        <PickerSelector
+          value="second"
+        >
+          <InputButtonOption>
+            Second
+          </InputButtonOption>
+        </PickerSelector>
+
+        <PickerSelector
+          value="third"
+        >
+          <InputButtonOption>
+            Third
+          </InputButtonOption>
+        </PickerSelector>
+      </fieldset>
+    </MultiplePickerProvider>
+  )
+}
+
+MultipleSelectionInputButton
+.play = async ({
+  canvasElement,
+}) => {
+  const canvas = (
+    within(
+      canvasElement
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'button',
+        )
+      )
+      .toHaveLength(
+        3
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'First',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'button',
+          {
+            name: 'First',
+          },
+        )
+      )
+      .toBePressed()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'button',
+          {
+            pressed: true,
+          },
+        )
+      )
+      .toHaveLength(
+        1
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'Second',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'button',
+          {
+            name: 'First',
+          },
+        )
+      )
+      .toBePressed()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'button',
+          {
+            name: 'Second',
+          },
+        )
+      )
+      .toBePressed()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'button',
+          {
+            pressed: true,
+          },
+        )
+      )
+      .toHaveLength(
+        2
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'Third',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'button',
+          {
+            pressed: true,
+          },
+        )
+      )
+      .toHaveLength(
+        3
+      )
+    })
+  )
+
+  userEvent
+  .click(
+    canvas
+    .queryByRole(
+      'button',
+      {
+        name: 'First',
+      },
+    )
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryByRole(
+          'button',
+          {
+            name: 'First',
+          },
+        )
+      )
+      .not
+      .toBePressed()
+    })
+  )
+
+  await (
+    waitFor(() => {
+      expect(
+        canvas
+        .queryAllByRole(
+          'button',
+          {
+            pressed: true,
           },
         )
       )

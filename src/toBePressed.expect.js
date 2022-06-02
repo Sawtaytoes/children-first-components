@@ -38,6 +38,34 @@ expect
           )
         )
         || (
+          (
+            (
+              element
+              .tagName
+              .toLowerCase()
+            )
+            === 'input'
+          )
+          && (
+            (
+              element
+              .type
+              .toLowerCase()
+            )
+            === 'button'
+          )
+          && (
+            [
+              null,
+              '',
+              'button',
+            ]
+            .includes(
+              role
+            )
+          )
+        )
+        || (
           role
           === 'button'
         )

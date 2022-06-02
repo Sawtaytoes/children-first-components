@@ -2,5 +2,3 @@
 - Use the hook in useVisibility and pass the key into the shared context instead of creating it there.
 - Return useScopedAtom from the shared context hook creator instead of the object that's currently there.
 - The fallback context key should be in useVisibility instead of the shared context.
-
-- Test when using input with a type of button.
