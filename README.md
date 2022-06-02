@@ -19,6 +19,8 @@ You can use this as inspiration or copy-paste directly, but please reference whe
 - `useAccessibleTarget`
 - `useAccessibleTrigger`
 - `useAccessibleVisibility`
+- `useSharedVisibilityContext`
+- `useSharedVisibilityControlContext`
 - `useVisibility`
 - `useVisibilityControl`
 - `VisibilityConsumer`
