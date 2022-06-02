@@ -3,7 +3,16 @@ This library is currently a work-in-progress to build the React components found
 
 You can use this as inspiration or copy-paste directly, but please reference where you got the code (and give me, Kevin Ghadyani, credit) so you can eventually switch over to the library I'll be publishing.
 
-## Components
+## Components & Hooks
+### Generic Children-First
+- `useClonedChild`
+
+### Picker
+- `MultiplePickerProvider`
+- `PickerSelector`
+- `SinglePickerProvider`
+- `usePickerField`
+
 ### Visibility
 - `createVisibilityContextKey`
 - `createVisibilityControlContextKey`
@@ -22,8 +31,3 @@ You can use this as inspiration or copy-paste directly, but please reference whe
 - `HideOnEscapeKey`
 - `HtmlContent`
 - `VisibilityContent`
-
-### Picker
-- `PickerProvider`
-- `PickerSelector`
-- `usePickerField`
