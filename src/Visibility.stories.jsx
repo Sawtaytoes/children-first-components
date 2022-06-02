@@ -281,8 +281,8 @@ const ModalContent = ({
     onClick={onClick}
     role="dialog"
   >
-    <div className="overlay">
-      <div className="content">
+    <div className="modalOverlay">
+      <div className="modalContent">
         {children}
       </div>
     </div>
@@ -392,7 +392,7 @@ export const TargetWithTarget = () => (
             <VisibilityTarget>
               <HtmlContent>
                 <div className="overlay">
-                  <div className="content">
+                  <div modalOlassName="modalContent">
                     Revealed content
                   </div>
                 </div>
@@ -1739,7 +1739,7 @@ export const HideOnEscapeKeyImplementation = () => (
         <VisibilityTarget>
           <HtmlContent>
             <div className="overlay">
-              <div className="content">
+              <div modalOlassName="modalContent">
                 Revealed content
               </div>
             </div>

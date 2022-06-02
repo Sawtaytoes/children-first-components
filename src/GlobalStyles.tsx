@@ -19,49 +19,53 @@ const GlobalStyles = () => (
         input,
         option,
         select,
-        .content {
+        .modalContent {
           background-color: #fcfcfc;
           border-radius: 10px;
           border: 2px solid transparent;
           margin-bottom: 6px;
-          margin-top: 6px;
           outline: 0;
           padding: 10px;
         }
 
-        button {
+        button,
+        input[type="button"] {
           --box-shadow-color: #aaaaaa;
           box-shadow: var(--box-shadow-color) 0 4px 0 0;
         }
 
         button:hover,
-        button[aria-pressed="true"] {
+        input[type="button"]:hover,
+        button[aria-pressed="true"],
+        input[type="button"][aria-pressed="true"] {
           box-shadow:
           var(--box-shadow-color) 0 2px 0 0;
           position: relative;
           top: 2px;
         }
 
-        button[aria-pressed="true"] {
+        button[aria-pressed="true"],
+        input[type="button"][aria-pressed="true"] {
           --box-shadow-color: bisque;
           background-color: beige;
           color: lightsalmon;
         }
 
-        button:active {
+        button:active,
+        input[type="button"]:active {
           box-shadow: var(--box-shadow-color) 0 0 0 0;
           position: relative;
           top: 4px;
-        }
-
-        input:focus {
-          border: 2px solid rgba(128, 128, 128, 0.5);
         }
 
         input[type="checkbox"] {
           height: 20px;
           margin-right: 10px;
           width: 20px;
+        }
+
+        input[type="text"]:focus {
+          border: 2px solid rgba(128, 128, 128, 0.5);
         }
 
         fieldset {
@@ -114,93 +118,6 @@ const GlobalStyles = () => (
           color: darkblue;
         }
 
-        option {
-          border: 2px solid #ccc;
-          padding: 20px;
-        }
-
-        option:checked {
-          border: 2px solid rgba(128, 128, 128, 0.5);
-        }
-
-        input[type="color"] {
-          height: 100px;
-          width: 100px;
-        }
-
-        [data-visited] {
-          border-color: #88f;
-        }
-
-        input[data-error],
-        select[data-error] {
-          border-color: #f00;
-        }
-
-        [data-loading]::before {
-          content: '⌛ ';
-        }
-
-        [data-submission-state="invalidSubmission"] {
-          background-color: tomato;
-          box-shadow: rgb(128, 0, 0) 0 4px 0 0;
-        }
-
-        [data-submission-state="invalidSubmission"]:hover {
-          background-color: tomato;
-          box-shadow: rgb(128, 0, 0) 0 2px 0 0;
-        }
-
-        [data-submission-state="invalidSubmission"]:active {
-          background-color: tomato;
-          box-shadow: rgb(128, 0, 0) 0 0 0 0;
-        }
-
-        [data-submission-state="pendingSubmission"] {
-          background-color: yellow;
-          box-shadow: rgb(128, 128, 0) 0 4px 0 0;
-        }
-
-        [data-submission-state="pendingSubmission"]:hover {
-          background-color: yellow;
-          box-shadow: rgb(128, 128, 0) 0 2px 0 0;
-        }
-
-        [data-submission-state="pendingSubmission"]:active {
-          background-color: yellow;
-          box-shadow: rgb(128, 128, 0) 0 0 0 0;
-        }
-
-        [data-submission-state="submitted"] {
-          background-color: limegreen;
-          box-shadow: rgb(0, 128, 0) 0 4px 0 0;
-        }
-
-        [data-submission-state="submitted"]:hover {
-          background-color: limegreen;
-          box-shadow: rgb(0, 128, 0) 0 2px 0 0;
-        }
-
-        [data-submission-state="submitted"]:active {
-          background-color: limegreen;
-          box-shadow: rgb(0, 128, 0) 0 0 0 0;
-        }
-
-        [data-table] {
-          column-gap: 4px;
-          display: inline-grid;
-          grid-template-columns: repeat(3, 1fr);
-          row-gap: 4px;
-        }
-
-        [data-table] input {
-          width: 200px;
-        }
-
-        [data-table] > div {
-          margin-bottom: 20px;
-        }
-
         code {
           font-family: monospace;
           background-color: #ddd;
@@ -212,11 +129,11 @@ const GlobalStyles = () => (
           border-radius: 0.25rem;
         }
 
-        .content {
+        .modalContent {
           box-shadow: gray 0 4px 4px 0;
         }
 
-        .overlay {
+        .modalOverlay {
           align-items: center;
           background-color: rgba(128, 128, 128, 0.5);
           display: flex;
