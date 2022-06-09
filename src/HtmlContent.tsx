@@ -41,7 +41,6 @@ const HtmlContent: (
     defaultProps
     .onClick
   ),
-  ...otherProps
 }) => (
   <div
     aria-labelledby={ariaLabelledBy}
