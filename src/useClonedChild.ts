@@ -23,8 +23,14 @@ export const useClonedChild = (
       ),
       (
         Object
-        .values(
+        .keys(
           childProps
+        )
+        .concat(
+          Object
+          .values(
+            childProps
+          )
         )
       ),
     )
