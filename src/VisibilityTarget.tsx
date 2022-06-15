@@ -4,12 +4,8 @@ import {
   memo,
   ReactElement,
   useContext,
-  useMemo,
 } from 'react'
 
-import {
-  AccessibleVisibilityContext,
-} from './AccessibleVisibilityContext'
 import {
   useAccessibleTarget,
 } from './useAccessibleTarget'
@@ -33,15 +29,13 @@ export type VisibilityTargetProps = {
   ),
 }
 
-const VisibilityTarget: (
-  FunctionComponent<
-    VisibilityTargetProps
-  >
-) = ({
+const VisibilityTarget = ({
   children,
   id: idProp,
   ...otherProps
-}) => {
+}: (
+  VisibilityTargetProps
+)) => {
   const {
     isVisible,
   } = (
