@@ -86,7 +86,6 @@ const InputButtonOption = ({
 }) => (
   <input
     aria-pressed={isSelected}
-    checked={isSelected}
     name={name}
     onClick={selectOption}
     type="button"
