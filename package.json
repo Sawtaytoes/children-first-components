@@ -39,6 +39,9 @@
     "jest-environment-node": "27.5.1"
   },
   "dependencies": {
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@mui/material": "^5.8.4",
     "jotai": "^1.6.7"
   },
   "devDependencies": {
